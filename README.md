@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/gatanaso/multiselect-combo-box.svg?branch=master)](https://travis-ci.org/gatanaso/multiselect-combo-box)
+[![codecov](https://codecov.io/gh/gatanaso/multiselect-combo-box/branch/master/graph/badge.svg)](https://codecov.io/gh/gatanaso/multiselect-combo-box)
 
 # \<multiselect-combo-box\>
 
