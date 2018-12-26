@@ -10,6 +10,10 @@
     "demo": "gulp lint && wct && polymer serve --open",
     "test": "bower i && gulp lint && wct"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gatanaso/multiselect-combo-box"
+  },
   "keywords": [
     "multiselect-combo-box",
     "web-components",
@@ -17,6 +21,9 @@
   ],
   "author": "Goran",
   "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/gatanaso/multiselect-combo-box/issues"
+  },
   "devDependencies": {
     "eslint": "^5.9.0",
     "eslint-config-vaadin": "^0.2.7",
