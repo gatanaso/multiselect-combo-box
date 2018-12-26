@@ -2,6 +2,8 @@
 
 A multi select combo box web component based on Polymer 2.x and the [`vaadin-combo-box`](https://github.com/vaadin/vaadin-combo-box).
 
+[Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/)
+
 ### Running demos locally
 
 1. Fork the `multiselect-combo-box` repository and clone it locally.

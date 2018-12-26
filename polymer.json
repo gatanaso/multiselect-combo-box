@@ -3,5 +3,6 @@
     "rules": [
       "polymer-2"
     ]
-  }
+  },
+  "entrypoint": "demo/index.html"
 }
