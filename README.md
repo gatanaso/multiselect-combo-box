@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gatanaso/multiselect-combo-box.svg?branch=master)](https://travis-ci.org/gatanaso/multiselect-combo-box)
+
 # \<multiselect-combo-box\>
 
 A multi select combo box web component based on Polymer 2.x and the [`vaadin-combo-box`](https://github.com/vaadin/vaadin-combo-box).
