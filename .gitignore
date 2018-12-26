@@ -1,0 +1,7 @@
+node_modules
+bower_components
+coverage
+build
+package-lock.json
+.firebaserc
+firebase.json

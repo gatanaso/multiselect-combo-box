@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>multiselect-combo-box-input test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../multiselect-combo-box-input.html">
+  </head>
+  <body>
+
+    <test-fixture id="multiselectComboBoxInputFixture">
+      <template>
+        <multiselect-combo-box-input></multiselect-combo-box-input>
+      </template>
+    </test-fixture>
+
+    <script>
+      describe('Multiselect combo box input tests', () => {
+        let multiselectComboBoxInput;
+
+        beforeEach(() => {
+          multiselectComboBoxInput = fixture('multiselectComboBoxInputFixture');
+        });
+
+        describe('_removeToken', () => {
+          it('should remove token item', (done) => {
+            // given
+            const event = {
+              model: {
+                item: 'test item'
+              },
+              stopPropagation: sinon.stub()
+            };
+
+            multiselectComboBoxInput.addEventListener('item-removed', (e) => {
+              // then
+              expect(e.detail.item).to.be.eql(event.model.item);
+              done();
+            });
+
+            // when
+            multiselectComboBoxInput._removeToken(event);
+
+            // then
+            sinon.assert.calledOnce(event.stopPropagation);
+          });
+        });
+
+        describe('_onKeyDown', () => {
+          it('should remove token item with keyboard', (done) => {
+            // given
+            const event = {
+              keyCode: 8
+            };
+
+            const items = ['item 1', 'item 2', 'item 3'];
+            multiselectComboBoxInput.items = items;
+
+            multiselectComboBoxInput.$.inputField.value = '';
+
+            multiselectComboBoxInput.addEventListener('item-removed', (e) => {
+              // then
+              expect(e.detail.item).to.be.eql(items[2]);
+              done();
+            });
+
+            // when
+            multiselectComboBoxInput._onKeyDown(event);
+          });
+
+          it('should not remove token item when keycode is incorrect', () => {
+            // given
+            const event = {
+              keyCode: 1
+            };
+
+            const items = ['item 1', 'item 2', 'item 3'];
+            multiselectComboBoxInput.items = items;
+
+            multiselectComboBoxInput.$.inputField.value = '';
+
+            multiselectComboBoxInput._removeSelected = sinon.stub();
+
+            // when
+            multiselectComboBoxInput._onKeyDown(event);
+
+            // then
+            sinon.assert.notCalled(multiselectComboBoxInput._removeSelected);
+          });
+
+          it('should not remove token item when items list is empty', () => {
+            // given
+            const event = {
+              keyCode: 8
+            };
+
+            multiselectComboBoxInput.items = [];
+
+            multiselectComboBoxInput._removeSelected = sinon.stub();
+
+            // when
+            multiselectComboBoxInput._onKeyDown(event);
+
+            // then
+            sinon.assert.notCalled(multiselectComboBoxInput._removeSelected);
+          });
+
+          it('should not remove token item when input field is not empty', () => {
+            // given
+            const event = {
+              keyCode: 8
+            };
+
+            const items = ['item 1', 'item 2', 'item 3'];
+            multiselectComboBoxInput.items = items;
+
+            multiselectComboBoxInput.$.inputField.value = 'test value';
+
+            multiselectComboBoxInput._removeSelected = sinon.stub();
+
+            // when
+            multiselectComboBoxInput._onKeyDown(event);
+
+            // then
+            sinon.assert.notCalled(multiselectComboBoxInput._removeSelected);
+          });
+        });
+
+        describe('_removeSelected', () => {
+          it('should dispatch "item-removed" event', (done) => {
+            // given
+            const item = 'Test item';
+
+            multiselectComboBoxInput.addEventListener('item-removed', (event) => {
+              // then
+              expect(event.detail.item).to.be.eql(item);
+              done();
+            });
+
+            // when
+            multiselectComboBoxInput._removeSelected(item);
+          });
+        });
+
+        describe('_removeAll', () => {
+          it('should dispatch "remove-all-items" event', (done) => {
+            // given
+            const event = {};
+            event.stopPropagation = sinon.stub();
+
+            multiselectComboBoxInput.addEventListener('remove-all-items', (e) => {
+              // then
+              sinon.assert.calledOnce(event.stopPropagation);
+              done();
+            });
+
+            // when
+            multiselectComboBoxInput._removeAll(event);
+          });
+        });
+
+        describe('_focusedChanged', () => {
+          it('should focus input field when `focused` is `true`', () => {
+            // given
+            const focused = true;
+            multiselectComboBoxInput.$.inputField.focus = sinon.stub();
+
+            // when
+            multiselectComboBoxInput._focusedChanged(focused);
+
+            // expect
+            sinon.assert.calledOnce(multiselectComboBoxInput.$.inputField.focus);
+          });
+
+          it('should not focus input field when `focused` is `false`', () => {
+            // given
+            const focused = false;
+            multiselectComboBoxInput.$.inputField.focus = sinon.stub();
+
+            // when
+            multiselectComboBoxInput._focusedChanged(focused);
+
+            // expect
+            sinon.assert.notCalled(multiselectComboBoxInput.$.inputField.focus);
+          });
+        });
+
+      });
+    </script>
+
+  </body>
+</html>

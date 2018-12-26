@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>multiselect-combo-box demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../multiselect-combo-box.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic multiselect-combo-box</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="basicDemo"
+            label="Multiselect field"
+            placeholder="Add">
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const basicMultiselectComboBox = document.querySelector('#basicDemo');
+              basicMultiselectComboBox.items = [
+                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
+                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Multiselect-combo-box with object items</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="itemDemo"
+            label="Multiselect field"
+            placeholder="Add"
+            item-value-path="id"
+            item-label-path="name">
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const itemMultiselectComboBox = document.querySelector('#itemDemo');
+              itemMultiselectComboBox.items = [
+                {'id': 1, 'name': 'Hydrogen'},
+                {'id': 2, 'name': 'Helium'},
+                {'id': 3, 'name': 'Lithium'},
+                {'id': 4, 'name': 'Beryllium'},
+                {'id': 5, 'name': 'Boron'},
+                {'id': 6, 'name': 'Carbon'},
+                {'id': 7, 'name': 'Nitrogen'},
+                {'id': 8, 'name': 'Oxygen'},
+                {'id': 9, 'name': 'Fluorine'}
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Required multiselect-combo-box</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="requiredDemo"
+            label="Multiselect field"
+            placeholder="Add"
+            item-value-path="id"
+            item-label-path="name"
+            error-message="Please select at least one value."
+            required>
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const requiredMultiselectComboBox = document.querySelector('#requiredDemo');
+              requiredMultiselectComboBox.items = [
+                {'id': 1, 'name': 'Hydrogen'},
+                {'id': 2, 'name': 'Helium'},
+                {'id': 3, 'name': 'Lithium'},
+                {'id': 4, 'name': 'Beryllium'},
+                {'id': 5, 'name': 'Boron'},
+                {'id': 6, 'name': 'Carbon'},
+                {'id': 7, 'name': 'Nitrogen'},
+                {'id': 8, 'name': 'Oxygen'},
+                {'id': 9, 'name': 'Fluorine'}
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+        <h3>Readonly multiselect-combo-box</h3>
+        <demo-snippet>
+          <template>
+
+            <multiselect-combo-box
+              id="readonlyDemo"
+              label="Readonly multiselect field"
+              placeholder="Add"
+              readonly>
+            </multiselect-combo-box>
+
+            <script>
+              window.addEventListener('WebComponentsReady', () => {
+                const readonlyMultiselectComboBox = document.querySelector('#readonlyDemo');
+                readonlyMultiselectComboBox.items = [
+                  'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                  'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                  'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                  'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                  'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
+                  'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
+                ];
+                readonlyMultiselectComboBox.selectedItems = [
+                  'Argon',
+                  'Scandium',
+                  'Nickel',
+                  'Copper',
+                  'Zinc',
+                  'Sodium'
+                ];
+              });
+            </script>
+          </template>
+        </demo-snippet>
+    </div>
+  </body>
+</html>

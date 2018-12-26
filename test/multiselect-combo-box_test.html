@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>multiselect-combo-box test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../multiselect-combo-box.html">
+  </head>
+  <body>
+
+    <test-fixture id="multiselectComboBoxFixture">
+      <template>
+        <multiselect-combo-box></multiselect-combo-box>
+      </template>
+    </test-fixture>
+
+    <script>
+      describe('Multiselect combo box tests', () => {
+        let multiselectComboBox;
+
+        beforeEach(() => {
+          multiselectComboBox = fixture('multiselectComboBoxFixture');
+        });
+
+        describe('validate', () => {
+          it('should return `true` when not required', () => {
+            // given
+            multiselectComboBox.required = false;
+
+            // when
+            const valid = multiselectComboBox.validate();
+
+            // then
+            expect(valid).to.be.true;
+            expect(multiselectComboBox.invalid).to.be.false;
+          });
+
+          it('should return `false` when field is required but has no value', () => {
+            // given
+            multiselectComboBox.hasValue = false;
+            multiselectComboBox.required = true;
+
+            // when
+            const valid = multiselectComboBox.validate();
+
+            // then
+            expect(valid).to.be.false;
+            expect(multiselectComboBox.invalid).to.be.true;
+          });
+
+          it('should return `true` when field is required and has value', () => {
+            // given
+            multiselectComboBox.hasValue = true;
+            multiselectComboBox.required = true;
+
+            // when
+            const valid = multiselectComboBox.validate();
+
+            // then
+            expect(valid).to.be.true;
+            expect(multiselectComboBox.invalid).to.be.false;
+          });
+        });
+
+        describe('_selectedItemsObserver', () => {
+          it('should set `hasValue` to `false` and set empty title when selected items is empty', () => {
+            // given
+            const selectedItems = [];
+
+            // when
+            multiselectComboBox._selectedItemsObserver(selectedItems);
+
+            // then
+            expect(multiselectComboBox.hasValue).to.be.false;
+            expect(multiselectComboBox.title).to.be.empty;
+          });
+
+          it('should set `hasValue` to `true` and set title', () => {
+            // given
+            const selectedItems = ['item 1', 'item 2'];
+
+            // when
+            multiselectComboBox._selectedItemsObserver(selectedItems);
+
+            // then
+            expect(multiselectComboBox.hasValue).to.be.true;
+            expect(multiselectComboBox.title).to.be.eql('item 1, item 2');
+          });
+        });
+
+        describe('_comboBoxValueChanged', () => {
+          it('should add item to selected items if not previously selected', () => {
+            // given
+            multiselectComboBox.selectedItems = ['item 1'];
+            multiselectComboBox.$.comboBox.selectedItem = 'item 3';
+
+            multiselectComboBox.validate = sinon.stub();
+
+            // when
+            multiselectComboBox._comboBoxValueChanged();
+
+            // then
+            expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+            expect(multiselectComboBox.selectedItems).to.include('item 1');
+            expect(multiselectComboBox.selectedItems).to.include('item 3');
+            expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+            sinon.assert.calledOnce(multiselectComboBox.validate);
+          });
+
+          it('should remove item from selected items if previously selected', () => {
+            // given
+            multiselectComboBox.selectedItems = ['item 1', 'item 2'];
+            multiselectComboBox.$.comboBox.selectedItem = 'item 2';
+
+            multiselectComboBox.validate = sinon.stub();
+
+            // when
+            multiselectComboBox._comboBoxValueChanged();
+
+            // then
+            expect(multiselectComboBox.selectedItems).to.have.lengthOf(1);
+            expect(multiselectComboBox.selectedItems).to.include('item 1');
+            expect(multiselectComboBox.selectedItems).to.not.include('item 2');
+            expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+            sinon.assert.calledOnce(multiselectComboBox.validate);
+          });
+        });
+
+        describe('_isSelected', () => {
+          it('should return `false` when item is not in selected items', () => {
+            // given
+            const selectedItems = ['item 1', 'item 2'];
+            const item = 'item 3';
+
+            // when
+            const result = multiselectComboBox._isSelected(item, selectedItems);
+
+            // then
+            expect(result).to.be.false;
+          });
+
+          it('should return `true` when item is in selected items', () => {
+            // given
+            const selectedItems = ['item 1', 'item 2'];
+            const item = 'item 1';
+
+            // when
+            const result = multiselectComboBox._isSelected(item, selectedItems);
+
+            // then
+            expect(result).to.be.true;
+          });
+        });
+
+        describe('_handleItemRemoved', () => {
+          it('should handle item removal and validate state', () => {
+            // given
+            const event = {
+              detail: {
+                item: 'item 2'
+              }
+            };
+            multiselectComboBox.selectedItems = ['item 1', 'item 2', 'item 3'];
+            multiselectComboBox.validate = sinon.stub();
+
+            // when
+            multiselectComboBox._handleItemRemoved(event);
+
+            // then
+            expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+            expect(multiselectComboBox.selectedItems).to.include('item 1');
+            expect(multiselectComboBox.selectedItems).to.include('item 3');
+            sinon.assert.calledOnce(multiselectComboBox.validate);
+          });
+        });
+
+        describe('_handleRemoveAllItems', () => {
+          it('should handle removal of all items and validate state', () => {
+            // given
+            multiselectComboBox.selectedItems = ['item 1', 'item 2', 'item 3'];
+            multiselectComboBox.validate = sinon.stub();
+
+            // when
+            multiselectComboBox._handleRemoveAllItems();
+
+            // then
+            expect(multiselectComboBox.selectedItems).to.be.empty;
+            sinon.assert.calledOnce(multiselectComboBox.validate);
+          });
+        });
+
+        describe('_getDisplayValue', () => {
+          it('should return display value', () => {
+            // given
+            const selectedItems = [
+              {id: 1, name: 'item 1'},
+              {id: 2, name: 'item 2'},
+              {id: 3, name: 'item 3'}
+            ];
+            const itemLabelPath = 'name';
+
+            // when
+            const result = multiselectComboBox._getDisplayValue(selectedItems, itemLabelPath);
+
+            // then
+            expect(result).to.be.eql('item 1, item 2, item 3');
+          });
+
+          it('should return display value', () => {
+            // given
+            const selectedItems = ['item 11', 'item 22'];
+
+
+            // when
+            const result = multiselectComboBox._getDisplayValue(selectedItems);
+
+            // then
+            expect(result).to.be.eql('item 11, item 22');
+          });
+        });
+      });
+    </script>
+
+  </body>
+</html>
