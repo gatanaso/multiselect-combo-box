@@ -1,0 +1,33 @@
+{
+  "name": "multiselect-combo-box",
+  "version": "0.0.1",
+  "description": "A multi select combo box web component based on Polymer 2.x and the vaadin-combo-box",
+  "main": "multiselect-combo-box.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "demo": "gulp lint && wct && polymer serve --open",
+    "test": "bower i && gulp lint && wct"
+  },
+  "keywords": [
+    "multiselect-combo-box",
+    "web-components",
+    "polymer"
+  ],
+  "author": "Goran",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-vaadin": "^0.2.7",
+    "eslint-plugin-html": "^5.0.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^5.0.0",
+    "gulp-html-extract": "^0.3.0",
+    "gulp-stylelint": "^8.0.0",
+    "stylelint": "^9.8.0",
+    "stylelint-config-vaadin": "^0.1.4",
+    "web-component-tester": "^6.9.0",
+    "wct-istanbul": "^0.14.3"
+  }
+}

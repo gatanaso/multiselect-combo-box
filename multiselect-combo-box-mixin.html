@@ -1,0 +1,52 @@
+<script>
+{
+  MultiselectComboBoxMixin = (base) => class extends base {
+
+    static get properties() {
+      return {
+        /**
+         * The list of items.
+         */
+        items: {
+          type: Array,
+          value: () => []
+        },
+
+        /**
+         * The input placeholder.
+         */
+        placeholder: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * This attribute indicates that the component has a value.
+         */
+        hasValue: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        /**
+         * The item property to be used as the `label` in combo-box.
+         */
+        itemLabelPath: String,
+
+        /**
+         * The item property to be used as the `value` of combo-box.
+         */
+        itemValuePath: String
+      };
+    }
+
+    /**
+     * Returns the item display value.
+     */
+    _getItemDisplayValue(item, itemLabelPath) {
+      return item && item.hasOwnProperty(itemLabelPath) ? item[itemLabelPath] : item;
+    }
+  };
+}
+</script>
