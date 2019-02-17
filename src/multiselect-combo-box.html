@@ -51,12 +51,13 @@
       hidden$="[[readonly]]"
       items="[[items]]"
       opened="{{focused}}"
+      item-id-path="[[itemIdPath]]"
       item-label-path="[[itemLabelPath]]"
       item-value-path="[[itemValuePath]]"
       on-change="_comboBoxValueChanged">
 
       <template>
-        <div part="item-template" selected$="[[_isSelected(item, selectedItems, selectedItems.*)]]">
+        <div part="item-template" selected$="[[_isSelected(item, selectedItems, itemIdPath, selectedItems.*)]]">
           <span>[[_getItemDisplayValue(item, itemLabelPath)]]</span>
         </div>
       </template>
@@ -152,7 +153,8 @@
             invalid: {
               type: Boolean,
               value: false,
-              reflectToAttribute: true
+              reflectToAttribute: true,
+              notify: true
             },
 
             /**
@@ -195,8 +197,13 @@
           this.validate();
         }
 
-        _isSelected(item, selectedItems) {
-          return selectedItems.includes(item);
+        _isSelected(item, selectedItems, itemIdPath) {
+          if (itemIdPath && item !== undefined) {
+            const found = selectedItems.find(selectedItem => this.get(itemIdPath, selectedItem) === this.get(itemIdPath, item));
+            return !!found;
+          } else {
+            return selectedItems.includes(item);
+          }
         }
 
         _handleItemRemoved(event) {

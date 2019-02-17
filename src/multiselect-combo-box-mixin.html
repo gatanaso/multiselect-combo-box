@@ -37,7 +37,14 @@
         /**
          * The item property to be used as the `value` of combo-box.
          */
-        itemValuePath: String
+        itemValuePath: String,
+
+        /**
+         * Path for the id of the item. If `items` is an array of objects,
+         * the `itemIdPath` is used to compare and identify the same item
+         * in `selectedItem`.
+         */
+        itemIdPath: String
       };
     }
 

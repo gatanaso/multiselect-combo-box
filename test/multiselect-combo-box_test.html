@@ -132,7 +132,7 @@
         });
 
         describe('_isSelected', () => {
-          it('should return `false` when item is not in selected items', () => {
+          it('should return `false` when string value item is not in selected items', () => {
             // given
             const selectedItems = ['item 1', 'item 2'];
             const item = 'item 3';
@@ -144,13 +144,45 @@
             expect(result).to.be.false;
           });
 
-          it('should return `true` when item is in selected items', () => {
+          it('should return `true` when string value item is in selected items', () => {
             // given
             const selectedItems = ['item 1', 'item 2'];
             const item = 'item 1';
 
             // when
             const result = multiselectComboBox._isSelected(item, selectedItems);
+
+            // then
+            expect(result).to.be.true;
+          });
+
+          it('should return `false` when object item is not in selected items', () => {
+            // given
+            const selectedItems = [
+              {id: 1, key: 'item 1'},
+              {id: 2, key: 'item 2'}
+            ];
+            const item = {id: 3, key: 'item 3'};
+            const itemIdPath = 'id';
+
+            // when
+            const result = multiselectComboBox._isSelected(item, selectedItems, itemIdPath);
+
+            // then
+            expect(result).to.be.false;
+          });
+
+          it('should return `true` when object item is in selected items', () => {
+            // given
+            const selectedItems = [
+              {id: 1, key: 'item 1'},
+              {id: 2, key: 'item 2'}
+            ];
+            const item = {id: 1, key: 'item 5'};
+            const itemIdPath = 'id';
+
+            // when
+            const result = multiselectComboBox._isSelected(item, selectedItems, itemIdPath);
 
             // then
             expect(result).to.be.true;

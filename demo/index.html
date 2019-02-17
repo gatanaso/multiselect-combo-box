@@ -41,6 +41,11 @@
                 'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
                 'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
               ];
+              basicMultiselectComboBox.selectedItems = [
+                'Helium',
+                'Lithium',
+                'Beryllium'
+              ];
             });
           </script>
         </template>
@@ -56,6 +61,7 @@
             id="itemDemo"
             label="Multiselect field"
             placeholder="Add"
+            item-id-path="id"
             item-value-path="id"
             item-label-path="name">
           </multiselect-combo-box>
