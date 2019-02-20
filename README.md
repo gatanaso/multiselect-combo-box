@@ -2,6 +2,7 @@
 [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/gatanasomultiselect-combo-box)
 [![Build Status](https://travis-ci.org/gatanaso/multiselect-combo-box.svg?branch=master)](https://travis-ci.org/gatanaso/multiselect-combo-box)
 [![codecov](https://codecov.io/gh/gatanaso/multiselect-combo-box/branch/master/graph/badge.svg)](https://codecov.io/gh/gatanaso/multiselect-combo-box)
+[![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/gatanasomultiselect-combo-box.svg)](https://vaadin.com/directory/component/gatanasomultiselect-combo-box)
 
 # \<multiselect-combo-box\>
 
