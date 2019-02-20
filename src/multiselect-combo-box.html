@@ -112,10 +112,14 @@
 
             /**
              * The list of selected items.
+             *
+             * Note: modifying the selected items creates a new array each time
+             * (to override Polymer's dirty-checking for arrays).
              */
             selectedItems: {
               type: Array,
-              value: () => []
+              value: () => [],
+              notify: true
             },
 
             /**
@@ -187,11 +191,15 @@
         _comboBoxValueChanged() {
           const item = this.$.comboBox.selectedItem;
 
-          if (this.selectedItems.includes(item)) {
-            this.splice('selectedItems', this.selectedItems.indexOf(item), 1);
+          const update = this.selectedItems.slice(0);
+
+          if (this._isSelected(item, this.selectedItems, this.itemIdPath)) {
+            update.splice(update.indexOf(item), 1);
           } else {
-            this.push('selectedItems', item);
+            update.push(item);
           }
+
+          this.selectedItems = update;
 
           this.$.comboBox.value = '';
           this.validate();
@@ -208,7 +216,9 @@
 
         _handleItemRemoved(event) {
           const item = event.detail.item;
-          this.splice('selectedItems', this.selectedItems.indexOf(item), 1);
+          const update = this.selectedItems.slice(0);
+          update.splice(update.indexOf(item), 1);
+          this.selectedItems = update;
           this.validate();
         }
 
