@@ -164,32 +164,6 @@
           });
         });
 
-        describe('_focusedChanged', () => {
-          it('should focus input field when `focused` is `true`', () => {
-            // given
-            const focused = true;
-            multiselectComboBoxInput.$.inputField.focus = sinon.stub();
-
-            // when
-            multiselectComboBoxInput._focusedChanged(focused);
-
-            // expect
-            sinon.assert.calledOnce(multiselectComboBoxInput.$.inputField.focus);
-          });
-
-          it('should not focus input field when `focused` is `false`', () => {
-            // given
-            const focused = false;
-            multiselectComboBoxInput.$.inputField.focus = sinon.stub();
-
-            // when
-            multiselectComboBoxInput._focusedChanged(focused);
-
-            // expect
-            sinon.assert.notCalled(multiselectComboBoxInput.$.inputField.focus);
-          });
-        });
-
       });
     </script>
 
