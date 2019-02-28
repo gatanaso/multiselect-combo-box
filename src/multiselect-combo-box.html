@@ -1,44 +1,12 @@
 <link rel="import" href="../../polymer/polymer-element.html" />
-<link rel="import" href="../../vaadin-text-field/vaadin-text-field.html"/>
-<link rel="import" href="../../vaadin-combo-box/vaadin-combo-box-light.html"/>
-<link rel="import" href="../../vaadin-lumo-styles/mixins/required-field.html">
-<link rel="import" href="../../vaadin-lumo-styles/font-icons.html">
+<link rel="import" href="../../vaadin-control-state-mixin/vaadin-control-state-mixin.html">
+<link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html">
+<link rel="import" href="../../vaadin-themable-mixin/vaadin-theme-property-mixin.html">
 
-<link rel="import" href="multiselect-combo-box-shared-styles.html">
 <link rel="import" href="multiselect-combo-box-mixin.html">
-<link rel="import" href="multiselect-combo-box-input.html">
 
 <dom-module id="multiselect-combo-box">
   <template>
-    <style include="lumo-required-field">
-      :host {
-        display: flex;
-        flex-direction: column;
-        min-width: 100%;
-        max-width: 100%;
-      }
-
-      [part="combo-box"] {
-        display: block;
-        width: 100%;
-      }
-
-      [part="combo-box"][hidden] {
-        display: none;
-      }
-
-      [part="input-field"] {
-        width: 100%;
-      }
-
-      [part="readonly-container"] {
-        color: var(--lumo-secondary-text-color);
-        padding: var(--lumo-space-s);
-        border: 1px dashed var(--lumo-contrast-30pct);
-        border-radius: var(--lumo-border-radius);
-      }
-    </style>
-
     <label part="label">[[label]]</label>
 
     <div part="readonly-container" hidden$="[[!readonly]]">
@@ -50,7 +18,6 @@
       part="combo-box"
       hidden$="[[readonly]]"
       items="[[items]]"
-      opened="{{focused}}"
       item-id-path="[[itemIdPath]]"
       item-label-path="[[itemLabelPath]]"
       item-value-path="[[itemValuePath]]"
@@ -63,10 +30,10 @@
       </template>
 
       <multiselect-combo-box-input
+        id="input"
         class="input"
         part="input-field"
         placeholder="[[placeholder]]"
-        focused="[[focused]]"
         item-label-path="[[itemLabelPath]]"
         items="[[selectedItems]]"
         has-value="[[hasValue]]"
@@ -88,7 +55,12 @@
        * @polymer
        * @demo demo/index.html
        */
-      class MultiselectComboBox extends MultiselectComboBoxMixin(Polymer.Element) {
+      class MultiselectComboBox extends
+        Vaadin.ControlStateMixin(
+          Vaadin.ThemePropertyMixin(
+            Vaadin.ThemableMixin(
+              MultiselectComboBoxMixin(Polymer.Element)))) {
+
         static get is() {
           return 'multiselect-combo-box';
         }
@@ -113,24 +85,12 @@
             /**
              * The list of selected items.
              *
-             * Note: modifying the selected items creates a new array each time
-             * (to override Polymer's dirty-checking for arrays).
+             * Note: modifying the selected items creates a new array each time.
              */
             selectedItems: {
               type: Array,
               value: () => [],
               notify: true
-            },
-
-            /**
-             * The `focus` attribute
-             *
-             * `@true` when the combo-box is opened.
-             */
-            focused: {
-              type: Boolean,
-              value: false,
-              reflectToAttribute: true
             },
 
             /**
@@ -229,6 +189,17 @@
 
         _getDisplayValue(selectedItems, itemLabelPath) {
           return selectedItems.map(item => this._getItemDisplayValue(item, itemLabelPath)).join(', ');
+        }
+
+        get inputElement() {
+          return this.$.input;
+        }
+
+        /**
+         * Focusable element used by vaadin-control-state-mixin
+         */
+        get focusElement() {
+          return this.inputElement;
         }
       }
 

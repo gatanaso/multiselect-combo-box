@@ -1,0 +1,69 @@
+<link rel="import" href="../../../vaadin-lumo-styles/typography.html">
+<link rel="import" href="../../../vaadin-lumo-styles/style.html">
+
+<link rel="import" href="../../../vaadin-lumo-styles/mixins/field-button.html">
+
+<dom-module id="lumo-multiselect-combo-box-input" theme-for="multiselect-combo-box-input">
+  <template>
+    <style include="lumo-field-button">
+      :host {
+        display: flex;
+        border: 1px solid;
+        border-radius: calc(var(--lumo-border-radius) / 2);
+        border-color: var(--lumo-contrast-10pct);
+        outline: none;
+      }
+
+      [part="input-field"] {
+        flex: 1 1;
+        min-width: 80px;
+        padding: 0;
+      }
+
+      [part="tokens"] {
+        display: flex;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        width: 100%;
+        min-width: 0;
+      }
+
+      [part="token"] {
+        display: flex;
+        flex: 0 0 25px;
+        align-items: center;
+        padding: var(--lumo-space-xs);
+        margin: var(--lumo-space-xs);
+        border-radius: calc(var(--lumo-border-radius) / 2);
+        background-color: var(--lumo-contrast-20pct);
+        cursor: default;
+        white-space: nowrap;
+        height: calc(var(--lumo-size-m) - 2 * var(--lumo-space-xs));
+        box-sizing: border-box;
+      }
+
+      [part="token-label"] {
+        display: flex;
+        align-items: center;
+        font-size: var(--lumo-font-size-s);
+        padding-right: var(--lumo-space-xs);
+      }
+
+      [part="token-remove-button"]::before {
+        content: var(--lumo-icons-cross);
+      }
+
+      [part="clear-button"]::before {
+        content: var(--lumo-icons-cross);
+      }
+
+      [part="toggle-button"]::before {
+        content: var(--lumo-icons-dropdown);
+      }
+
+      :host(:not([has-value])) [part="clear-button"] {
+        display: none;
+      }
+    </style>
+  </template>
+</dom-module>

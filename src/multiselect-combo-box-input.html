@@ -1,89 +1,16 @@
 <link rel="import" href="../../polymer/polymer-element.html" />
-<link rel="import" href="../../vaadin-text-field/vaadin-text-field.html"/>
+<link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html">
+<link rel="import" href="../../vaadin-themable-mixin/vaadin-theme-property-mixin.html">
 
 <link rel="import" href="multiselect-combo-box-mixin.html">
 
 <dom-module id="multiselect-combo-box-input">
   <template>
-    <style>
-      :host {
-        display: flex;
-        border: 1px solid;
-        border-radius: calc(var(--lumo-border-radius) / 2);
-        border-color: var(--lumo-contrast-10pct);
-      }
-
-      [part="input-field"] {
-        flex: 1 1;
-        min-width: 80px;
-        padding: 0;
-      }
-
-      [part="tokens"] {
-        display: flex;
-        flex-wrap: wrap;
-        flex-grow: 1;
-        width: 100%;
-      }
-
-      [part="token"] {
-        display: flex;
-        flex: 0 0 25px;
-        align-items: center;
-        padding: var(--lumo-space-xs);
-        margin: var(--lumo-space-xs);
-        border-radius: calc(var(--lumo-border-radius) / 2);
-        background-color: var(--lumo-contrast-5pct);
-        cursor: default;
-        white-space: nowrap;
-        height: calc(var(--lumo-text-field-size, var(--lumo-size-m)) - 2 * var(--lumo-space-xs));
-        box-sizing: border-box;
-      }
-
-      [part="token-label"] {
-        display: flex;
-        align-items: center;
-        font-size: var(--lumo-font-size-s);
-        padding-right: var(--lumo-space-xs);
-      }
-
-      [part="token-remove"] {
-        display: flex;
-        font-family: 'lumo-icons';
-        font-size: var(--lumo-font-size-l);
-        color: var(--lumo-contrast-70pct);
-      }
-
-      [part="token-remove"]::before {
-        content: var(--lumo-icons-cross);
-      }
-
-      [part="clear-button"],
-      [part="toggle-button"] {
-        cursor: default;
-        font-family: 'lumo-icons';
-        font-size: var(--lumo-font-size-xl);
-        color: var(--lumo-primary-text-color);
-      }
-
-      [part="clear-button"]::before {
-        content: var(--lumo-icons-cross);
-      }
-
-      [part="toggle-button"]::before {
-        content: var(--lumo-icons-chevron-down);
-      }
-
-      :host(:not([has-value])) [part="clear-button"] {
-        display: none;
-      }
-    </style>
-
     <div id="tokens" part="tokens" slot="prefix">
       <template is="dom-repeat" items="[[items]]">
         <div part="token">
           <div part="token-label">[[_getItemDisplayValue(item, itemLabelPath)]]</div>
-          <div part="token-remove" title="remove" role="button" on-click="_removeToken"></div>
+          <div part="token-remove-button" title="remove" role="button" on-click="_removeToken"></div>
         </div>
       </template>
 
@@ -109,7 +36,11 @@
        * @polymer
        * @demo demo/index.html
        */
-      class MultiselectComboBoxInput extends MultiselectComboBoxMixin(Polymer.Element) {
+      class MultiselectComboBoxInput extends
+        Vaadin.ThemePropertyMixin(
+          Vaadin.ThemableMixin(
+            MultiselectComboBoxMixin(Polymer.Element))) {
+
         static get is() {
           return 'multiselect-combo-box-input';
         }
@@ -123,15 +54,6 @@
               type: String,
               value: '',
               notify: true
-            },
-
-            /**
-             * `@true` when the combo-box is opened.
-             */
-            focused: {
-              type: Boolean,
-              reflectToAttribute: true,
-              observer: '_focusedChanged'
             }
           };
         }
@@ -163,12 +85,6 @@
             composed: true,
             bubbles: true
           }));
-        }
-
-        _focusedChanged(focused) {
-          if (focused) {
-            this.$.inputField.focus();
-          }
         }
       }
 
