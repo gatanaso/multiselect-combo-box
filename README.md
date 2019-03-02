@@ -8,7 +8,25 @@
 
 A multi select combo box web component based on Polymer 2.x and the [`vaadin-combo-box`](https://github.com/vaadin/vaadin-combo-box).
 
-[Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/)
+Compatible with the core set of [Vaadin Components](https://github.com/vaadin/vaadin-core).
+
+### [Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/)
+
+## Getting started
+Install the `multiselect-combo-box`:
+```
+bower install --save gatanaso/multiselect-combo-box
+```
+Once installed, import in your applicaiton:
+```
+<link rel="import" href="bower_components/multiselect-combo-box/multiselect-combo-box.html">
+```
+Add to you page:
+```
+<multiselect-combo-box label="Select items"></multiselect-combo-box>
+```
+
+For more usage examples, see the [demo]((https://multiselect-combo-box.firebaseapp.com/demo/)).
 
 ### Running demos locally
 
@@ -19,4 +37,7 @@ A multi select combo box web component based on Polymer 2.x and the [`vaadin-com
 
 ### Running tests from the command line
 
-When in the `multiselect-combo-box` directory, run `polymer test`
+When in the `multiselect-combo-box` directory, run `npm run test`
+
+### Java API
+The Vaadin Flow Java compatible version of this component is available on the [Vaadin Directory](https://vaadin.com/directory/component/multiselect-combo-box) and [GitHub](https://github.com/gatanaso/multiselect-combo-box-flow).
