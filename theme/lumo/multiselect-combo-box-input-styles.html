@@ -8,8 +8,7 @@
     <style include="lumo-field-button">
       :host {
         display: flex;
-        border: 1px solid;
-        border-radius: calc(var(--lumo-border-radius) / 2);
+        border-radius: var(--lumo-border-radius);
         border-color: var(--lumo-contrast-10pct);
         outline: none;
       }
@@ -32,9 +31,9 @@
         display: flex;
         flex: 0 0 25px;
         align-items: center;
-        padding: var(--lumo-space-xs);
+        padding-left: var(--lumo-space-s);
         margin: var(--lumo-space-xs);
-        border-radius: calc(var(--lumo-border-radius) / 2);
+        border-radius: var(--lumo-border-radius);
         background-color: var(--lumo-contrast-20pct);
         cursor: default;
         white-space: nowrap;
@@ -46,7 +45,6 @@
         display: flex;
         align-items: center;
         font-size: var(--lumo-font-size-s);
-        padding-right: var(--lumo-space-xs);
       }
 
       [part="token-remove-button"]::before {
