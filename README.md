@@ -10,7 +10,7 @@ A multi select combo box web component based on Polymer 2.x and the [`vaadin-com
 
 Compatible with the core set of [Vaadin Components](https://github.com/vaadin/vaadin-core).
 
-### [Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/)
+#### [Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/)
 
 ## Getting started
 Install the `multiselect-combo-box`:
@@ -21,12 +21,12 @@ Once installed, import in your applicaiton:
 ```
 <link rel="import" href="bower_components/multiselect-combo-box/multiselect-combo-box.html">
 ```
-Add to you page:
+Add to your page:
 ```
 <multiselect-combo-box label="Select items"></multiselect-combo-box>
 ```
 
-For more usage examples, see the [demo]((https://multiselect-combo-box.firebaseapp.com/demo/)).
+For more usage examples, see the [demo](https://multiselect-combo-box.firebaseapp.com/demo/).
 
 ### Running demos locally
 
