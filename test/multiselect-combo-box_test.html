@@ -91,6 +91,34 @@
             expect(multiselectComboBox.hasValue).to.be.true;
             expect(multiselectComboBox.title).to.be.eql('item 1, item 2');
           });
+
+          it('should call render if overlay has been opened at least once', () => {
+            // given
+            const selectedItems = ['item 1', 'item 2'];
+            multiselectComboBox._openedOnce = true; // overlay opened at least once
+
+            multiselectComboBox.$.comboBox.render = sinon.stub();
+
+            // when
+            multiselectComboBox._selectedItemsObserver(selectedItems);
+
+            // then
+            sinon.assert.calledOnce(multiselectComboBox.$.comboBox.render);
+          });
+
+          it('should not call render if overlay has not been opened at least once', () => {
+            // given
+            const selectedItems = ['item 1', 'item 2'];
+            multiselectComboBox._openedOnce = false; // overlay has not been opened yet
+
+            multiselectComboBox.$.comboBox.render = sinon.stub();
+
+            // when
+            multiselectComboBox._selectedItemsObserver(selectedItems);
+
+            // then
+            sinon.assert.notCalled(multiselectComboBox.$.comboBox.render);
+          });
         });
 
         describe('_comboBoxValueChanged', () => {
@@ -253,6 +281,156 @@
 
             // then
             expect(result).to.be.eql('item 11, item 22');
+          });
+        });
+
+        describe('_openedObserver', () => {
+          it('should set _openedOnce to true if previously not set and overlay opened', () => {
+            // given
+            multiselectComboBox._openedOnce = false;
+            const opened = true;
+
+            // when
+            multiselectComboBox._openedObserver(opened);
+
+            // then
+            expect(multiselectComboBox._openedOnce).to.be.true;
+          });
+
+          it('should not change _openedOnce value if overlay is not opened', () => {
+            // given
+            multiselectComboBox._openedOnce = false;
+            const opened = false;
+
+            // when
+            multiselectComboBox._openedObserver(opened);
+
+            // then
+            expect(multiselectComboBox._openedOnce).to.be.false;
+          });
+
+          it('should not change _openedOnce if previously set', () => {
+            // given
+            multiselectComboBox._openedOnce = true; // already set
+            const opened = true;
+
+            // when
+            multiselectComboBox._openedObserver(opened);
+
+            // then
+            expect(multiselectComboBox._openedOnce).to.be.true;
+          });
+        });
+
+        describe('_customRenderer', () => {
+          it('should build a comboBoxItem if previously not invoked and udpate selected attribute', () => {
+            // given
+            const dummyHost = {
+              host: {
+                classList: {
+                  add: sinon.stub()
+                }
+              }
+            };
+
+            const root = {
+              firstElementChild: undefined, // combo box item does not exist
+              appendChild: (child) => {
+                root.firstElementChild = child;
+              },
+              getRootNode: () => {
+                return dummyHost;
+              }
+            };
+
+            const model = sinon.stub();
+            const comboBox = sinon.stub();
+
+            multiselectComboBox._getItemDisplayValue = sinon.stub().returns('label');
+            multiselectComboBox._isSelected = sinon.stub();
+            multiselectComboBox._updateSelectedAttribute = sinon.stub();
+
+            // when
+            multiselectComboBox._customRenderer(root, comboBox, model);
+
+            // then
+            sinon.assert.calledWith(root.getRootNode().host.classList.add, 'multiselect');
+            sinon.assert.calledOnce(multiselectComboBox._getItemDisplayValue);
+            sinon.assert.calledOnce(multiselectComboBox._isSelected);
+            sinon.assert.calledOnce(multiselectComboBox._updateSelectedAttribute);
+
+            expect(root.firstElementChild.getAttribute('part')).to.be.eql('item-template');
+          });
+
+          it('should not build a comboBoxItem if renderer has already been invoked, but only update seleted attribute', () => {
+            // given
+            const dummyHost = {
+              host: {
+                classList: {
+                  add: sinon.stub()
+                }
+              }
+            };
+
+            const root = {
+              firstElementChild: () => {
+                return document.createElement('div'); // combo box item already exists
+              },
+              appendChild: (child) => {
+                root.firstElementChild = child;
+              },
+              getRootNode: () => {
+                return dummyHost;
+              }
+            };
+
+            const model = sinon.stub();
+            const comboBox = sinon.stub();
+
+            multiselectComboBox._getItemDisplayValue = sinon.stub().returns('label');
+            multiselectComboBox._isSelected = sinon.stub();
+            multiselectComboBox._updateSelectedAttribute = sinon.stub();
+
+            // when
+            multiselectComboBox._customRenderer(root, comboBox, model);
+
+            // then
+            sinon.assert.notCalled(root.getRootNode().host.classList.add);
+            sinon.assert.notCalled(multiselectComboBox._getItemDisplayValue);
+            sinon.assert.calledOnce(multiselectComboBox._isSelected);
+            sinon.assert.calledOnce(multiselectComboBox._updateSelectedAttribute);
+          });
+
+        });
+
+        describe('_updateSelectedAttribute', () => {
+          it('should set selected attribute', () => {
+            // given
+            const div = document.createElement('div');
+            const selected = true;
+
+            expect(div.hasAttribute('selected')).to.be.false;
+
+            // when
+            multiselectComboBox._updateSelectedAttribute(div, selected);
+
+            // then
+            expect(div.hasAttribute('selected')).to.be.true;
+          });
+
+          it('should remove selected attribute', () => {
+            // given
+            const div = document.createElement('div');
+            div.setAttribute('selected', ''); // set selected
+            const selected = false;
+
+            expect(div.hasAttribute('selected')).to.be.true;
+
+            // when
+            multiselectComboBox._updateSelectedAttribute(div, selected);
+
+            // then
+            expect(div.hasAttribute('selected')).to.be.false;
           });
         });
       });
