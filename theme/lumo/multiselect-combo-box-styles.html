@@ -75,16 +75,16 @@
 <dom-module id="lumo-combo-box-item-theme" theme-for="vaadin-combo-box-item">
     <template>
       <style>
-        :host::before {
+        :host(.multiselect)::before {
           display: none !important;
         }
 
-        [part="item-template"] {
+        :host(.multiselect) [part="item-template"] {
           display: flex;
           font-size: var(--lumo-font-size-s);
         }
 
-        [part="content"] [part="item-template"]::before {
+        :host(.multiselect) [part="content"] [part="item-template"]::before {
           content: var(--lumo-icons-checkmark);
           font-family: lumo-icons;
           font-size: var(--lumo-icon-size-m);
@@ -99,7 +99,7 @@
           transition: transform 0.2s cubic-bezier(.12, .32, .54, 2), opacity 0.1s;
         }
 
-        [part="content"] [part="item-template"][selected]::before {
+        :host(.multiselect) [part="content"] [part="item-template"][selected]::before {
           opacity: 1;
         }
       </style>

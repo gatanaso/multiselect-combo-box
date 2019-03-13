@@ -21,13 +21,8 @@
       item-id-path="[[itemIdPath]]"
       item-label-path="[[itemLabelPath]]"
       item-value-path="[[itemValuePath]]"
-      on-change="_comboBoxValueChanged">
-
-      <template>
-        <div part="item-template" selected$="[[_isSelected(item, selectedItems, itemIdPath, selectedItems.*)]]">
-          <span>[[_getItemDisplayValue(item, itemLabelPath)]]</span>
-        </div>
-      </template>
+      on-change="_comboBoxValueChanged"
+      opened="{{_opened}}">
 
       <multiselect-combo-box-input
         id="input"
@@ -63,6 +58,11 @@
 
         static get is() {
           return 'multiselect-combo-box';
+        }
+
+        ready() {
+          super.ready();
+          this.$.comboBox.renderer = this._customRenderer.bind(this);
         }
 
         static get properties() {
@@ -124,12 +124,24 @@
             /**
              * The `invalid` state error-message.
              */
-            errorMessage: String
+            errorMessage: String,
+
+            /**
+             * `true` if overlay is opened.
+             */
+            _opened: Boolean,
+
+            /**
+             * `true` if overlay has been opened at least once.
+             */
+            _openedOnce: Boolean,
           };
         }
 
         static get observers() {
-          return ['_selectedItemsObserver(selectedItems, selectedItems.*)'];
+          return [
+            '_selectedItemsObserver(selectedItems, selectedItems.*)',
+            '_openedObserver(_opened)'];
         }
 
         /**
@@ -146,6 +158,18 @@
         _selectedItemsObserver(selectedItems) {
           this.hasValue = selectedItems && selectedItems.length > 0;
           this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath));
+
+          // due to: https://github.com/vaadin/vaadin-combo-box/issues/780,
+          // call `render()` only if combo box was opened at least once
+          if (this._openedOnce) {
+            this.$.comboBox.render();
+          }
+        }
+
+        _openedObserver(opened) {
+          if (!this._openedOnce && opened) {
+            this._openedOnce = true;
+          }
         }
 
         _comboBoxValueChanged() {
@@ -200,6 +224,40 @@
          */
         get focusElement() {
           return this.inputElement;
+        }
+
+        /**
+         * A custom renderer that adds the `multiselect` class to each `vaadin-combo-box-item`.
+         */
+        _customRenderer(root, comboBox, model) {
+          let comboBoxItem = root.firstElementChild;
+
+          if (!comboBoxItem) {
+            // build the template
+            comboBoxItem = document.createElement('div');
+            comboBoxItem.setAttribute('part', 'item-template');
+            root.appendChild(comboBoxItem);
+
+            const comboBoxItemContent = document.createElement('span');
+            comboBoxItemContent.textContent = this._getItemDisplayValue(model.item, this.itemLabelPath);
+            comboBoxItem.appendChild(comboBoxItemContent);
+
+            // attach class to host element
+            const host = root.getRootNode().host;
+            host.classList.add('multiselect');
+          }
+
+          // set selected attribute
+          const selected = this._isSelected(model.item, this.selectedItems, this.itemIdPath);
+          this._updateSelectedAttribute(comboBoxItem, selected);
+        }
+
+        _updateSelectedAttribute(element, selected) {
+          if (selected) {
+            element.setAttribute('selected', '');
+          } else {
+            element.removeAttribute('selected');
+          }
         }
       }
 
