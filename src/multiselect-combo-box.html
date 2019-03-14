@@ -231,6 +231,7 @@
          */
         _customRenderer(root, comboBox, model) {
           let comboBoxItem = root.firstElementChild;
+          let comboBoxItemContent;
 
           if (!comboBoxItem) {
             // build the template
@@ -238,16 +239,20 @@
             comboBoxItem.setAttribute('part', 'item-template');
             root.appendChild(comboBoxItem);
 
-            const comboBoxItemContent = document.createElement('span');
-            comboBoxItemContent.textContent = this._getItemDisplayValue(model.item, this.itemLabelPath);
+            comboBoxItemContent = document.createElement('span');
             comboBoxItem.appendChild(comboBoxItemContent);
 
             // attach class to host element
             const host = root.getRootNode().host;
             host.classList.add('multiselect');
+          } else {
+            comboBoxItemContent = comboBoxItem.firstElementChild;
           }
 
-          // set selected attribute
+          // set/update item label
+          comboBoxItemContent.textContent = this._getItemDisplayValue(model.item, this.itemLabelPath);
+
+          // set/update selected attribute
           const selected = this._isSelected(model.item, this.selectedItems, this.itemIdPath);
           this._updateSelectedAttribute(comboBoxItem, selected);
         }
