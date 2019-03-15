@@ -177,8 +177,10 @@
 
           const update = this.selectedItems.slice(0);
 
-          if (this._isSelected(item, this.selectedItems, this.itemIdPath)) {
-            update.splice(update.indexOf(item), 1);
+          const index = this._findIndex(item, this.selectedItems, this.itemIdPath);
+
+          if (index !== -1) {
+            update.splice(index, 1);
           } else {
             update.push(item);
           }
@@ -190,11 +192,19 @@
         }
 
         _isSelected(item, selectedItems, itemIdPath) {
+          return this._findIndex(item, selectedItems, itemIdPath) !== -1;
+        }
+
+        _findIndex(item, selectedItems, itemIdPath) {
           if (itemIdPath && item !== undefined) {
-            const found = selectedItems.find(selectedItem => this.get(itemIdPath, selectedItem) === this.get(itemIdPath, item));
-            return !!found;
+            for (let index = 0; index < selectedItems.length; index++) {
+              if (selectedItems[index][itemIdPath] === item[itemIdPath]) {
+                return index;
+              }
+            }
+            return -1;
           } else {
-            return selectedItems.includes(item);
+            return selectedItems.indexOf(item);
           }
         }
 

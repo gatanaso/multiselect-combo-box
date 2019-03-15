@@ -157,6 +157,52 @@
             expect(multiselectComboBox.$.comboBox.value).to.be.empty;
             sinon.assert.calledOnce(multiselectComboBox.validate);
           });
+
+          it('should add object item to selected items if not previously selected', () => {
+            // given
+            multiselectComboBox.itemIdPath = 'id';
+            multiselectComboBox.itemValuePath = 'id';
+            multiselectComboBox.itemLabelPath = 'label';
+
+            multiselectComboBox.selectedItems = [{id: 1, label: 'item 1'}];
+            multiselectComboBox.$.comboBox.selectedItem = {id: 3, label: 'item 3'};
+
+            multiselectComboBox.validate = sinon.stub();
+
+            // when
+            multiselectComboBox._comboBoxValueChanged();
+
+            // then
+            expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+            expect(multiselectComboBox.selectedItems).to.include({id: 1, label: 'item 1'});
+            expect(multiselectComboBox.selectedItems).to.include({id: 3, label: 'item 3'});
+            expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+            sinon.assert.calledOnce(multiselectComboBox.validate);
+          });
+
+          it('should remove object item from selected items if previously selected', () => {
+            // given
+            multiselectComboBox.itemIdPath = 'id';
+            multiselectComboBox.itemValuePath = 'id';
+            multiselectComboBox.itemLabelPath = 'label';
+
+            multiselectComboBox.selectedItems = [{id: 1, label: 'item 1'}, {id: 2, label: 'item 2'}, {id: 3, label: 'item 3'}];
+
+            multiselectComboBox.$.comboBox.selectedItem = {id: 2, label: 'item 2'};
+
+            multiselectComboBox.validate = sinon.stub();
+
+            // when
+            multiselectComboBox._comboBoxValueChanged();
+
+            // then
+            expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+            expect(multiselectComboBox.selectedItems).to.include({id: 1, label: 'item 1'});
+            expect(multiselectComboBox.selectedItems).to.include({id: 3, label: 'item 3'});
+            expect(multiselectComboBox.selectedItems).to.not.include({id: 2, label: 'item 2'});
+            expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+            sinon.assert.calledOnce(multiselectComboBox.validate);
+          });
         });
 
         describe('_isSelected', () => {
