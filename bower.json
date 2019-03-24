@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "vaadin-combo-box": "vaadin/vaadin-combo-box#^4.2.5",
+    "vaadin-combo-box": "vaadin/vaadin-combo-box#^4.2.7",
     "vaadin-text-field": "vaadin/vaadin-text-field#^2.3.4",
     "vaadin-themable-mixin": "vaadin/vaadin-themable-mixin#^1.4.4",
     "vaadin-control-state-mixin": "vaadin/vaadin-control-state-mixin#^2.1.3",
