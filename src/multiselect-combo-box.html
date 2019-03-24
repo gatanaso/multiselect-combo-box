@@ -124,24 +124,12 @@
             /**
              * The `invalid` state error-message.
              */
-            errorMessage: String,
-
-            /**
-             * `true` if overlay is opened.
-             */
-            _opened: Boolean,
-
-            /**
-             * `true` if overlay has been opened at least once.
-             */
-            _openedOnce: Boolean,
+            errorMessage: String
           };
         }
 
         static get observers() {
-          return [
-            '_selectedItemsObserver(selectedItems, selectedItems.*)',
-            '_openedObserver(_opened)'];
+          return ['_selectedItemsObserver(selectedItems, selectedItems.*)'];
         }
 
         /**
@@ -159,16 +147,8 @@
           this.hasValue = selectedItems && selectedItems.length > 0;
           this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath));
 
-          // due to: https://github.com/vaadin/vaadin-combo-box/issues/780,
-          // call `render()` only if combo box was opened at least once
-          if (this._openedOnce) {
+          if (this.$.comboBox.render) {
             this.$.comboBox.render();
-          }
-        }
-
-        _openedObserver(opened) {
-          if (!this._openedOnce && opened) {
-            this._openedOnce = true;
           }
         }
 
