@@ -1,0 +1,66 @@
+<link rel="import" href="../../../vaadin-material-styles/typography.html">
+
+<link rel="import" href="../../../vaadin-material-styles/mixins/field-button.html">
+
+<dom-module id="material-multiselect-combo-box-input" theme-for="multiselect-combo-box-input">
+  <template>
+    <style include="material-field-button">
+      :host {
+        display: flex;
+        border-radius: var(--material-border-radius);
+        border-color: var(--material-contrast-10pct);
+        outline: none;
+      }
+
+      [part="input-field"] {
+        flex: 1 1;
+        min-width: 80px;
+        padding: 0;
+      }
+
+      [part="tokens"] {
+        display: flex;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        width: 100%;
+        min-width: 0;
+      }
+
+      [part="token"] {
+        display: flex;
+        flex: 0 0 25px;
+        align-items: center;
+        padding-left: var(--material-space-s);
+        margin: var(--material-space-xs);
+        border-radius: var(--material-border-radius);
+        background-color: var(--material-contrast-20pct);
+        cursor: default;
+        white-space: nowrap;
+        height: calc(var(--material-size-m) - 2 * var(--material-space-xs));
+        box-sizing: border-box;
+      }
+
+      [part="token-label"] {
+        display: flex;
+        align-items: center;
+        font-size: var(--material-font-size-s);
+      }
+
+      [part="token-remove-button"]::before {
+        content: var(--material-icons-clear);
+      }
+
+      [part="clear-button"]::before {
+        content: var(--material-icons-clear_all);
+      }
+
+      [part="toggle-button"]::before {
+        content: var(--material-icons-arrow_drop_down);
+      }
+
+      :host(:not([has-value])) [part="clear-button"] {
+        display: none;
+      }
+    </style>
+  </template>
+</dom-module>

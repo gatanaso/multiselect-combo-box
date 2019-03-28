@@ -1,0 +1,119 @@
+<link rel="import" href="../../styles/font-icons.html">
+<link rel="import" href="../../../vaadin-material-styles/mixins/required-field.html">
+
+<dom-module id="material-multiselect-combo-box" theme-for="multiselect-combo-box">
+  <template>
+    <style include="material-required-field">
+      :host {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-width: 0;
+        outline: none;
+      }
+
+      :host([focused]:not([readonly])) [part="label"] {
+        color: var(--material-primary-text-color);
+      }
+
+      :host(:hover:not([readonly]):not([focused])) [part="label"] {
+        color: var(--material-body-text-color);
+      }
+
+      [part="combo-box"] {
+        display: block;
+        width: 100%;
+        min-width: 0;
+      }
+
+      [part="combo-box"][hidden] {
+        display: none;
+      }
+
+      [part="input-field"] {
+        width: 100%;
+        min-width: 0;
+        position: relative;
+        background-color: var(--material-contrast-10pct);
+      }
+
+      :host(:hover:not([readonly]):not([focused])) [part="input-field"]::after {
+        opacity: 0.1;
+      }
+
+      [part="input-field"]::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background-color: var(--material-contrast-50pct);
+        opacity: 0;
+        transition: transform 0.15s, opacity 0.2s;
+        transform-origin: 100% 0;
+      }
+
+      /* Trigger when not focusing using the keyboard */
+      :host([focused]:not([focus-ring]):not([readonly])) [part="input-field"]::after {
+        transform: scaleX(0);
+        transition-duration: 0.2s, 1s;
+      }
+
+      [part="readonly-container"] {
+        color: var(--material-secondary-text-color);
+        padding: var(--material-space-s);
+        border: 1px dashed var(--material-contrast-30pct);
+        border-radius: var(--material-border-radius);
+      }
+    </style>
+  </template>
+</dom-module>
+
+<dom-module id="material-combo-box-item-theme" theme-for="vaadin-combo-box-item">
+    <template>
+      <style>
+        :host(.multiselect)::before {
+          display: none !important;
+        }
+
+        :host(.multiselect) [part="item-template"] {
+          display: flex;
+          font-size: var(--material-font-size-s);
+        }
+
+        :host(.multiselect) [part="content"] [part="item-template"]::before {
+          content: var(--material-icons-check);
+          font-family: lumo-icons;
+          font-size: var(--material-icon-size-m);
+          line-height: 1;
+          font-weight: normal;
+          width: 1em;
+          height: 1em;
+          margin: calc((1 - var(--material-line-height-xs)) * var(--material-font-size-m) / 2) 0;
+          color: var(--material-primary-text-color);
+          flex: none;
+          opacity: 0;
+          transition: transform 0.2s cubic-bezier(.12, .32, .54, 2), opacity 0.1s;
+        }
+
+        :host(.multiselect) [part="content"] [part="item-template"][selected]::before {
+          opacity: 1;
+        }
+      </style>
+    </template>
+  <dom-module>
+
+  <dom-module id="material-input-field-theme" theme-for="vaadin-text-field">
+    <template>
+      <style>
+        :host(.multiselect) [part="input-field"],
+        :host(.multiselect) [part="input-field"]::after {
+          background-color: transparent;
+          font-size: var(--material-font-size-s);
+        }
+      </style>
+    </template>
+  </dom-module>
