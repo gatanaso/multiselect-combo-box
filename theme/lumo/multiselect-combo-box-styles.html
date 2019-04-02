@@ -56,6 +56,10 @@
         transform-origin: 100% 0;
       }
 
+      :host([invalid]) [part="input-field"] {
+        background-color: var(--lumo-error-color-10pct);
+      }
+
       /* Trigger when not focusing using the keyboard */
       :host([focused]:not([focus-ring]):not([readonly])) [part="input-field"]::after {
         transform: scaleX(0);
