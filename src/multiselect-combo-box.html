@@ -70,7 +70,11 @@
             /**
              * The component label.
              */
-            label: String,
+            label: {
+              type: String,
+              value: '',
+              observer: '_labelChanged'
+            },
 
             /**
              * The title attribute.
@@ -252,6 +256,14 @@
             element.setAttribute('selected', '');
           } else {
             element.removeAttribute('selected');
+          }
+        }
+
+        _labelChanged(label) {
+          if (label !== '' && label != null) {
+            this.setAttribute('has-label', '');
+          } else {
+            this.removeAttribute('has-label');
           }
         }
       }
