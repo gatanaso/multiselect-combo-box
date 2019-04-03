@@ -419,6 +419,30 @@
             expect(div.hasAttribute('selected')).to.be.false;
           });
         });
+
+        describe('_labelChanged', () => {
+          it('should set the has-label attribute', () => {
+            // given
+            const label = 'label';
+
+            // when
+            multiselectComboBox._labelChanged(label);
+
+            // then
+            expect(multiselectComboBox.hasAttribute('has-label')).to.be.true;
+          });
+
+          it('should set the has-label attribute', () => {
+            // given
+            const label = '';
+
+            // when
+            multiselectComboBox._labelChanged(label);
+
+            // then
+            expect(multiselectComboBox.hasAttribute('has-label')).to.be.false;
+          });
+        });
       });
     </script>
 
