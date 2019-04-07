@@ -53,7 +53,14 @@
          * the `itemIdPath` is used to compare and identify the same item
          * in `selectedItem`.
          */
-        itemIdPath: String
+        itemIdPath: String,
+
+        /**
+         * The theme name attribute.
+         * Used to communicate theme information to
+         * component internals (currently used for the material theme).
+         */
+        theme: String,
       };
     }
 

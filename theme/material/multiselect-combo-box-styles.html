@@ -41,7 +41,7 @@
         background-color: var(--material-error-color);
       }
 
-      :host([has-label]:not([has-value]):not([focused]):not([invalid])) [part="label"] {
+      :host([has-label]:not([has-value]):not([focused]):not([invalid]):not([theme="always-float-label"])) [part="label"] {
         transform: scale(1) translateY(24px);
         transition-timing-function: ease, ease, step-start;
         pointer-events: none;
@@ -137,38 +137,38 @@
         }
 
         /* placeholder styles */
-        :host(.multiselect) [part="input-field"] input[part="value"]::-webkit-input-placeholder {
+        :host(.multiselect) [part="input-field"] [part="value"]::-webkit-input-placeholder {
           color: var(--material-disabled-text-color);
           transition: opacity 0.175s 0.05s;
           opacity: 1;
         }
 
-        :host(.multiselect) [part="input-field"] input[part="value"]::-moz-placeholder {
+        :host(.multiselect) [part="input-field"] [part="value"]::-moz-placeholder {
           color: var(--material-disabled-text-color);
           transition: opacity 0.175s 0.05s;
           opacity: 1;
         }
 
-        :host(.multiselect) [part="input-field"] input[part="value"]::placeholder {
+        :host(.multiselect) [part="input-field"] [part="value"]::placeholder {
           color: var(--material-disabled-text-color);
           transition: opacity 0.175s 0.05s;
           opacity: 1;
         }
 
-        :host(.multiselect[multiselect-has-label]:not([focused]):not([invalid]):not([theme="always-float-label"])) [part="input-field"] input[part="value"]::-webkit-input-placeholder,
-        :host(.multiselect[multiselect-has-value][focused]) [part="input-field"] input[part="value"]::-webkit-input-placeholder {
+        :host(.multiselect[multiselect-has-label]:not([focused]):not([invalid]):not([theme="always-float-label"])) [part="input-field"] [part="value"]::-webkit-input-placeholder,
+        :host(.multiselect[multiselect-has-value]) [part="input-field"] [part="value"]::-webkit-input-placeholder {
           opacity: 0;
           transition-delay: 0;
         }
 
-        :host(.multiselect[multiselect-has-label]:not([focused]):not([invalid]):not([theme="always-float-label"])) [part="input-field"] input[part="value"]::-moz-placeholder,
-        :host(.multiselect[multiselect-has-value][focused]) [part="input-field"] input[part="value"]::-moz-placeholder {
+        :host(.multiselect[multiselect-has-label]:not([focused]):not([invalid]):not([theme="always-float-label"])) [part="input-field"] [part="value"]::-moz-placeholder,
+        :host(.multiselect[multiselect-has-value]) [part="input-field"] [part="value"]::-moz-placeholder {
           opacity: 0;
           transition-delay: 0;
         }
 
-        :host(.multiselect[multiselect-has-label]:not([focused]):not([invalid]):not([theme="always-float-label"])) [part="input-field"] input[part="value"]::placeholder,
-        :host(.multiselect[multiselect-has-value][focused]) [part="input-field"] input[part="value"]::placeholder {
+        :host(.multiselect[multiselect-has-label]:not([focused]):not([invalid]):not([theme="always-float-label"])) [part="input-field"] [part="value"]::placeholder,
+        :host(.multiselect[multiselect-has-value]) [part="input-field"] [part="value"]::placeholder {
           opacity: 0;
           transition-delay: 0;
         }

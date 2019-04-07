@@ -31,18 +31,19 @@
       }
 
       :host::after {
-          background-color: var(--material-primary-color);
-          opacity: 0;
-          height: 2px;
-          bottom: 0;
-          transform: scaleX(0);
-          transition: opacity 0.175s;
+        background-color: var(--material-primary-color);
+        opacity: 0;
+        height: 2px;
+        bottom: 0;
+        transform: scaleX(0);
+        transition: opacity 0.175s;
       }
 
       [part="input-field"] {
         flex: 1 1;
         min-width: 80px;
         padding: 0;
+        margin-bottom: 4px;
       }
 
       [part="tokens"] {

@@ -31,10 +31,11 @@
         placeholder="[[placeholder]]"
         item-label-path="[[itemLabelPath]]"
         items="[[selectedItems]]"
+        on-item-removed="_handleItemRemoved"
+        on-remove-all-items="_handleRemoveAllItems"
         has-value="[[hasValue]]"
         has-label="[[hasLabel]]"
-        on-item-removed="_handleItemRemoved"
-        on-remove-all-items="_handleRemoveAllItems">
+        theme$="[[theme]]">
       </multiselect-combo-box-input>
     </vaadin-combo-box-light>
 
