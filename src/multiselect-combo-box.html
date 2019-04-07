@@ -31,9 +31,11 @@
         placeholder="[[placeholder]]"
         item-label-path="[[itemLabelPath]]"
         items="[[selectedItems]]"
-        has-value="[[hasValue]]"
         on-item-removed="_handleItemRemoved"
-        on-remove-all-items="_handleRemoveAllItems">
+        on-remove-all-items="_handleRemoveAllItems"
+        has-value="[[hasValue]]"
+        has-label="[[hasLabel]]"
+        theme$="[[theme]]">
       </multiselect-combo-box-input>
     </vaadin-combo-box-light>
 
@@ -70,7 +72,20 @@
             /**
              * The component label.
              */
-            label: String,
+            label: {
+              type: String,
+              value: '',
+              observer: '_labelChanged'
+            },
+
+            /**
+              * This attribute indicates that the component has a label.
+              */
+            hasLabel: {
+              type: Boolean,
+              value: false,
+              reflectToAttribute: true
+            },
 
             /**
              * The title attribute.
@@ -252,6 +267,14 @@
             element.setAttribute('selected', '');
           } else {
             element.removeAttribute('selected');
+          }
+        }
+
+        _labelChanged(label) {
+          if (label !== '' && label != null) {
+            this.set('hasLabel', true);
+          } else {
+            this.set('hasLabel', false);
           }
         }
       }
