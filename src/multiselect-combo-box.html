@@ -32,6 +32,7 @@
         item-label-path="[[itemLabelPath]]"
         items="[[selectedItems]]"
         has-value="[[hasValue]]"
+        has-label="[[hasLabel]]"
         on-item-removed="_handleItemRemoved"
         on-remove-all-items="_handleRemoveAllItems">
       </multiselect-combo-box-input>
@@ -74,6 +75,15 @@
               type: String,
               value: '',
               observer: '_labelChanged'
+            },
+
+            /**
+              * This attribute indicates that the component has a label.
+              */
+            hasLabel: {
+              type: Boolean,
+              value: false,
+              reflectToAttribute: true
             },
 
             /**
@@ -261,9 +271,9 @@
 
         _labelChanged(label) {
           if (label !== '' && label != null) {
-            this.setAttribute('has-label', '');
+            this.set('hasLabel', true);
           } else {
-            this.removeAttribute('has-label');
+            this.set('hasLabel', false);
           }
         }
       }
