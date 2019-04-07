@@ -43,8 +43,36 @@
               ];
               basicMultiselectComboBox.selectedItems = [
                 'Helium',
-                'Lithium',
-                'Beryllium'
+                'Lithium'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Multiselect-combo-box with floating label</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="floatingLabelDemo"
+            label="Multiselect field"
+            placeholder="Add"
+            theme="always-float-label">
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const floatingLabelMultiselectComboBox = document.querySelector('#floatingLabelDemo');
+              floatingLabelMultiselectComboBox.items = [
+                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
+                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
               ];
             });
           </script>
@@ -82,8 +110,7 @@
               ];
               itemMultiselectComboBox.selectedItems = [
                 {'id': 3, 'name': 'Lithium'},
-                {'id': 5, 'name': 'Boron'},
-                {'id': 7, 'name': 'Nitrogen'}
+                {'id': 5, 'name': 'Boron'}
               ];
             });
           </script>
