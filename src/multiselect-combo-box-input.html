@@ -23,7 +23,8 @@
         on-keydown="_onKeyDown"
         multiselect-has-value$="[[hasValue]]"
         multiselect-has-label$="[[hasLabel]]"
-        theme$="[[theme]]">
+        theme$="[[theme]]"
+        disabled="[[disabled]]">
 
         <div id="clearButton" part="clear-button" slot="suffix" role="button" on-click="_removeAll"></div>
         <div id="toggleButton" part="toggle-button" slot="suffix" role="button"></div>

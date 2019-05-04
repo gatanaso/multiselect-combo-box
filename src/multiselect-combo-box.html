@@ -22,6 +22,7 @@
       item-label-path="[[itemLabelPath]]"
       item-value-path="[[itemValuePath]]"
       on-change="_comboBoxValueChanged"
+      disabled="[[disabled]]"
       opened="{{_opened}}">
 
       <multiselect-combo-box-input
@@ -35,7 +36,8 @@
         on-remove-all-items="_handleRemoveAllItems"
         has-value="[[hasValue]]"
         has-label="[[hasLabel]]"
-        theme$="[[theme]]">
+        theme$="[[theme]]"
+        disabled="[[disabled]]">
       </multiselect-combo-box-input>
     </vaadin-combo-box-light>
 

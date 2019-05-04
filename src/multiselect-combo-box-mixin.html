@@ -61,6 +61,15 @@
          * component internals (currently used for the material theme).
          */
         theme: String,
+
+        /**
+        * Set to true to disable this element.
+        */
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
       };
     }
 

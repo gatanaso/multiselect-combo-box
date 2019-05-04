@@ -18,15 +18,15 @@
         padding-top: 24px;
       }
 
-      :host([focused]:not([readonly]):not([invalid])) [part="label"] {
+      :host([focused]:not([readonly]):not([invalid]):not([disabled])) [part="label"] {
         color: var(--material-primary-text-color);
       }
 
-      :host(:hover:not([readonly]):not([focused]):not([invalid])) [part="input-field"]::after {
+      :host(:hover:not([readonly]):not([focused]):not([invalid]):not([disabled])) [part="input-field"]::after {
         opacity: 0.1;
       }
 
-      :host(:hover:not([readonly]):not([invalid])) [part="input-field"]::before {
+      :host(:hover:not([readonly]):not([invalid]):not([disabled])) [part="input-field"]::before {
         opacity: var(--_material-text-field-input-line-hover-opacity, 0.87)
       }
 
@@ -41,7 +41,7 @@
         background-color: var(--material-error-color);
       }
 
-      :host([has-label]:not([has-value]):not([focused]):not([invalid]):not([theme="always-float-label"])) [part="label"] {
+      :host([has-label]:not([has-value]):not([focused]):not([invalid]):not([theme="always-float-label"]):not([disabled])) [part="label"] {
         transform: scale(1) translateY(24px);
         transition-timing-function: ease, ease, step-start;
         pointer-events: none;
