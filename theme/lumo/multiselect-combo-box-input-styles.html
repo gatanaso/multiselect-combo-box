@@ -13,6 +13,13 @@
         outline: none;
       }
 
+      :host([disabled ]) [part="token-label"],
+      :host([disabled ]) [part="token-remove-button"]{
+        color: var(--lumo-disabled-text-color);
+        -webkit-text-fill-color: var(--lumo-disabled-text-color);
+        pointer-events: none;
+      }
+
       [part="input-field"] {
         flex: 1 1;
         min-width: 80px;

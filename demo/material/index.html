@@ -189,5 +189,36 @@
           </template>
         </demo-snippet>
     </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Disabled multiselect-combo-box</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="disabledDemo"
+            label="Disabled multiselect field"
+            placeholder="Add"
+            disabled>
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const disabledMultiselectComboBox = document.querySelector('#disabledDemo');
+              disabledMultiselectComboBox.items = [
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                'Scandium', 'Iron', 'Cobalt', 'Nickel'
+              ];
+              disabledMultiselectComboBox.selectedItems = [
+                'Argon',
+                'Scandium',
+                'Nickel'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
   </body>
 </html>

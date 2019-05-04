@@ -12,12 +12,18 @@
         outline: none;
       }
 
-      :host([focused]:not([readonly])) [part="label"] {
+      :host([focused]:not([readonly]):not([disabled])) [part="label"] {
         color: var(--lumo-primary-text-color);
       }
 
-      :host(:hover:not([readonly]):not([focused])) [part="label"] {
+      :host(:hover:not([readonly]):not([focused]):not([disabled])) [part="label"] {
         color: var(--lumo-body-text-color);
+      }
+
+      :host([disabled]) [part="label"] {
+        color: var(--lumo-disabled-text-color);
+        -webkit-text-fill-color: var(--lumo-disabled-text-color);
+        pointer-events: none;
       }
 
       [part="combo-box"] {
@@ -37,7 +43,7 @@
         background-color: var(--lumo-contrast-10pct);
       }
 
-      :host(:hover:not([readonly]):not([focused])) [part="input-field"]::after {
+      :host(:hover:not([readonly]):not([focused]):not([disabled])) [part="input-field"]::after {
         opacity: 0.1;
       }
 
