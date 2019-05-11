@@ -39,6 +39,16 @@
         },
 
         /**
+         * This attribute indicates that the component is rendered in 'compact mode'.
+         * In this mode, the component displays the number of items currently selected.
+         */
+        compactMode: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        /**
          * The item property to be used as the `label` in combo-box.
          */
         itemLabelPath: String,
@@ -78,6 +88,14 @@
      */
     _getItemDisplayValue(item, itemLabelPath) {
       return item && item.hasOwnProperty(itemLabelPath) ? item[itemLabelPath] : item;
+    }
+
+    /**
+     * Retrieves the component display value when in compact mode.
+     */
+    _getCompactModeDisplayValue(items) {
+      const suffix = (items.length === 0 || items.length > 1) ? 'values' : 'value';
+      return `${items.length} ${suffix}`;
     }
   };
 }

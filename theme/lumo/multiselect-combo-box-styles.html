@@ -124,6 +124,18 @@
           background-color: transparent !important;
           font-size: var(--lumo-font-size-s);
         }
+
+        :host(.multiselect[compact-mode]) [part="input-field"] {
+          cursor: default;
+        }
+
+        :host(.multiselect[compact-mode]) [part="input-field"]::after {
+          border: none;
+        }
+
+        :host(.multiselect[compact-mode]) [part="input-field"] [part="value"] {
+          visibility: hidden;
+        }
       </style>
     </template>
   </dom-module>
