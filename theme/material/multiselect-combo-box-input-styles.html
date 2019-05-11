@@ -47,11 +47,13 @@
       }
 
       :host([disabled]) [part="token-label"],
-      :host([disabled]) [part="token-remove-button"] {
+      :host([disabled]) [part="token-remove-button"],
+      :host([disabled]) [part="compact-mode-label"] {
         pointer-events: none;
       }
 
-      :host([disabled]) [part="token-label"] {
+      :host([disabled]) [part="token-label"],
+      :host([disabled]) [part="compact-mode-label"] {
         color: var(--material-disabled-text-color);
         -webkit-text-fill-color: var(--material-disabled-text-color);
       }
@@ -66,6 +68,14 @@
         min-width: 80px;
         padding: 0;
         margin-bottom: 4px;
+      }
+
+      [part="compact-mode-label"] {
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        margin: var(--material-space-s);
+        cursor: default;
       }
 
       [part="tokens"] {

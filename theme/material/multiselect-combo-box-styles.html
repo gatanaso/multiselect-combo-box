@@ -41,7 +41,7 @@
         background-color: var(--material-error-color);
       }
 
-      :host([has-label]:not([has-value]):not([focused]):not([invalid]):not([theme="always-float-label"]):not([disabled])) [part="label"] {
+      :host([has-label]:not([has-value]):not([focused]):not([invalid]):not([theme="always-float-label"]):not([compact-mode]):not([disabled])) [part="label"] {
         transform: scale(1) translateY(24px);
         transition-timing-function: ease, ease, step-start;
         pointer-events: none;
@@ -134,6 +134,14 @@
 
         :host(.multiselect) [part="input-field"]::before {
           display: none;
+        }
+
+        :host(.multiselect[compact-mode]) [part="input-field"] {
+          cursor: default;
+        }
+
+        :host(.multiselect[compact-mode]) [part="input-field"] [part="value"] {
+          visibility: hidden;
         }
 
         /* placeholder styles */
