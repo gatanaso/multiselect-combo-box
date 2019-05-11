@@ -443,6 +443,151 @@
             expect(multiselectComboBox.hasAttribute('has-label')).to.be.false;
           });
         });
+
+        describe('_getReadonlyValue', () => {
+          it('should get display value when not in compact mode', () => {
+            // given
+            const compactMode = false;
+            const selectedItems = ['item 1', 'item 2'];
+            const itemLabelPath = undefined;
+
+            // when
+            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+            // then
+            expect(result).to.be.eql('item 1, item 2');
+          });
+
+          it('should get display value of object items when not in compact mode', () => {
+            // given
+            const compactMode = false;
+            const selectedItems = [{label: 'item 1 label'}, {label: 'item 2 label'}];
+            const itemLabelPath = 'label';
+
+            // when
+            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+            // then
+            expect(result).to.be.eql('item 1 label, item 2 label');
+          });
+
+          it('should get number of selected items when in compact mode and list is empty', () => {
+            // given
+            const compactMode = true;
+            const selectedItems = [];
+            const itemLabelPath = undefined;
+
+            // when
+            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+            // then
+            expect(result).to.be.eql('0 values');
+          });
+
+          it('should get number of selected items when in compact mode and list contains one item', () => {
+            // given
+            const compactMode = true;
+            const selectedItems = ['item 1'];
+            const itemLabelPath = undefined;
+
+            // when
+            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+            // then
+            expect(result).to.be.eql('1 value');
+          });
+
+          it('should get number of selected items when in compact mode and list contains at least two items', () => {
+            // given
+            const compactMode = true;
+            const selectedItems = ['item 1', 'item 2'];
+            const itemLabelPath = undefined;
+
+            // when
+            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+            // then
+            expect(result).to.be.eql('2 values');
+          });
+        });
+
+        describe('_getItemDisplayValue', () => {
+          it('should return item when not an object', () => {
+            // given
+            const item = 'multiselect-combo-box';
+
+            // when
+            const result = multiselectComboBox._getItemDisplayValue(item);
+
+            // then
+            expect(result).to.be.eql(item);
+          });
+
+          it('should return item when object does not have the specified property', () => {
+            // given
+            const item = {
+              key1: 'multiselect-combo-box',
+              key2: 'select more than one value'
+            };
+            const itemLabelPath = 'foo';
+
+            // when
+            const result = multiselectComboBox._getItemDisplayValue(item, itemLabelPath);
+
+            // then
+            expect(result).to.be.eql(item);
+          });
+
+          it('should return item property', () => {
+            // given
+            const item = {
+              key1: 'multiselect-combo-box',
+              key2: 'select more than one value'
+            };
+            const itemLabelPath = 'key1';
+
+            // when
+            const result = multiselectComboBox._getItemDisplayValue(item, itemLabelPath);
+
+            // then
+            expect(result).to.be.eql(item.key1);
+          });
+        });
+
+        describe('_getCompactModeDisplayValue', () => {
+          it('should return display label for empty items list', () => {
+            // given
+            const items = [];
+
+            // when
+            const result = multiselectComboBox._getCompactModeDisplayValue(items);
+
+            // then
+            expect(result).to.be.eql('0 values');
+          });
+
+          it('should return display label for a single value in the items list', () => {
+            // given
+            const items = ['one item'];
+
+            // when
+            const result = multiselectComboBox._getCompactModeDisplayValue(items);
+
+            // then
+            expect(result).to.be.eql('1 value');
+          });
+
+          it('should return display label for a multiple values in the items list', () => {
+            // given
+            const items = ['one item', 'another item', 'yet another item'];
+
+            // when
+            const result = multiselectComboBox._getCompactModeDisplayValue(items);
+
+            // then
+            expect(result).to.be.eql('3 values');
+          });
+        });
       });
     </script>
 

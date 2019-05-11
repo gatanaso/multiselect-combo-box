@@ -10,7 +10,7 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../multiselect-combo-box.html">
+    <link rel="import" href="../theme/lumo/multiselect-combo-box.html">
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -87,6 +87,39 @@
           </script>
         </template>
       </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+        <h3>Multiselect-combo-box in compact mode</h3>
+        <demo-snippet>
+          <template>
+
+            <multiselect-combo-box
+              id="compactMode"
+              label="Multiselect field"
+              compact-mode>
+            </multiselect-combo-box>
+
+            <script>
+              window.addEventListener('WebComponentsReady', () => {
+                const compactModeMultiselectComboBox = document.querySelector('#compactMode');
+                compactModeMultiselectComboBox.items = [
+                  'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                  'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                  'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                  'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                  'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
+                  'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
+                ];
+                compactModeMultiselectComboBox.selectedItems = [
+                  'Helium',
+                  'Lithium',
+                  'Beryllium'
+                ];
+              });
+            </script>
+          </template>
+        </demo-snippet>
     </div>
 
     <div class="vertical-section-container centered">

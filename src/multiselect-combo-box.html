@@ -10,7 +10,7 @@
     <label part="label">[[label]]</label>
 
     <div part="readonly-container" hidden$="[[!readonly]]">
-      [[_getDisplayValue(selectedItems, itemLabelPath)]]
+      [[_getReadonlyValue(selectedItems, itemLabelPath, compactMode)]]
     </div>
 
     <vaadin-combo-box-light
@@ -32,6 +32,7 @@
         placeholder="[[placeholder]]"
         item-label-path="[[itemLabelPath]]"
         items="[[selectedItems]]"
+        compact-mode="[[compactMode]]"
         on-item-removed="_handleItemRemoved"
         on-remove-all-items="_handleRemoveAllItems"
         has-value="[[hasValue]]"
@@ -216,6 +217,12 @@
         _handleRemoveAllItems() {
           this.set('selectedItems', []);
           this.validate();
+        }
+
+        _getReadonlyValue(selectedItems, itemLabelPath, compactMode) {
+          return compactMode ?
+            this._getCompactModeDisplayValue(selectedItems) :
+            this._getDisplayValue(selectedItems, itemLabelPath);
         }
 
         _getDisplayValue(selectedItems, itemLabelPath) {

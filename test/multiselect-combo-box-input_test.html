@@ -164,6 +164,32 @@
           });
         });
 
+        describe('_resolvePlaceholder', () => {
+          it('should resolve placeholder when not in compact mode', () => {
+            // given
+            const compactMode = false;
+            const placeholder = 'placeholder text';
+
+            // when
+            const result = multiselectComboBoxInput._resolvePlaceholder(compactMode, placeholder);
+
+            // then
+            expect(result).to.be.eql(placeholder);
+          });
+
+          it('should resolve to empty string when in compact mode', () => {
+            // given
+            const compactMode = true;
+            const placeholder = 'placeholder text';
+
+            // when
+            const result = multiselectComboBoxInput._resolvePlaceholder(compactMode, placeholder);
+
+            // then
+            expect(result).to.be.eql('');
+          });
+        });
+
       });
     </script>
 
