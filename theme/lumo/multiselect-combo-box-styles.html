@@ -4,12 +4,25 @@
 <dom-module id="lumo-multiselect-combo-box" theme-for="multiselect-combo-box">
   <template>
     <style include="lumo-required-field">
+
       :host {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        min-width: 0;
         outline: none;
+        --lumo-text-field-size: var(--lumo-size-m);
+        color: var(--lumo-body-text-color);
+        font-size: var(--lumo-font-size-m);
+        font-family: var(--lumo-font-family);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-tap-highlight-color: transparent;
+        padding: var(--lumo-space-xs) 0;
+      }
+
+      :host::before {
+        content: "\2003";
+        width: 0;
+        box-sizing: border-box;
+        display: inline-flex;
+        align-items: center;
       }
 
       :host([focused]:not([readonly]):not([disabled])) [part="label"] {
@@ -23,23 +36,9 @@
       :host([disabled]) [part="label"] {
         color: var(--lumo-disabled-text-color);
         -webkit-text-fill-color: var(--lumo-disabled-text-color);
-        pointer-events: none;
-      }
-
-      [part="combo-box"] {
-        display: block;
-        width: 100%;
-        min-width: 0;
-      }
-
-      [part="combo-box"][hidden] {
-        display: none;
       }
 
       [part="input-field"] {
-        width: 100%;
-        min-width: 0;
-        position: relative;
         background-color: var(--lumo-contrast-10pct);
       }
 
@@ -122,7 +121,6 @@
         :host(.multiselect) [part="input-field"],
         :host(.multiselect) [part="input-field"]::after {
           background-color: transparent !important;
-          font-size: var(--lumo-font-size-s);
         }
 
         :host(.multiselect[compact-mode]) [part="input-field"] {
