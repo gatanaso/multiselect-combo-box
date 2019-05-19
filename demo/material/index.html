@@ -253,5 +253,36 @@
         </template>
       </demo-snippet>
     </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Ordered multiselect-combo-box</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="sortedDemo"
+            label="Ordered multiselect field"
+            placeholder="Add"
+            ordered>
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const sortedMultiselectComboBox = document.querySelector('#sortedDemo');
+              sortedMultiselectComboBox.items = [
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                'Scandium', 'Iron', 'Cobalt', 'Nickel'
+              ];
+              sortedMultiselectComboBox.selectedItems = [
+                'Scandium',
+                'Argon',
+                'Nickel'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
   </body>
 </html>

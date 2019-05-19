@@ -84,7 +84,7 @@
 
           it('should set `hasValue` to `true` and set title', () => {
             // given
-            const selectedItems = ['item 1', 'item 2'];
+            const selectedItems = ['item 2', 'item 1'];
             multiselectComboBox.$.comboBox.render = sinon.stub();
 
             // when
@@ -92,8 +92,65 @@
 
             // then
             expect(multiselectComboBox.hasValue).to.be.true;
-            expect(multiselectComboBox.title).to.be.eql('item 1, item 2');
+            expect(multiselectComboBox.title).to.be.eql('item 2, item 1');
             sinon.assert.calledOnce(multiselectComboBox.$.comboBox.render);
+          });
+
+          it('should sort the selected items', () => {
+            // given
+            const selectedItems = ['item 2', 'item 1', 'item 3'];
+
+            multiselectComboBox.$.comboBox.render = sinon.stub();
+            multiselectComboBox.$.comboBox._setTitle = sinon.stub();
+
+            multiselectComboBox.ordered = true;
+            multiselectComboBox.compactMode = false;
+
+            // when
+            multiselectComboBox._selectedItemsObserver(selectedItems);
+
+            // then
+            expect(selectedItems[0]).to.be.eq('item 1');
+            expect(selectedItems[1]).to.be.eq('item 2');
+            expect(selectedItems[2]).to.be.eq('item 3');
+          });
+
+          it('should not sort the selected items when in compact mode', () => {
+            // given
+            const selectedItems = ['item 2', 'item 1', 'item 3'];
+
+            multiselectComboBox.$.comboBox.render = sinon.stub();
+            multiselectComboBox.$.comboBox._setTitle = sinon.stub();
+
+            multiselectComboBox.ordered = true;
+            multiselectComboBox.compactMode = true;
+
+            // when
+            multiselectComboBox._selectedItemsObserver(selectedItems);
+
+            // then
+            expect(selectedItems[0]).to.be.eq('item 2');
+            expect(selectedItems[1]).to.be.eq('item 1');
+            expect(selectedItems[2]).to.be.eq('item 3');
+          });
+
+          it('should not sort the selected items when "ordered" is false', () => {
+            // given
+            const selectedItems = ['item 2', 'item 1', 'item 3'];
+
+            multiselectComboBox.$.comboBox.render = sinon.stub();
+            multiselectComboBox.$.comboBox._setTitle = sinon.stub();
+
+            multiselectComboBox.ordered = false;
+            multiselectComboBox.compactMode = false;
+
+            // when
+            multiselectComboBox._selectedItemsObserver(selectedItems);
+
+            // then
+            expect(selectedItems[0]).to.be.eq('item 2');
+            expect(selectedItems[1]).to.be.eq('item 1');
+            expect(selectedItems[2]).to.be.eq('item 3');
           });
         });
 
@@ -586,6 +643,40 @@
 
             // then
             expect(result).to.be.eql('3 values');
+          });
+        });
+
+        describe('_sortSelectedItems', () => {
+          it('should sort selected items list', () => {
+            // given
+            const selectedItems = ['item 2', 'item 1', 'item 3'];
+
+            // when
+            multiselectComboBox._sortSelectedItems(selectedItems);
+
+            // then
+            expect(selectedItems[0]).to.be.eql('item 1');
+            expect(selectedItems[1]).to.be.eql('item 2');
+            expect(selectedItems[2]).to.be.eql('item 3');
+          });
+
+          it('should sort selected object items list', () => {
+            // given
+            const selectedItems = [
+              {key: 2, label: 'item 2'},
+              {key: 3, label: 'item 3'},
+              {key: 1, label: 'item 1'}
+            ];
+
+            multiselectComboBox.itemLabelPath = 'label';
+
+            // when
+            multiselectComboBox._sortSelectedItems(selectedItems);
+
+            // then
+            expect(selectedItems[0]).to.be.eql({key: 1, label: 'item 1'});
+            expect(selectedItems[1]).to.be.eql({key: 2, label: 'item 2'});
+            expect(selectedItems[2]).to.be.eql({key: 3, label: 'item 3'});
           });
         });
       });
