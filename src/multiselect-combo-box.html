@@ -139,8 +139,8 @@
             },
 
             /**
-              * This attribute indicates that the component has a label.
-              */
+             * This attribute indicates that the component has a label.
+             */
             hasLabel: {
               type: Boolean,
               value: false,
@@ -166,6 +166,18 @@
               type: Array,
               value: () => [],
               notify: true
+            },
+
+            /**
+             * This attribute specifies if the list of selected items should be kept ordered in ascending lexical order.
+             *
+             * If the `itemLabelPath` is specified, that value is used for ordering, otherwise the items themselves are
+             * compared using `localCompare`.
+             */
+            ordered: {
+              type: Boolean,
+              value: false,
+              reflectToAttribute: true
             },
 
             /**
@@ -220,6 +232,11 @@
 
         _selectedItemsObserver(selectedItems) {
           this.hasValue = selectedItems && selectedItems.length > 0;
+
+          if (this.ordered && !this.compactMode) {
+            this._sortSelectedItems(selectedItems);
+          }
+
           this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath));
 
           if (this.$.comboBox.render) {
@@ -342,6 +359,14 @@
           } else {
             this.set('hasLabel', false);
           }
+        }
+
+        _sortSelectedItems(selectedItems) {
+          selectedItems.sort((item1, item2) => {
+            const item1Str = this._getItemDisplayValue(item1, this.itemLabelPath);
+            const item2Str = this._getItemDisplayValue(item2, this.itemLabelPath);
+            return item1Str.localeCompare(item2Str);
+          });
         }
       }
 
