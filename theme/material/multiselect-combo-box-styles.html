@@ -133,6 +133,12 @@
           opacity: 1;
         }
 
+        :host(.multiselect) [part="input-field"] [part="value"]:-ms-input-placeholder {
+          color: var(--material-disabled-text-color);
+          transition: opacity 0.175s 0.05s;
+          opacity: 1;
+        }
+
         :host(.multiselect) [part="input-field"] [part="value"]::placeholder {
           color: var(--material-disabled-text-color);
           transition: opacity 0.175s 0.05s;
@@ -147,6 +153,12 @@
 
         :host(.multiselect[multiselect-has-label]:not([focused]):not([invalid]):not([theme="always-float-label"])) [part="input-field"] [part="value"]::-moz-placeholder,
         :host(.multiselect[multiselect-has-value]) [part="input-field"] [part="value"]::-moz-placeholder {
+          opacity: 0;
+          transition-delay: 0;
+        }
+
+        :host(.multiselect[multiselect-has-label]:not([focused]):not([invalid]):not([theme="always-float-label"])) [part="input-field"] [part="value"]:-ms-input-placeholder,
+        :host(.multiselect[multiselect-has-value]) [part="input-field"] [part="value"]:-ms-input-placeholder {
           opacity: 0;
           transition-delay: 0;
         }
