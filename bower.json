@@ -1,6 +1,6 @@
 {
   "name": "multiselect-combo-box",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A multi select combo box web component based on Polymer 2.x and the vaadin-combo-box",
   "main": "multiselect-combo-box.html",
   "license": "Apache-2.0",
