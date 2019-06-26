@@ -1,4 +1,7 @@
 <script>
+/**
+ * @polymerMixin
+ */
 window.MultiselectComboBoxMixin = (base) => class extends base {
 
   static get properties() {
@@ -84,6 +87,7 @@ window.MultiselectComboBoxMixin = (base) => class extends base {
 
   /**
    * Returns the item display value.
+   * @protected
    */
   _getItemDisplayValue(item, itemLabelPath) {
     return item && item.hasOwnProperty(itemLabelPath) ? item[itemLabelPath] : item;
@@ -91,6 +95,7 @@ window.MultiselectComboBoxMixin = (base) => class extends base {
 
   /**
    * Retrieves the component display value when in compact mode.
+   * @protected
    */
   _getCompactModeDisplayValue(items) {
     const suffix = (items.length === 0 || items.length > 1) ? 'values' : 'value';
