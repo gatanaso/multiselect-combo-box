@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "bower i && npm run lint && wct",
+    "test": "npm run lint && wct",
     "lint": "npm-run-all --parallel lint:*",
     "lint:css": "stylelint *.html src/*.html demo/*.html theme/**/*.html test/*html",
     "lint:html": "eslint *.html src demo test --ext .html",
