@@ -241,9 +241,7 @@
 
           this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath));
 
-          if (this.$.comboBox.render) {
-            this.$.comboBox.render();
-          }
+          this.$.comboBox.render && this.$.comboBox.render();
         }
 
         _comboBoxValueChanged() {
