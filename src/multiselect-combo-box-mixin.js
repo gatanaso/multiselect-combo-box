@@ -1,8 +1,7 @@
-<script>
 /**
  * @polymerMixin
  */
-window.MultiselectComboBoxMixin = (base) => class extends base {
+export const MultiselectComboBoxMixin = (base) => class extends base {
 
   static get properties() {
     return {
@@ -102,4 +101,3 @@ window.MultiselectComboBoxMixin = (base) => class extends base {
     return `${items.length} ${suffix}`;
   }
 };
-</script>

@@ -4,7 +4,7 @@ module.exports = {
     istanbul: {
       dir: './coverage',
       reporters: ['text-summary', 'lcov'],
-      include: ['**/multiselect-combo-box*.html'],
+      include: ['**/multiselect-combo-box*.js'],
       exclude: [],
       thresholds: {
         global: {

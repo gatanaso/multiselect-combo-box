@@ -1,686 +1,685 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>multiselect-combo-box test</title>
+  <title>multiselect-combo-box test</title>
 
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../wct-browser-legacy/browser.js"></script>
 
-    <link rel="import" href="../src/multiselect-combo-box.html">
-  </head>
-  <body>
+  <script type="module" src="../src/multiselect-combo-box.js"></script>
+</head>
 
-    <test-fixture id="multiselectComboBoxFixture">
-      <template>
-        <multiselect-combo-box></multiselect-combo-box>
-      </template>
-    </test-fixture>
+<body>
+  <test-fixture id="multiselectComboBoxFixture">
+    <template>
+      <multiselect-combo-box></multiselect-combo-box>
+    </template>
+  </test-fixture>
 
-    <script>
-      describe('Multiselect combo box tests', () => {
-        let multiselectComboBox;
+  <script type="module">
+    describe('Multiselect combo box tests', () => {
+      let multiselectComboBox;
 
-        beforeEach(() => {
-          multiselectComboBox = fixture('multiselectComboBoxFixture');
+      beforeEach(() => {
+        multiselectComboBox = fixture('multiselectComboBoxFixture');
+      });
+
+      describe('validate', () => {
+        it('should return `true` when not required', () => {
+          // given
+          multiselectComboBox.required = false;
+
+          // when
+          const valid = multiselectComboBox.validate();
+
+          // then
+          expect(valid).to.be.true;
+          expect(multiselectComboBox.invalid).to.be.false;
         });
 
-        describe('validate', () => {
-          it('should return `true` when not required', () => {
-            // given
-            multiselectComboBox.required = false;
+        it('should return `false` when field is required but has no value', () => {
+          // given
+          multiselectComboBox.hasValue = false;
+          multiselectComboBox.required = true;
 
-            // when
-            const valid = multiselectComboBox.validate();
+          // when
+          const valid = multiselectComboBox.validate();
 
-            // then
-            expect(valid).to.be.true;
-            expect(multiselectComboBox.invalid).to.be.false;
-          });
-
-          it('should return `false` when field is required but has no value', () => {
-            // given
-            multiselectComboBox.hasValue = false;
-            multiselectComboBox.required = true;
-
-            // when
-            const valid = multiselectComboBox.validate();
-
-            // then
-            expect(valid).to.be.false;
-            expect(multiselectComboBox.invalid).to.be.true;
-          });
-
-          it('should return `true` when field is required and has value', () => {
-            // given
-            multiselectComboBox.hasValue = true;
-            multiselectComboBox.required = true;
-
-            // when
-            const valid = multiselectComboBox.validate();
-
-            // then
-            expect(valid).to.be.true;
-            expect(multiselectComboBox.invalid).to.be.false;
-          });
+          // then
+          expect(valid).to.be.false;
+          expect(multiselectComboBox.invalid).to.be.true;
         });
 
-        describe('_selectedItemsObserver', () => {
-          it('should set `hasValue` to `false` and set empty title when selected items is empty', () => {
-            // given
-            const selectedItems = [];
-            multiselectComboBox.$.comboBox.render = sinon.stub();
-
-            // when
-            multiselectComboBox._selectedItemsObserver(selectedItems);
-
-            // then
-            expect(multiselectComboBox.hasValue).to.be.false;
-            expect(multiselectComboBox.title).to.be.empty;
-            sinon.assert.calledOnce(multiselectComboBox.$.comboBox.render);
-          });
-
-          it('should set `hasValue` to `true` and set title', () => {
-            // given
-            const selectedItems = ['item 2', 'item 1'];
-            multiselectComboBox.$.comboBox.render = sinon.stub();
-
-            // when
-            multiselectComboBox._selectedItemsObserver(selectedItems);
-
-            // then
-            expect(multiselectComboBox.hasValue).to.be.true;
-            expect(multiselectComboBox.title).to.be.eql('item 2, item 1');
-            sinon.assert.calledOnce(multiselectComboBox.$.comboBox.render);
-          });
-
-          it('should sort the selected items', () => {
-            // given
-            const selectedItems = ['item 2', 'item 1', 'item 3'];
-
-            multiselectComboBox.$.comboBox.render = sinon.stub();
-            multiselectComboBox.$.comboBox._setTitle = sinon.stub();
-
-            multiselectComboBox.ordered = true;
-            multiselectComboBox.compactMode = false;
-
-            // when
-            multiselectComboBox._selectedItemsObserver(selectedItems);
-
-            // then
-            expect(selectedItems[0]).to.be.eq('item 1');
-            expect(selectedItems[1]).to.be.eq('item 2');
-            expect(selectedItems[2]).to.be.eq('item 3');
-          });
-
-          it('should not sort the selected items when in compact mode', () => {
-            // given
-            const selectedItems = ['item 2', 'item 1', 'item 3'];
-
-            multiselectComboBox.$.comboBox.render = sinon.stub();
-            multiselectComboBox.$.comboBox._setTitle = sinon.stub();
-
-            multiselectComboBox.ordered = true;
-            multiselectComboBox.compactMode = true;
-
-            // when
-            multiselectComboBox._selectedItemsObserver(selectedItems);
-
-            // then
-            expect(selectedItems[0]).to.be.eq('item 2');
-            expect(selectedItems[1]).to.be.eq('item 1');
-            expect(selectedItems[2]).to.be.eq('item 3');
-          });
-
-          it('should not sort the selected items when "ordered" is false', () => {
-            // given
-            const selectedItems = ['item 2', 'item 1', 'item 3'];
-
-            multiselectComboBox.$.comboBox.render = sinon.stub();
-            multiselectComboBox.$.comboBox._setTitle = sinon.stub();
-
-            multiselectComboBox.ordered = false;
-            multiselectComboBox.compactMode = false;
-
-            // when
-            multiselectComboBox._selectedItemsObserver(selectedItems);
-
-            // then
-            expect(selectedItems[0]).to.be.eq('item 2');
-            expect(selectedItems[1]).to.be.eq('item 1');
-            expect(selectedItems[2]).to.be.eq('item 3');
-          });
-        });
-
-        describe('_comboBoxValueChanged', () => {
-          it('should add item to selected items if not previously selected', () => {
-            // given
-            multiselectComboBox.selectedItems = ['item 1'];
-            multiselectComboBox.$.comboBox.selectedItem = 'item 3';
-
-            multiselectComboBox.validate = sinon.stub();
-
-            // when
-            multiselectComboBox._comboBoxValueChanged();
-
-            // then
-            expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
-            expect(multiselectComboBox.selectedItems).to.include('item 1');
-            expect(multiselectComboBox.selectedItems).to.include('item 3');
-            expect(multiselectComboBox.$.comboBox.value).to.be.empty;
-            sinon.assert.calledOnce(multiselectComboBox.validate);
-          });
-
-          it('should remove item from selected items if previously selected', () => {
-            // given
-            multiselectComboBox.selectedItems = ['item 1', 'item 2'];
-            multiselectComboBox.$.comboBox.selectedItem = 'item 2';
-
-            multiselectComboBox.validate = sinon.stub();
-
-            // when
-            multiselectComboBox._comboBoxValueChanged();
-
-            // then
-            expect(multiselectComboBox.selectedItems).to.have.lengthOf(1);
-            expect(multiselectComboBox.selectedItems).to.include('item 1');
-            expect(multiselectComboBox.selectedItems).to.not.include('item 2');
-            expect(multiselectComboBox.$.comboBox.value).to.be.empty;
-            sinon.assert.calledOnce(multiselectComboBox.validate);
-          });
-
-          it('should add object item to selected items if not previously selected', () => {
-            // given
-            multiselectComboBox.itemIdPath = 'id';
-            multiselectComboBox.itemValuePath = 'id';
-            multiselectComboBox.itemLabelPath = 'label';
-
-            multiselectComboBox.selectedItems = [{id: 1, label: 'item 1'}];
-            multiselectComboBox.$.comboBox.selectedItem = {id: 3, label: 'item 3'};
-
-            multiselectComboBox.validate = sinon.stub();
-
-            // when
-            multiselectComboBox._comboBoxValueChanged();
-
-            // then
-            expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
-            expect(multiselectComboBox.selectedItems).to.include({id: 1, label: 'item 1'});
-            expect(multiselectComboBox.selectedItems).to.include({id: 3, label: 'item 3'});
-            expect(multiselectComboBox.$.comboBox.value).to.be.empty;
-            sinon.assert.calledOnce(multiselectComboBox.validate);
-          });
-
-          it('should remove object item from selected items if previously selected', () => {
-            // given
-            multiselectComboBox.itemIdPath = 'id';
-            multiselectComboBox.itemValuePath = 'id';
-            multiselectComboBox.itemLabelPath = 'label';
-
-            multiselectComboBox.selectedItems = [{id: 1, label: 'item 1'}, {id: 2, label: 'item 2'}, {id: 3, label: 'item 3'}];
-
-            multiselectComboBox.$.comboBox.selectedItem = {id: 2, label: 'item 2'};
-
-            multiselectComboBox.validate = sinon.stub();
-
-            // when
-            multiselectComboBox._comboBoxValueChanged();
-
-            // then
-            expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
-            expect(multiselectComboBox.selectedItems).to.include({id: 1, label: 'item 1'});
-            expect(multiselectComboBox.selectedItems).to.include({id: 3, label: 'item 3'});
-            expect(multiselectComboBox.selectedItems).to.not.include({id: 2, label: 'item 2'});
-            expect(multiselectComboBox.$.comboBox.value).to.be.empty;
-            sinon.assert.calledOnce(multiselectComboBox.validate);
-          });
-        });
-
-        describe('_isSelected', () => {
-          it('should return `false` when string value item is not in selected items', () => {
-            // given
-            const selectedItems = ['item 1', 'item 2'];
-            const item = 'item 3';
-
-            // when
-            const result = multiselectComboBox._isSelected(item, selectedItems);
-
-            // then
-            expect(result).to.be.false;
-          });
-
-          it('should return `true` when string value item is in selected items', () => {
-            // given
-            const selectedItems = ['item 1', 'item 2'];
-            const item = 'item 1';
-
-            // when
-            const result = multiselectComboBox._isSelected(item, selectedItems);
-
-            // then
-            expect(result).to.be.true;
-          });
-
-          it('should return `false` when object item is not in selected items', () => {
-            // given
-            const selectedItems = [
-              {id: 1, key: 'item 1'},
-              {id: 2, key: 'item 2'}
-            ];
-            const item = {id: 3, key: 'item 3'};
-            const itemIdPath = 'id';
-
-            // when
-            const result = multiselectComboBox._isSelected(item, selectedItems, itemIdPath);
-
-            // then
-            expect(result).to.be.false;
-          });
-
-          it('should return `true` when object item is in selected items', () => {
-            // given
-            const selectedItems = [
-              {id: 1, key: 'item 1'},
-              {id: 2, key: 'item 2'}
-            ];
-            const item = {id: 1, key: 'item 5'};
-            const itemIdPath = 'id';
-
-            // when
-            const result = multiselectComboBox._isSelected(item, selectedItems, itemIdPath);
-
-            // then
-            expect(result).to.be.true;
-          });
-        });
-
-        describe('_handleItemRemoved', () => {
-          it('should handle item removal and validate state', () => {
-            // given
-            const event = {
-              detail: {
-                item: 'item 2'
-              }
-            };
-            multiselectComboBox.selectedItems = ['item 1', 'item 2', 'item 3'];
-            multiselectComboBox.validate = sinon.stub();
-
-            // when
-            multiselectComboBox._handleItemRemoved(event);
-
-            // then
-            expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
-            expect(multiselectComboBox.selectedItems).to.include('item 1');
-            expect(multiselectComboBox.selectedItems).to.include('item 3');
-            sinon.assert.calledOnce(multiselectComboBox.validate);
-          });
-        });
-
-        describe('_handleRemoveAllItems', () => {
-          it('should handle removal of all items and validate state', () => {
-            // given
-            multiselectComboBox.selectedItems = ['item 1', 'item 2', 'item 3'];
-            multiselectComboBox.validate = sinon.stub();
-
-            // when
-            multiselectComboBox._handleRemoveAllItems();
-
-            // then
-            expect(multiselectComboBox.selectedItems).to.be.empty;
-            sinon.assert.calledOnce(multiselectComboBox.validate);
-          });
-        });
-
-        describe('_getDisplayValue', () => {
-          it('should return display value', () => {
-            // given
-            const selectedItems = [
-              {id: 1, name: 'item 1'},
-              {id: 2, name: 'item 2'},
-              {id: 3, name: 'item 3'}
-            ];
-            const itemLabelPath = 'name';
-
-            // when
-            const result = multiselectComboBox._getDisplayValue(selectedItems, itemLabelPath);
-
-            // then
-            expect(result).to.be.eql('item 1, item 2, item 3');
-          });
-
-          it('should return display value', () => {
-            // given
-            const selectedItems = ['item 11', 'item 22'];
-
-
-            // when
-            const result = multiselectComboBox._getDisplayValue(selectedItems);
-
-            // then
-            expect(result).to.be.eql('item 11, item 22');
-          });
-        });
-
-        describe('_customRenderer', () => {
-          it('should build a comboBoxItem if previously not invoked', () => {
-            // given
-            const dummyHost = {
-              host: {
-                classList: {
-                  add: sinon.stub()
-                }
-              }
-            };
-
-            const root = {
-              firstElementChild: undefined, // combo box item does not exist
-              appendChild: (child) => {
-                root.firstElementChild = child;
-              },
-              getRootNode: () => {
-                return dummyHost;
-              }
-            };
-
-            const model = sinon.stub();
-            const comboBox = sinon.stub();
-
-            multiselectComboBox._getItemDisplayValue = sinon.stub().returns('label');
-            multiselectComboBox._isSelected = sinon.stub();
-            multiselectComboBox._updateSelectedAttribute = sinon.stub();
-
-            // when
-            multiselectComboBox._customRenderer(root, comboBox, model);
-
-            // then
-            sinon.assert.calledWith(root.getRootNode().host.classList.add, 'multiselect');
-            sinon.assert.calledOnce(multiselectComboBox._getItemDisplayValue);
-            sinon.assert.calledOnce(multiselectComboBox._isSelected);
-            sinon.assert.calledOnce(multiselectComboBox._updateSelectedAttribute);
-
-            expect(root.firstElementChild.getAttribute('part')).to.be.eql('item-template');
-          });
-
-          it('should not build a comboBoxItem if renderer has already been invoked, but only update the item label and seleted attribute', () => {
-            // given
-            const dummyHost = {
-              host: {
-                classList: {
-                  add: sinon.stub()
-                }
-              }
-            };
-
-
-            const comboBoxItem = document.createElement('div');
-            comboBoxItem.appendChild(document.createElement('span'));
-
-            const root = {
-              firstElementChild: comboBoxItem,
-              appendChild: (child) => {
-                root.firstElementChild = child;
-              },
-              getRootNode: () => {
-                return dummyHost;
-              }
-            };
-
-            const model = sinon.stub();
-            const comboBox = sinon.stub();
-
-            multiselectComboBox._getItemDisplayValue = sinon.stub().returns('label');
-            multiselectComboBox._isSelected = sinon.stub();
-            multiselectComboBox._updateSelectedAttribute = sinon.stub();
-
-            // when
-            multiselectComboBox._customRenderer(root, comboBox, model);
-
-            // then
-            sinon.assert.notCalled(root.getRootNode().host.classList.add);
-            sinon.assert.calledOnce(multiselectComboBox._getItemDisplayValue);
-            sinon.assert.calledOnce(multiselectComboBox._isSelected);
-            sinon.assert.calledOnce(multiselectComboBox._updateSelectedAttribute);
-          });
-
-        });
-
-        describe('_updateSelectedAttribute', () => {
-          it('should set selected attribute', () => {
-            // given
-            const div = document.createElement('div');
-            const selected = true;
-
-            expect(div.hasAttribute('selected')).to.be.false;
-
-            // when
-            multiselectComboBox._updateSelectedAttribute(div, selected);
-
-            // then
-            expect(div.hasAttribute('selected')).to.be.true;
-          });
-
-          it('should remove selected attribute', () => {
-            // given
-            const div = document.createElement('div');
-            div.setAttribute('selected', ''); // set selected
-            const selected = false;
-
-            expect(div.hasAttribute('selected')).to.be.true;
-
-            // when
-            multiselectComboBox._updateSelectedAttribute(div, selected);
-
-            // then
-            expect(div.hasAttribute('selected')).to.be.false;
-          });
-        });
-
-        describe('_labelChanged', () => {
-          it('should set the has-label attribute', () => {
-            // given
-            const label = 'label';
-
-            // when
-            multiselectComboBox._labelChanged(label);
-
-            // then
-            expect(multiselectComboBox.hasAttribute('has-label')).to.be.true;
-          });
-
-          it('should set the has-label attribute', () => {
-            // given
-            const label = '';
-
-            // when
-            multiselectComboBox._labelChanged(label);
-
-            // then
-            expect(multiselectComboBox.hasAttribute('has-label')).to.be.false;
-          });
-        });
-
-        describe('_getReadonlyValue', () => {
-          it('should get display value when not in compact mode', () => {
-            // given
-            const compactMode = false;
-            const selectedItems = ['item 1', 'item 2'];
-            const itemLabelPath = undefined;
-
-            // when
-            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
-
-            // then
-            expect(result).to.be.eql('item 1, item 2');
-          });
-
-          it('should get display value of object items when not in compact mode', () => {
-            // given
-            const compactMode = false;
-            const selectedItems = [{label: 'item 1 label'}, {label: 'item 2 label'}];
-            const itemLabelPath = 'label';
-
-            // when
-            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
-
-            // then
-            expect(result).to.be.eql('item 1 label, item 2 label');
-          });
-
-          it('should get number of selected items when in compact mode and list is empty', () => {
-            // given
-            const compactMode = true;
-            const selectedItems = [];
-            const itemLabelPath = undefined;
-
-            // when
-            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
-
-            // then
-            expect(result).to.be.eql('0 values');
-          });
-
-          it('should get number of selected items when in compact mode and list contains one item', () => {
-            // given
-            const compactMode = true;
-            const selectedItems = ['item 1'];
-            const itemLabelPath = undefined;
-
-            // when
-            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
-
-            // then
-            expect(result).to.be.eql('1 value');
-          });
-
-          it('should get number of selected items when in compact mode and list contains at least two items', () => {
-            // given
-            const compactMode = true;
-            const selectedItems = ['item 1', 'item 2'];
-            const itemLabelPath = undefined;
-
-            // when
-            const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
-
-            // then
-            expect(result).to.be.eql('2 values');
-          });
-        });
-
-        describe('_getItemDisplayValue', () => {
-          it('should return item when not an object', () => {
-            // given
-            const item = 'multiselect-combo-box';
-
-            // when
-            const result = multiselectComboBox._getItemDisplayValue(item);
-
-            // then
-            expect(result).to.be.eql(item);
-          });
-
-          it('should return item when object does not have the specified property', () => {
-            // given
-            const item = {
-              key1: 'multiselect-combo-box',
-              key2: 'select more than one value'
-            };
-            const itemLabelPath = 'foo';
-
-            // when
-            const result = multiselectComboBox._getItemDisplayValue(item, itemLabelPath);
-
-            // then
-            expect(result).to.be.eql(item);
-          });
-
-          it('should return item property', () => {
-            // given
-            const item = {
-              key1: 'multiselect-combo-box',
-              key2: 'select more than one value'
-            };
-            const itemLabelPath = 'key1';
-
-            // when
-            const result = multiselectComboBox._getItemDisplayValue(item, itemLabelPath);
-
-            // then
-            expect(result).to.be.eql(item.key1);
-          });
-        });
-
-        describe('_getCompactModeDisplayValue', () => {
-          it('should return display label for empty items list', () => {
-            // given
-            const items = [];
-
-            // when
-            const result = multiselectComboBox._getCompactModeDisplayValue(items);
-
-            // then
-            expect(result).to.be.eql('0 values');
-          });
-
-          it('should return display label for a single value in the items list', () => {
-            // given
-            const items = ['one item'];
-
-            // when
-            const result = multiselectComboBox._getCompactModeDisplayValue(items);
-
-            // then
-            expect(result).to.be.eql('1 value');
-          });
-
-          it('should return display label for a multiple values in the items list', () => {
-            // given
-            const items = ['one item', 'another item', 'yet another item'];
-
-            // when
-            const result = multiselectComboBox._getCompactModeDisplayValue(items);
-
-            // then
-            expect(result).to.be.eql('3 values');
-          });
-        });
-
-        describe('_sortSelectedItems', () => {
-          it('should sort selected items list', () => {
-            // given
-            const selectedItems = ['item 2', 'item 1', 'item 3'];
-
-            // when
-            multiselectComboBox._sortSelectedItems(selectedItems);
-
-            // then
-            expect(selectedItems[0]).to.be.eql('item 1');
-            expect(selectedItems[1]).to.be.eql('item 2');
-            expect(selectedItems[2]).to.be.eql('item 3');
-          });
-
-          it('should sort selected object items list', () => {
-            // given
-            const selectedItems = [
-              {key: 2, label: 'item 2'},
-              {key: 3, label: 'item 3'},
-              {key: 1, label: 'item 1'}
-            ];
-
-            multiselectComboBox.itemLabelPath = 'label';
-
-            // when
-            multiselectComboBox._sortSelectedItems(selectedItems);
-
-            // then
-            expect(selectedItems[0]).to.be.eql({key: 1, label: 'item 1'});
-            expect(selectedItems[1]).to.be.eql({key: 2, label: 'item 2'});
-            expect(selectedItems[2]).to.be.eql({key: 3, label: 'item 3'});
-          });
+        it('should return `true` when field is required and has value', () => {
+          // given
+          multiselectComboBox.hasValue = true;
+          multiselectComboBox.required = true;
+
+          // when
+          const valid = multiselectComboBox.validate();
+
+          // then
+          expect(valid).to.be.true;
+          expect(multiselectComboBox.invalid).to.be.false;
         });
       });
-    </script>
 
-  </body>
+      describe('_selectedItemsObserver', () => {
+        it('should set `hasValue` to `false` and set empty title when selected items is empty', () => {
+          // given
+          const selectedItems = [];
+          multiselectComboBox.$.comboBox.render = sinon.stub();
+
+          // when
+          multiselectComboBox._selectedItemsObserver(selectedItems);
+
+          // then
+          expect(multiselectComboBox.hasValue).to.be.false;
+          expect(multiselectComboBox.title).to.be.empty;
+          sinon.assert.calledOnce(multiselectComboBox.$.comboBox.render);
+        });
+
+        it('should set `hasValue` to `true` and set title', () => {
+          // given
+          const selectedItems = ['item 2', 'item 1'];
+          multiselectComboBox.$.comboBox.render = sinon.stub();
+
+          // when
+          multiselectComboBox._selectedItemsObserver(selectedItems);
+
+          // then
+          expect(multiselectComboBox.hasValue).to.be.true;
+          expect(multiselectComboBox.title).to.be.eql('item 2, item 1');
+          sinon.assert.calledOnce(multiselectComboBox.$.comboBox.render);
+        });
+
+        it('should sort the selected items', () => {
+          // given
+          const selectedItems = ['item 2', 'item 1', 'item 3'];
+
+          multiselectComboBox.$.comboBox.render = sinon.stub();
+          multiselectComboBox.$.comboBox._setTitle = sinon.stub();
+
+          multiselectComboBox.ordered = true;
+          multiselectComboBox.compactMode = false;
+
+          // when
+          multiselectComboBox._selectedItemsObserver(selectedItems);
+
+          // then
+          expect(selectedItems[0]).to.be.eq('item 1');
+          expect(selectedItems[1]).to.be.eq('item 2');
+          expect(selectedItems[2]).to.be.eq('item 3');
+        });
+
+        it('should not sort the selected items when in compact mode', () => {
+          // given
+          const selectedItems = ['item 2', 'item 1', 'item 3'];
+
+          multiselectComboBox.$.comboBox.render = sinon.stub();
+          multiselectComboBox.$.comboBox._setTitle = sinon.stub();
+
+          multiselectComboBox.ordered = true;
+          multiselectComboBox.compactMode = true;
+
+          // when
+          multiselectComboBox._selectedItemsObserver(selectedItems);
+
+          // then
+          expect(selectedItems[0]).to.be.eq('item 2');
+          expect(selectedItems[1]).to.be.eq('item 1');
+          expect(selectedItems[2]).to.be.eq('item 3');
+        });
+
+        it('should not sort the selected items when "ordered" is false', () => {
+          // given
+          const selectedItems = ['item 2', 'item 1', 'item 3'];
+
+          multiselectComboBox.$.comboBox.render = sinon.stub();
+          multiselectComboBox.$.comboBox._setTitle = sinon.stub();
+
+          multiselectComboBox.ordered = false;
+          multiselectComboBox.compactMode = false;
+
+          // when
+          multiselectComboBox._selectedItemsObserver(selectedItems);
+
+          // then
+          expect(selectedItems[0]).to.be.eq('item 2');
+          expect(selectedItems[1]).to.be.eq('item 1');
+          expect(selectedItems[2]).to.be.eq('item 3');
+        });
+      });
+
+      describe('_comboBoxValueChanged', () => {
+        it('should add item to selected items if not previously selected', () => {
+          // given
+          multiselectComboBox.selectedItems = ['item 1'];
+          multiselectComboBox.$.comboBox.selectedItem = 'item 3';
+
+          multiselectComboBox.validate = sinon.stub();
+
+          // when
+          multiselectComboBox._comboBoxValueChanged();
+
+          // then
+          expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+          expect(multiselectComboBox.selectedItems).to.include('item 1');
+          expect(multiselectComboBox.selectedItems).to.include('item 3');
+          expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+          sinon.assert.calledOnce(multiselectComboBox.validate);
+        });
+
+        it('should remove item from selected items if previously selected', () => {
+          // given
+          multiselectComboBox.selectedItems = ['item 1', 'item 2'];
+          multiselectComboBox.$.comboBox.selectedItem = 'item 2';
+
+          multiselectComboBox.validate = sinon.stub();
+
+          // when
+          multiselectComboBox._comboBoxValueChanged();
+
+          // then
+          expect(multiselectComboBox.selectedItems).to.have.lengthOf(1);
+          expect(multiselectComboBox.selectedItems).to.include('item 1');
+          expect(multiselectComboBox.selectedItems).to.not.include('item 2');
+          expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+          sinon.assert.calledOnce(multiselectComboBox.validate);
+        });
+
+        it('should add object item to selected items if not previously selected', () => {
+          // given
+          multiselectComboBox.itemIdPath = 'id';
+          multiselectComboBox.itemValuePath = 'id';
+          multiselectComboBox.itemLabelPath = 'label';
+
+          multiselectComboBox.selectedItems = [{id: 1, label: 'item 1'}];
+          multiselectComboBox.$.comboBox.selectedItem = {id: 3, label: 'item 3'};
+
+          multiselectComboBox.validate = sinon.stub();
+
+          // when
+          multiselectComboBox._comboBoxValueChanged();
+
+          // then
+          expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+          expect(multiselectComboBox.selectedItems).to.include({id: 1, label: 'item 1'});
+          expect(multiselectComboBox.selectedItems).to.include({id: 3, label: 'item 3'});
+          expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+          sinon.assert.calledOnce(multiselectComboBox.validate);
+        });
+
+        it('should remove object item from selected items if previously selected', () => {
+          // given
+          multiselectComboBox.itemIdPath = 'id';
+          multiselectComboBox.itemValuePath = 'id';
+          multiselectComboBox.itemLabelPath = 'label';
+
+          multiselectComboBox.selectedItems = [{id: 1, label: 'item 1'}, {id: 2, label: 'item 2'}, {id: 3, label: 'item 3'}];
+
+          multiselectComboBox.$.comboBox.selectedItem = {id: 2, label: 'item 2'};
+
+          multiselectComboBox.validate = sinon.stub();
+
+          // when
+          multiselectComboBox._comboBoxValueChanged();
+
+          // then
+          expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+          expect(multiselectComboBox.selectedItems).to.include({id: 1, label: 'item 1'});
+          expect(multiselectComboBox.selectedItems).to.include({id: 3, label: 'item 3'});
+          expect(multiselectComboBox.selectedItems).to.not.include({id: 2, label: 'item 2'});
+          expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+          sinon.assert.calledOnce(multiselectComboBox.validate);
+        });
+      });
+
+      describe('_isSelected', () => {
+        it('should return `false` when string value item is not in selected items', () => {
+          // given
+          const selectedItems = ['item 1', 'item 2'];
+          const item = 'item 3';
+
+          // when
+          const result = multiselectComboBox._isSelected(item, selectedItems);
+
+          // then
+          expect(result).to.be.false;
+        });
+
+        it('should return `true` when string value item is in selected items', () => {
+          // given
+          const selectedItems = ['item 1', 'item 2'];
+          const item = 'item 1';
+
+          // when
+          const result = multiselectComboBox._isSelected(item, selectedItems);
+
+          // then
+          expect(result).to.be.true;
+        });
+
+        it('should return `false` when object item is not in selected items', () => {
+          // given
+          const selectedItems = [
+            {id: 1, key: 'item 1'},
+            {id: 2, key: 'item 2'}
+          ];
+          const item = {id: 3, key: 'item 3'};
+          const itemIdPath = 'id';
+
+          // when
+          const result = multiselectComboBox._isSelected(item, selectedItems, itemIdPath);
+
+          // then
+          expect(result).to.be.false;
+        });
+
+        it('should return `true` when object item is in selected items', () => {
+          // given
+          const selectedItems = [
+            {id: 1, key: 'item 1'},
+            {id: 2, key: 'item 2'}
+          ];
+          const item = {id: 1, key: 'item 5'};
+          const itemIdPath = 'id';
+
+          // when
+          const result = multiselectComboBox._isSelected(item, selectedItems, itemIdPath);
+
+          // then
+          expect(result).to.be.true;
+        });
+      });
+
+      describe('_handleItemRemoved', () => {
+        it('should handle item removal and validate state', () => {
+          // given
+          const event = {
+            detail: {
+              item: 'item 2'
+            }
+          };
+          multiselectComboBox.selectedItems = ['item 1', 'item 2', 'item 3'];
+          multiselectComboBox.validate = sinon.stub();
+
+          // when
+          multiselectComboBox._handleItemRemoved(event);
+
+          // then
+          expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+          expect(multiselectComboBox.selectedItems).to.include('item 1');
+          expect(multiselectComboBox.selectedItems).to.include('item 3');
+          sinon.assert.calledOnce(multiselectComboBox.validate);
+        });
+      });
+
+      describe('_handleRemoveAllItems', () => {
+        it('should handle removal of all items and validate state', () => {
+          // given
+          multiselectComboBox.selectedItems = ['item 1', 'item 2', 'item 3'];
+          multiselectComboBox.validate = sinon.stub();
+
+          // when
+          multiselectComboBox._handleRemoveAllItems();
+
+          // then
+          expect(multiselectComboBox.selectedItems).to.be.empty;
+          sinon.assert.calledOnce(multiselectComboBox.validate);
+        });
+      });
+
+      describe('_getDisplayValue', () => {
+        it('should return display value', () => {
+          // given
+          const selectedItems = [
+            {id: 1, name: 'item 1'},
+            {id: 2, name: 'item 2'},
+            {id: 3, name: 'item 3'}
+          ];
+          const itemLabelPath = 'name';
+
+          // when
+          const result = multiselectComboBox._getDisplayValue(selectedItems, itemLabelPath);
+
+          // then
+          expect(result).to.be.eql('item 1, item 2, item 3');
+        });
+
+        it('should return display value', () => {
+          // given
+          const selectedItems = ['item 11', 'item 22'];
+
+
+          // when
+          const result = multiselectComboBox._getDisplayValue(selectedItems);
+
+          // then
+          expect(result).to.be.eql('item 11, item 22');
+        });
+      });
+
+      describe('_customRenderer', () => {
+        it('should build a comboBoxItem if previously not invoked', () => {
+          // given
+          const dummyHost = {
+            host: {
+              classList: {
+                add: sinon.stub()
+              }
+            }
+          };
+
+          const root = {
+            firstElementChild: undefined, // combo box item does not exist
+            appendChild: (child) => {
+              root.firstElementChild = child;
+            },
+            getRootNode: () => {
+              return dummyHost;
+            }
+          };
+
+          const model = sinon.stub();
+          const comboBox = sinon.stub();
+
+          multiselectComboBox._getItemDisplayValue = sinon.stub().returns('label');
+          multiselectComboBox._isSelected = sinon.stub();
+          multiselectComboBox._updateSelectedAttribute = sinon.stub();
+
+          // when
+          multiselectComboBox._customRenderer(root, comboBox, model);
+
+          // then
+          sinon.assert.calledWith(root.getRootNode().host.classList.add, 'multiselect');
+          sinon.assert.calledOnce(multiselectComboBox._getItemDisplayValue);
+          sinon.assert.calledOnce(multiselectComboBox._isSelected);
+          sinon.assert.calledOnce(multiselectComboBox._updateSelectedAttribute);
+
+          expect(root.firstElementChild.getAttribute('part')).to.be.eql('item-template');
+        });
+
+        it('should not build a comboBoxItem if renderer has already been invoked, but only update the item label and seleted attribute', () => {
+          // given
+          const dummyHost = {
+            host: {
+              classList: {
+                add: sinon.stub()
+              }
+            }
+          };
+
+
+          const comboBoxItem = document.createElement('div');
+          comboBoxItem.appendChild(document.createElement('span'));
+
+          const root = {
+            firstElementChild: comboBoxItem,
+            appendChild: (child) => {
+              root.firstElementChild = child;
+            },
+            getRootNode: () => {
+              return dummyHost;
+            }
+          };
+
+          const model = sinon.stub();
+          const comboBox = sinon.stub();
+
+          multiselectComboBox._getItemDisplayValue = sinon.stub().returns('label');
+          multiselectComboBox._isSelected = sinon.stub();
+          multiselectComboBox._updateSelectedAttribute = sinon.stub();
+
+          // when
+          multiselectComboBox._customRenderer(root, comboBox, model);
+
+          // then
+          sinon.assert.notCalled(root.getRootNode().host.classList.add);
+          sinon.assert.calledOnce(multiselectComboBox._getItemDisplayValue);
+          sinon.assert.calledOnce(multiselectComboBox._isSelected);
+          sinon.assert.calledOnce(multiselectComboBox._updateSelectedAttribute);
+        });
+
+      });
+
+      describe('_updateSelectedAttribute', () => {
+        it('should set selected attribute', () => {
+          // given
+          const div = document.createElement('div');
+          const selected = true;
+
+          expect(div.hasAttribute('selected')).to.be.false;
+
+          // when
+          multiselectComboBox._updateSelectedAttribute(div, selected);
+
+          // then
+          expect(div.hasAttribute('selected')).to.be.true;
+        });
+
+        it('should remove selected attribute', () => {
+          // given
+          const div = document.createElement('div');
+          div.setAttribute('selected', ''); // set selected
+          const selected = false;
+
+          expect(div.hasAttribute('selected')).to.be.true;
+
+          // when
+          multiselectComboBox._updateSelectedAttribute(div, selected);
+
+          // then
+          expect(div.hasAttribute('selected')).to.be.false;
+        });
+      });
+
+      describe('_labelChanged', () => {
+        it('should set the has-label attribute', () => {
+          // given
+          const label = 'label';
+
+          // when
+          multiselectComboBox._labelChanged(label);
+
+          // then
+          expect(multiselectComboBox.hasAttribute('has-label')).to.be.true;
+        });
+
+        it('should set the has-label attribute', () => {
+          // given
+          const label = '';
+
+          // when
+          multiselectComboBox._labelChanged(label);
+
+          // then
+          expect(multiselectComboBox.hasAttribute('has-label')).to.be.false;
+        });
+      });
+
+      describe('_getReadonlyValue', () => {
+        it('should get display value when not in compact mode', () => {
+          // given
+          const compactMode = false;
+          const selectedItems = ['item 1', 'item 2'];
+          const itemLabelPath = undefined;
+
+          // when
+          const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+          // then
+          expect(result).to.be.eql('item 1, item 2');
+        });
+
+        it('should get display value of object items when not in compact mode', () => {
+          // given
+          const compactMode = false;
+          const selectedItems = [{label: 'item 1 label'}, {label: 'item 2 label'}];
+          const itemLabelPath = 'label';
+
+          // when
+          const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+          // then
+          expect(result).to.be.eql('item 1 label, item 2 label');
+        });
+
+        it('should get number of selected items when in compact mode and list is empty', () => {
+          // given
+          const compactMode = true;
+          const selectedItems = [];
+          const itemLabelPath = undefined;
+
+          // when
+          const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+          // then
+          expect(result).to.be.eql('0 values');
+        });
+
+        it('should get number of selected items when in compact mode and list contains one item', () => {
+          // given
+          const compactMode = true;
+          const selectedItems = ['item 1'];
+          const itemLabelPath = undefined;
+
+          // when
+          const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+          // then
+          expect(result).to.be.eql('1 value');
+        });
+
+        it('should get number of selected items when in compact mode and list contains at least two items', () => {
+          // given
+          const compactMode = true;
+          const selectedItems = ['item 1', 'item 2'];
+          const itemLabelPath = undefined;
+
+          // when
+          const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+          // then
+          expect(result).to.be.eql('2 values');
+        });
+      });
+
+      describe('_getItemDisplayValue', () => {
+        it('should return item when not an object', () => {
+          // given
+          const item = 'multiselect-combo-box';
+
+          // when
+          const result = multiselectComboBox._getItemDisplayValue(item);
+
+          // then
+          expect(result).to.be.eql(item);
+        });
+
+        it('should return item when object does not have the specified property', () => {
+          // given
+          const item = {
+            key1: 'multiselect-combo-box',
+            key2: 'select more than one value'
+          };
+          const itemLabelPath = 'foo';
+
+          // when
+          const result = multiselectComboBox._getItemDisplayValue(item, itemLabelPath);
+
+          // then
+          expect(result).to.be.eql(item);
+        });
+
+        it('should return item property', () => {
+          // given
+          const item = {
+            key1: 'multiselect-combo-box',
+            key2: 'select more than one value'
+          };
+          const itemLabelPath = 'key1';
+
+          // when
+          const result = multiselectComboBox._getItemDisplayValue(item, itemLabelPath);
+
+          // then
+          expect(result).to.be.eql(item.key1);
+        });
+      });
+
+      describe('_getCompactModeDisplayValue', () => {
+        it('should return display label for empty items list', () => {
+          // given
+          const items = [];
+
+          // when
+          const result = multiselectComboBox._getCompactModeDisplayValue(items);
+
+          // then
+          expect(result).to.be.eql('0 values');
+        });
+
+        it('should return display label for a single value in the items list', () => {
+          // given
+          const items = ['one item'];
+
+          // when
+          const result = multiselectComboBox._getCompactModeDisplayValue(items);
+
+          // then
+          expect(result).to.be.eql('1 value');
+        });
+
+        it('should return display label for a multiple values in the items list', () => {
+          // given
+          const items = ['one item', 'another item', 'yet another item'];
+
+          // when
+          const result = multiselectComboBox._getCompactModeDisplayValue(items);
+
+          // then
+          expect(result).to.be.eql('3 values');
+        });
+      });
+
+      describe('_sortSelectedItems', () => {
+        it('should sort selected items list', () => {
+          // given
+          const selectedItems = ['item 2', 'item 1', 'item 3'];
+
+          // when
+          multiselectComboBox._sortSelectedItems(selectedItems);
+
+          // then
+          expect(selectedItems[0]).to.be.eql('item 1');
+          expect(selectedItems[1]).to.be.eql('item 2');
+          expect(selectedItems[2]).to.be.eql('item 3');
+        });
+
+        it('should sort selected object items list', () => {
+          // given
+          const selectedItems = [
+            {key: 2, label: 'item 2'},
+            {key: 3, label: 'item 3'},
+            {key: 1, label: 'item 1'}
+          ];
+
+          multiselectComboBox.itemLabelPath = 'label';
+
+          // when
+          multiselectComboBox._sortSelectedItems(selectedItems);
+
+          // then
+          expect(selectedItems[0]).to.be.eql({key: 1, label: 'item 1'});
+          expect(selectedItems[1]).to.be.eql({key: 2, label: 'item 2'});
+          expect(selectedItems[2]).to.be.eql({key: 3, label: 'item 3'});
+        });
+      });
+    });
+  </script>
+</body>
 </html>

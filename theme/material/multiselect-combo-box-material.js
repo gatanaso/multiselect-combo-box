@@ -1,6 +1,9 @@
-<link rel="import" href="../../../polymer/lib/elements/custom-style.html">
+import '@polymer/polymer/lib/elements/custom-style.js';
 
-<custom-style>
+const $_documentContainer = document.createElement('template'); // eslint-disable-line camelcase
+
+$_documentContainer.innerHTML =
+`<custom-style>
   <style>
     html {
       /* Spacing */
@@ -20,4 +23,6 @@
       --material-icon-size-m: 1.5em;
     }
   </style>
-</custom-style>
+</custom-style>`;
+
+document.head.appendChild($_documentContainer.content);

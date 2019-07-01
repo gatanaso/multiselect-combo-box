@@ -4,13 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>multiselect-combo-box demo</title>
+    <title>Multiselect-combo-box Demo</title>
 
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../theme/lumo/multiselect-combo-box.html">
+    <script type="module">
+      import '@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+      import '@polymer/iron-demo-helpers/demo-snippet.js';
+    </script>
+
+    <script type="module" src="../theme/lumo/multiselect-combo-box.js"></script>
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -90,36 +93,36 @@
     </div>
 
     <div class="vertical-section-container centered">
-        <h3>Multiselect-combo-box in compact mode</h3>
-        <demo-snippet>
-          <template>
+      <h3>Multiselect-combo-box in compact mode</h3>
+      <demo-snippet>
+        <template>
 
-            <multiselect-combo-box
-              id="compactMode"
-              label="Multiselect field"
-              compact-mode>
-            </multiselect-combo-box>
+          <multiselect-combo-box
+            id="compactMode"
+            label="Multiselect field"
+            compact-mode>
+          </multiselect-combo-box>
 
-            <script>
-              window.addEventListener('WebComponentsReady', function() {
-                const compactModeMultiselectComboBox = document.querySelector('#compactMode');
-                compactModeMultiselectComboBox.items = [
-                  'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
-                  'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-                  'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                  'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                  'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
-                  'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
-                ];
-                compactModeMultiselectComboBox.selectedItems = [
-                  'Helium',
-                  'Lithium',
-                  'Beryllium'
-                ];
-              });
-            </script>
-          </template>
-        </demo-snippet>
+          <script>
+            window.addEventListener('WebComponentsReady', function() {
+              const compactModeMultiselectComboBox = document.querySelector('#compactMode');
+              compactModeMultiselectComboBox.items = [
+                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
+                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
+              ];
+              compactModeMultiselectComboBox.selectedItems = [
+                'Helium',
+                'Lithium',
+                'Beryllium'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
     </div>
 
     <div class="vertical-section-container centered">
@@ -158,40 +161,40 @@
     </div>
 
     <div class="vertical-section-container centered">
-        <h3>Readonly multiselect-combo-box</h3>
-        <demo-snippet>
-          <template>
+      <h3>Readonly multiselect-combo-box</h3>
+      <demo-snippet>
+        <template>
 
-            <multiselect-combo-box
-              id="readonlyDemo"
-              label="Readonly multiselect field"
-              placeholder="Add"
-              readonly>
-            </multiselect-combo-box>
+          <multiselect-combo-box
+            id="readonlyDemo"
+            label="Readonly multiselect field"
+            placeholder="Add"
+            readonly>
+          </multiselect-combo-box>
 
-            <script>
-              window.addEventListener('WebComponentsReady', function() {
-                const readonlyMultiselectComboBox = document.querySelector('#readonlyDemo');
-                readonlyMultiselectComboBox.items = [
-                  'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
-                  'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-                  'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                  'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                  'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
-                  'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
-                ];
-                readonlyMultiselectComboBox.selectedItems = [
-                  'Argon',
-                  'Scandium',
-                  'Nickel',
-                  'Copper',
-                  'Zinc',
-                  'Sodium'
-                ];
-              });
-            </script>
-          </template>
-        </demo-snippet>
+          <script>
+            window.addEventListener('WebComponentsReady', function() {
+              const readonlyMultiselectComboBox = document.querySelector('#readonlyDemo');
+              readonlyMultiselectComboBox.items = [
+                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
+                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
+              ];
+              readonlyMultiselectComboBox.selectedItems = [
+                'Argon',
+                'Scandium',
+                'Nickel',
+                'Copper',
+                'Zinc',
+                'Sodium'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
     </div>
 
     <div class="vertical-section-container centered">
