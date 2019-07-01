@@ -5,7 +5,7 @@
   "main": "multiselect-combo-box.html",
   "license": "Apache-2.0",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0",
+    "polymer": "Polymer/polymer#5f5d2c2",
     "vaadin-combo-box": "vaadin/vaadin-combo-box#^4.2.7",
     "vaadin-text-field": "vaadin/vaadin-text-field#^2.3.4",
     "vaadin-themable-mixin": "vaadin/vaadin-themable-mixin#^1.4.4",
@@ -19,6 +19,6 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   },
   "resolutions": {
-    "polymer": "^2.0.0"
+    "polymer": "5f5d2c2"
   }
 }
