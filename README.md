@@ -15,11 +15,11 @@ Compatible with the core set of [Vaadin Components](https://github.com/vaadin/va
 ## Getting started
 Install the `multiselect-combo-box`:
 ```
-bower install --save gatanaso/multiselect-combo-box
+npm install multiselect-combo-box --save
 ```
 Once installed, import in your applicaiton:
 ```
-<link rel="import" href="bower_components/multiselect-combo-box/multiselect-combo-box.html">
+import 'multiselect-combo-box/multiselect-combo-box.js';
 ```
 Add to your page:
 ```
