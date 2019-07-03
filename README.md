@@ -6,13 +6,27 @@
 
 # \<multiselect-combo-box\>
 
-A multi select combo box web component based on Polymer 2.x and the [`vaadin-combo-box`](https://github.com/vaadin/vaadin-combo-box).
+A multiselect combo box web component based on [Polymer](https://github.com/Polymer/polymer) and the [`vaadin-combo-box`](https://github.com/vaadin/vaadin-combo-box).
 
-Compatible with the core set of [Vaadin Components](https://github.com/vaadin/vaadin-core).
+*Compatible with the core set of [Vaadin Components](https://github.com/vaadin/vaadin-core).*
 
 #### [Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/) | [Material Theme Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/material)
 
 ## Getting started
+### Polymer 3 (npm)
+Install the `multiselect-combo-box`:
+```
+npm install multiselect-combo-box --save
+```
+Once installed, import in your applicaiton:
+```
+import 'multiselect-combo-box/multiselect-combo-box.js';
+```
+Add to your page:
+```
+<multiselect-combo-box label="Select items"></multiselect-combo-box>
+```
+### Polymer 2.x (bower)
 Install the `multiselect-combo-box`:
 ```
 bower install --save gatanaso/multiselect-combo-box
@@ -26,18 +40,25 @@ Add to your page:
 <multiselect-combo-box label="Select items"></multiselect-combo-box>
 ```
 
-For more usage examples, see the [demo](https://multiselect-combo-box.firebaseapp.com/demo/).
+> For more usage examples, see the [demo](https://multiselect-combo-box.firebaseapp.com/demo/).
 
-### Running demos locally
+## Project setup
 
 1. Fork the `multiselect-combo-box` repository and clone it locally.
 1. Make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed locally.
-1. When in the `multiselect-combo-box` directory, run `npm install` and then `bower install` to install the element's dependencies.
-1. Run `polymer serve --open`, the browser will automatically open the components demo page.
+1. To install the element's dependencies, in the `multiselect-combo-box` directory, run: `npm install`
+    * if using the Polymer 2.x version, also run: `bower install`
 
-### Running tests from the command line
+### Running the project locally
+To perform linting, run the tests and automatically open the demo page, run:
+```
+npm run start
+```
 
-When in the `multiselect-combo-box` directory, run `npm run test`
+### Branch information
 
-### Java API
+* `master` the Polymer 2.x. version of the `multiselect-combo-box`
+* `polymer-3` the Polymer 3 version of the `multiselect-combo-box`
+
+## Java API
 The Vaadin Flow Java compatible version of this component is available on the [Vaadin Directory](https://vaadin.com/directory/component/multiselect-combo-box) and [GitHub](https://github.com/gatanaso/multiselect-combo-box-flow).

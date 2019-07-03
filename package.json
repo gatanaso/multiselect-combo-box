@@ -12,7 +12,7 @@
     "lint:css": "stylelint *.html src/*.html demo/*.html theme/**/*.html test/*html",
     "lint:html": "eslint *.html src demo test --ext .html",
     "lint:js": "eslint *.js",
-    "lint:polymer": "polymer lint --input ./src/*.html ./theme/**/*.html",
+    "lint:polymer": "polymer lint --rules=polymer-2 --input ./src/*.html ./theme/**/*.html",
     "start": "npm run lint && wct && polymer serve --open"
   },
   "repository": {
