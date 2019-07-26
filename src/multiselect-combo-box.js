@@ -243,6 +243,10 @@ import './multiselect-combo-box-input.js';
       this.$.comboBox.render && this.$.comboBox.render();
     }
 
+    _dispatchChangeEvent() {
+      this.dispatchEvent(new CustomEvent('change', {bubbles: true}));
+    }
+
     _comboBoxValueChanged() {
       const item = this.$.comboBox.selectedItem;
 
@@ -260,7 +264,7 @@ import './multiselect-combo-box-input.js';
 
       this.$.comboBox.value = '';
       if (this.validate()) {
-        this.dispatchEvent(new CustomEvent('change', {bubbles: true}));
+        this._dispatchChangeEvent();
       }
     }
 
@@ -287,14 +291,14 @@ import './multiselect-combo-box-input.js';
       update.splice(update.indexOf(item), 1);
       this.selectedItems = update;
       if (this.validate()) {
-        this.dispatchEvent(new CustomEvent('change', {bubbles: true}));
+        this._dispatchChangeEvent();
       }
     }
 
     _handleRemoveAllItems() {
       this.set('selectedItems', []);
       if (this.validate()) {
-        this.dispatchEvent(new CustomEvent('change', {bubbles: true}));
+        this._dispatchChangeEvent();
       }
     }
 
