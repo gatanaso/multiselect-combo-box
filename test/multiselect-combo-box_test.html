@@ -358,6 +358,24 @@
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
+
+        it('should not dispath event if validate returns false', () => {
+          // given
+          const event = {
+            detail: {
+              item: 'item 2'
+            }
+          };
+          multiselectComboBox.validate = sinon.stub();
+          multiselectComboBox.validate.returns(false);
+          multiselectComboBox._dispatchChangeEvent = sinon.stub();
+
+          // when
+          multiselectComboBox._handleItemRemoved(event);
+
+          // then
+          sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
+        });
       });
 
       describe('_handleRemoveAllItems', () => {
@@ -375,6 +393,19 @@
           expect(multiselectComboBox.selectedItems).to.be.empty;
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
+        });
+
+        it('should not dispath event if validate returns false', () => {
+          // given
+          multiselectComboBox.validate = sinon.stub();
+          multiselectComboBox.validate.returns(false);
+          multiselectComboBox._dispatchChangeEvent = sinon.stub();
+
+          // when
+          multiselectComboBox._handleRemoveAllItems();
+
+          // then
+          sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
         });
       });
 
