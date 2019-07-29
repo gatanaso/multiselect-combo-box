@@ -12,7 +12,7 @@
     "url": "https://github.com/gatanaso/multiselect-combo-box"
   },
   "name": "multiselect-combo-box",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "multiselect-combo-box.js",
   "directories": {
     "test": "test"
