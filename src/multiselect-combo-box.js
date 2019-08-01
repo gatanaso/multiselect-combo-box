@@ -243,6 +243,10 @@ import './multiselect-combo-box-input.js';
       this.$.comboBox.render && this.$.comboBox.render();
     }
 
+    _dispatchChangeEvent() {
+      this.dispatchEvent(new CustomEvent('change', {bubbles: true}));
+    }
+
     _comboBoxValueChanged() {
       const item = this.$.comboBox.selectedItem;
 
@@ -259,7 +263,9 @@ import './multiselect-combo-box-input.js';
       this.selectedItems = update;
 
       this.$.comboBox.value = '';
-      this.validate();
+      if (this.validate()) {
+        this._dispatchChangeEvent();
+      }
     }
 
     _isSelected(item, selectedItems, itemIdPath) {
@@ -284,12 +290,16 @@ import './multiselect-combo-box-input.js';
       const update = this.selectedItems.slice(0);
       update.splice(update.indexOf(item), 1);
       this.selectedItems = update;
-      this.validate();
+      if (this.validate()) {
+        this._dispatchChangeEvent();
+      }
     }
 
     _handleRemoveAllItems() {
       this.set('selectedItems', []);
-      this.validate();
+      if (this.validate()) {
+        this._dispatchChangeEvent();
+      }
     }
 
     _getReadonlyValue(selectedItems, itemLabelPath, compactMode) {
