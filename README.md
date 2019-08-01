@@ -10,7 +10,7 @@ A multiselect combo box web component based on [Polymer](https://github.com/Poly
 
 *Compatible with the core set of [Vaadin Components](https://github.com/vaadin/vaadin-core).*
 
-#### [Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/) | [Material Theme Live Demo ↗](https://multiselect-combo-box.firebaseapp.com/demo/material)
+#### [Live Demo ↗](https://multiselect-combo-box.web.app/demo/) | [Material Theme Live Demo ↗](https://multiselect-combo-box.web.app/demo/material)
 
 ## Getting started
 ### Polymer 3 (npm)
