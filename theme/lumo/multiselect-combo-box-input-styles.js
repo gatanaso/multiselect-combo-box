@@ -57,6 +57,7 @@ html`
           white-space: nowrap;
           height: calc(var(--lumo-size-m) - 2 * var(--lumo-space-xs));
           box-sizing: border-box;
+          min-width: 0;
         }
 
         [part="token"] + [part="token"] {
@@ -69,6 +70,7 @@ html`
           font-size: var(--lumo-font-size-s);
           color: var(--lumo-body-text-color);
           font-weight: 500;
+          overflow: hidden;
         }
 
         [part="token-remove-button"] {
