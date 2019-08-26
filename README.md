@@ -57,8 +57,8 @@ npm run start
 
 ### Branch information
 
-* `master` the Polymer 2.x. version of the `multiselect-combo-box`
-* `polymer-3` the Polymer 3 version of the `multiselect-combo-box`
+* `master` the latest (Polymer 3) version of the `multiselect-combo-box`
+* `polymer-2` the Polymer 2.x version of the `multiselect-combo-box`
 
 ## Java API
 The Vaadin Flow Java compatible version of this component is available on the [Vaadin Directory](https://vaadin.com/directory/component/multiselect-combo-box) and [GitHub](https://github.com/gatanaso/multiselect-combo-box-flow).
