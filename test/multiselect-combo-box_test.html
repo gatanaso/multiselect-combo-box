@@ -154,6 +154,21 @@
         });
       });
 
+      describe('_itemsObserver', () => {
+        it('should set list of items to the combo box', () => {
+          // given
+          const items = ['item 1', 'item 2'];
+
+          // when
+          multiselectComboBox._itemsObserver(items);
+
+          // then
+          expect(multiselectComboBox.$.comboBox.items).to.have.lengthOf(2);
+          expect(multiselectComboBox.$.comboBox.items).to.include('item 1');
+          expect(multiselectComboBox.$.comboBox.items).to.include('item 2');
+        });
+      });
+
       describe('_dispatchChangeEvent', () => {
         it('should call dispatchEvent', () => {
           // given
@@ -753,6 +768,68 @@
           expect(selectedItems[0]).to.be.eql({key: 1, label: 'item 1'});
           expect(selectedItems[1]).to.be.eql({key: 2, label: 'item 2'});
           expect(selectedItems[2]).to.be.eql({key: 3, label: 'item 3'});
+        });
+      });
+
+      describe('_pageSizeObserver', () => {
+        it('should throw error when page size is zero', (done) => {
+          // given
+          const pageSize = 0;
+          const oldPageSize = 10;
+
+          try {
+            // when
+            multiselectComboBox._pageSizeObserver(pageSize, oldPageSize);
+          } catch (error) {
+            // then
+            expect(error.message).to.be.eq('`pageSize` value must be an integer > 0');
+            expect(multiselectComboBox.pageSize).to.be.eq(oldPageSize);
+            done();
+          }
+        });
+
+        it('should throw error when page size is decimal', (done) => {
+          // given
+          const pageSize = 3.5;
+          const oldPageSize = 10;
+
+          try {
+            // when
+            multiselectComboBox._pageSizeObserver(pageSize, oldPageSize);
+          } catch (error) {
+            // then
+            expect(error.message).to.be.eq('`pageSize` value must be an integer > 0');
+            expect(multiselectComboBox.pageSize).to.be.eq(oldPageSize);
+            done();
+          }
+        });
+
+        it('should throw error when page size is negative', (done) => {
+          // given
+          const pageSize = -1;
+          const oldPageSize = 10;
+
+          try {
+            // when
+            multiselectComboBox._pageSizeObserver(pageSize, oldPageSize);
+          } catch (error) {
+            // then
+            expect(error.message).to.be.eq('`pageSize` value must be an integer > 0');
+            expect(multiselectComboBox.pageSize).to.be.eq(oldPageSize);
+            done();
+          }
+        });
+
+        it('should set new page size', () => {
+          // given
+          const pageSize = 5;
+
+          // when
+          multiselectComboBox.set('pageSize', pageSize);
+
+          // then
+          expect(multiselectComboBox.pageSize).to.be.eq(pageSize);
+          expect(multiselectComboBox.$.comboBox.pageSize).to.be.eq(pageSize);
         });
       });
     });

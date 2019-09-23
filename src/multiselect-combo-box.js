@@ -89,12 +89,12 @@ import './multiselect-combo-box-input.js';
             id="comboBox"
             part="combo-box"
             hidden\$="[[readonly]]"
-            items="[[items]]"
             item-id-path="[[itemIdPath]]"
             item-label-path="[[itemLabelPath]]"
             item-value-path="[[itemValuePath]]"
             on-change="_comboBoxValueChanged"
-            disabled="[[disabled]]">
+            disabled="[[disabled]]"
+            pageSize="[[pageSize]]">
 
             <multiselect-combo-box-input
               id="input"
@@ -182,6 +182,15 @@ import './multiselect-combo-box-input.js';
         },
 
         /**
+         * Number of items fetched at a time from the dataprovider. This property is delegated to the underlying `vaadin-combo-box`.
+         */
+        pageSize: {
+          type: Number,
+          value: 50,
+          observer: '_pageSizeObserver'
+        },
+
+        /**
          * The `readonly` attribute.
          */
         readonly: {
@@ -217,7 +226,10 @@ import './multiselect-combo-box-input.js';
     }
 
     static get observers() {
-      return ['_selectedItemsObserver(selectedItems, selectedItems.*)'];
+      return [
+        '_selectedItemsObserver(selectedItems, selectedItems.*)',
+        '_itemsObserver(items, items.*)'
+      ];
     }
 
     /**
@@ -241,6 +253,10 @@ import './multiselect-combo-box-input.js';
       this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath));
 
       this.$.comboBox.render && this.$.comboBox.render();
+    }
+
+    _itemsObserver(items) {
+      this.$.comboBox.items = items;
     }
 
     _dispatchChangeEvent() {
@@ -376,6 +392,14 @@ import './multiselect-combo-box-input.js';
         const item2Str = this._getItemDisplayValue(item2, this.itemLabelPath);
         return item1Str.localeCompare(item2Str);
       });
+    }
+
+    _pageSizeObserver(pageSize, oldPageSize) {
+      if (Math.floor(pageSize) !== pageSize || pageSize <= 0) {
+        this.pageSize = oldPageSize;
+        throw new Error('`pageSize` value must be an integer > 0');
+      }
+      this.$.comboBox.pageSize = pageSize;
     }
   }
 
