@@ -154,21 +154,6 @@
         });
       });
 
-      describe('_itemsObserver', () => {
-        it('should set list of items to the combo box', () => {
-          // given
-          const items = ['item 1', 'item 2'];
-
-          // when
-          multiselectComboBox._itemsObserver(items);
-
-          // then
-          expect(multiselectComboBox.$.comboBox.items).to.have.lengthOf(2);
-          expect(multiselectComboBox.$.comboBox.items).to.include('item 1');
-          expect(multiselectComboBox.$.comboBox.items).to.include('item 2');
-        });
-      });
-
       describe('_dispatchChangeEvent', () => {
         it('should call dispatchEvent', () => {
           // given

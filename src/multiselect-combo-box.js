@@ -89,6 +89,7 @@ import './multiselect-combo-box-input.js';
             id="comboBox"
             part="combo-box"
             hidden\$="[[readonly]]"
+            items="[[items]]"
             item-id-path="[[itemIdPath]]"
             item-label-path="[[itemLabelPath]]"
             item-value-path="[[itemValuePath]]"
@@ -226,10 +227,7 @@ import './multiselect-combo-box-input.js';
     }
 
     static get observers() {
-      return [
-        '_selectedItemsObserver(selectedItems, selectedItems.*)',
-        '_itemsObserver(items, items.*)'
-      ];
+      return ['_selectedItemsObserver(selectedItems, selectedItems.*)'];
     }
 
     /**
@@ -253,10 +251,6 @@ import './multiselect-combo-box-input.js';
       this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath));
 
       this.$.comboBox.render && this.$.comboBox.render();
-    }
-
-    _itemsObserver(items) {
-      this.$.comboBox.items = items;
     }
 
     _dispatchChangeEvent() {

@@ -8,10 +8,7 @@ export const MultiselectComboBoxMixin = (base) => class extends base {
       /**
        * The list of items.
        */
-      items: {
-        type: Array,
-        value: () => []
-      },
+      items: Array,
 
       /**
        * The input placeholder.
