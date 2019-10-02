@@ -275,6 +275,37 @@
           // then
           sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
         });
+
+        it('should save focused index when using lazy-loading', () => {
+          // given
+          multiselectComboBox.selectedItems = ['item 1'];
+          multiselectComboBox.$.comboBox.selectedItem = 'item 2';
+          multiselectComboBox.$.comboBox.filteredItems = ['item 1', 'item 2', 'item 3'];
+
+          multiselectComboBox.validate = sinon.stub();
+          multiselectComboBox.validate.returns(true);
+          multiselectComboBox._dispatchChangeEvent = sinon.stub();
+
+          multiselectComboBox.$.comboBox.dataProvider = function dummy() {};
+
+          // when
+          multiselectComboBox._comboBoxValueChanged();
+
+          // then
+          expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
+          expect(multiselectComboBox.selectedItems).to.include('item 1');
+          expect(multiselectComboBox.selectedItems).to.include('item 2');
+
+          // _focusedIndex was preserved
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(1);
+
+          // value is empty and not `null`, due to `_selectedItemChanged` being called:
+          // https://github.com/vaadin/vaadin-combo-box/blob/81fea466a613a618aa32315dd75cf20e2ff3ea43/src/vaadin-combo-box-mixin.html#L706
+          expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+
+          sinon.assert.calledOnce(multiselectComboBox.validate);
+          sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
+        });
       });
 
       describe('_isSelected', () => {
