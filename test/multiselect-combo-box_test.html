@@ -424,6 +424,7 @@
           expect(multiselectComboBox.selectedItems).to.be.empty;
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
         });
 
         it('should not dispath event if validate returns false', () => {
@@ -437,6 +438,7 @@
 
           // then
           sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
         });
       });
 

@@ -320,6 +320,7 @@ import './multiselect-combo-box-input.js';
 
     _handleRemoveAllItems() {
       this.set('selectedItems', []);
+      this.$.comboBox._focusedIndex = -1; // reset focused index
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
