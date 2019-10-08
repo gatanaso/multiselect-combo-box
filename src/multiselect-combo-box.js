@@ -94,7 +94,8 @@ import './multiselect-combo-box-input.js';
             item-label-path="[[itemLabelPath]]"
             item-value-path="[[itemValuePath]]"
             on-change="_comboBoxValueChanged"
-            disabled="[[disabled]]">
+            disabled="[[disabled]]"
+            pageSize="[[pageSize]]">
 
             <multiselect-combo-box-input
               id="input"
@@ -182,6 +183,15 @@ import './multiselect-combo-box-input.js';
         },
 
         /**
+         * Number of items fetched at a time from the dataprovider. This property is delegated to the underlying `vaadin-combo-box`.
+         */
+        pageSize: {
+          type: Number,
+          value: 50,
+          observer: '_pageSizeObserver'
+        },
+
+        /**
          * The `readonly` attribute.
          */
         readonly: {
@@ -262,7 +272,20 @@ import './multiselect-combo-box-input.js';
 
       this.selectedItems = update;
 
-      this.$.comboBox.value = '';
+      if (this.$.comboBox.dataProvider && typeof this.$.comboBox.dataProvider === 'function') {
+        // When using a data provider we need to store the value of the `_focusedIndex`
+        // in order to retain the overlay scroll position after the value is reset
+        // (reseting the value sets the `_focusedIndex` to -1).
+        // This ensures that on consecutive value selections, the overlay is opened
+        // at the correct position in the list of items
+        const focusedIndex = this.$.comboBox.filteredItems.indexOf(item);
+        this.$.comboBox.value = null;
+        this.$.comboBox._focusedIndex = focusedIndex;
+      } else {
+        // reset value
+        this.$.comboBox.value = '';
+      }
+
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
@@ -297,6 +320,7 @@ import './multiselect-combo-box-input.js';
 
     _handleRemoveAllItems() {
       this.set('selectedItems', []);
+      this.$.comboBox._focusedIndex = -1; // reset focused index
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
@@ -376,6 +400,14 @@ import './multiselect-combo-box-input.js';
         const item2Str = this._getItemDisplayValue(item2, this.itemLabelPath);
         return item1Str.localeCompare(item2Str);
       });
+    }
+
+    _pageSizeObserver(pageSize, oldPageSize) {
+      if (Math.floor(pageSize) !== pageSize || pageSize <= 0) {
+        this.pageSize = oldPageSize;
+        throw new Error('`pageSize` value must be an integer > 0');
+      }
+      this.$.comboBox.pageSize = pageSize;
     }
   }
 
