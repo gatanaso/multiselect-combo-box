@@ -255,5 +255,38 @@
         </template>
       </demo-snippet>
     </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Multiselect-combo-box with `clear-button-visible`</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="clearButtonVisibleDemo"
+            label="Multiselect field with clear-button-visible"
+            placeholder="Add"
+            clear-button-visible>
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', function() {
+              const basicMultiselectComboBox = document.querySelector('#clearButtonVisibleDemo');
+              basicMultiselectComboBox.items = [
+                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
+                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
+              ];
+              basicMultiselectComboBox.selectedItems = [
+                'Helium',
+                'Lithium'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
   </body>
 </html>
