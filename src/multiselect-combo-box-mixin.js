@@ -77,6 +77,14 @@ export const MultiselectComboBoxMixin = (base) => class extends base {
         type: Boolean,
         value: false,
         reflectToAttribute: true
+      },
+
+      /**
+       * Set to true to display the clear icon which clears the input.
+       */
+      clearButtonVisible: {
+        type: Boolean,
+        value: false
       }
     };
   }
