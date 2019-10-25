@@ -110,7 +110,8 @@ import './multiselect-combo-box-input.js';
               has-value="[[hasValue]]"
               has-label="[[hasLabel]]"
               theme\$="[[theme]]"
-              disabled="[[disabled]]">
+              disabled="[[disabled]]"
+              clear-button-visible="[[clearButtonVisible]]">
             </multiselect-combo-box-input>
           </vaadin-combo-box-light>
 

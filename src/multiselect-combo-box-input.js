@@ -48,7 +48,15 @@ import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
             theme\$="[[theme]]"
             disabled="[[disabled]]">
 
-            <div id="clearButton" part="clear-button" slot="suffix" role="button" on-click="_removeAll"></div>
+            <div
+              id="clearButton"
+              part="clear-button"
+              slot="suffix"
+              role="button"
+              on-click="_removeAll"
+              hidden\$="[[!clearButtonVisible]]">
+            </div>
+
             <div id="toggleButton" part="toggle-button" slot="suffix" role="button"></div>
           </vaadin-text-field>
         </div>
