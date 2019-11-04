@@ -29,7 +29,6 @@ import './multiselect-combo-box-input.js';
         <style>
           :host {
             display: inline-flex;
-            width: 100%;
           }
 
           :host([hidden]) {
