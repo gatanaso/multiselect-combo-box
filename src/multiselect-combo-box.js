@@ -128,6 +128,7 @@ import './multiselect-combo-box-input.js';
     ready() {
       super.ready();
       this.$.comboBox.renderer = this._customRenderer.bind(this);
+      this.addEventListener('vaadin-combo-box-dropdown-opened', this._onOpened.bind(this));
     }
 
     static get properties() {
@@ -231,6 +232,22 @@ import './multiselect-combo-box-input.js';
       return ['_selectedItemsObserver(selectedItems, selectedItems.*)'];
     }
 
+    _onOpened() {
+      if (this._hasDataProvider()) {
+        // When using a data provider we need to manually scroll into view
+        // and reset the value of the `_focusedIndex` to remove the focus
+        // ring from the last selected item.
+        // This ensures that on the first consecutive opening, the
+        // overlay is opened at the correct position in the list of items
+        // without the focus ring on the last selected item.
+        const focusedIndex = this.$.comboBox._focusedIndex;
+        if (focusedIndex > -1) {
+          this._resetFocusedIndex();
+          this.$.comboBox.$.overlay._scrollIntoView(focusedIndex);
+        }
+      }
+    }
+
     /**
      * Validates the component value.
      *
@@ -267,19 +284,20 @@ import './multiselect-combo-box-input.js';
 
       if (index !== -1) {
         update.splice(index, 1);
+        this._resetFocusedIndex();
       } else {
         update.push(item);
       }
 
       this.selectedItems = update;
 
-      if (this.$.comboBox.dataProvider && typeof this.$.comboBox.dataProvider === 'function') {
+      if (this._hasDataProvider()) {
         // When using a data provider we need to store the value of the `_focusedIndex`
         // in order to retain the overlay scroll position after the value is reset
         // (reseting the value sets the `_focusedIndex` to -1).
         // This ensures that on consecutive value selections, the overlay is opened
         // at the correct position in the list of items
-        const focusedIndex = this.$.comboBox.filteredItems.indexOf(item);
+        const focusedIndex = this.$.comboBox._focusedIndex;
         this.$.comboBox.value = null;
         this.$.comboBox._focusedIndex = focusedIndex;
       } else {
@@ -314,6 +332,7 @@ import './multiselect-combo-box-input.js';
       const update = this.selectedItems.slice(0);
       update.splice(update.indexOf(item), 1);
       this.selectedItems = update;
+      this._resetFocusedIndex();
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
@@ -321,7 +340,7 @@ import './multiselect-combo-box-input.js';
 
     _handleRemoveAllItems() {
       this.set('selectedItems', []);
-      this.$.comboBox._focusedIndex = -1; // reset focused index
+      this._resetFocusedIndex();
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
@@ -410,6 +429,15 @@ import './multiselect-combo-box-input.js';
       }
       this.$.comboBox.pageSize = pageSize;
     }
+
+    _hasDataProvider() {
+      return this.$.comboBox.dataProvider && typeof this.$.comboBox.dataProvider === 'function';
+    }
+
+    _resetFocusedIndex() {
+      this.$.comboBox._focusedIndex = -1; // reset focused index
+    }
+
   }
 
   customElements.define(MultiselectComboBox.is, MultiselectComboBox);
