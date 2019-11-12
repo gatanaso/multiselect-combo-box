@@ -206,6 +206,7 @@
           expect(multiselectComboBox.selectedItems).to.include('item 1');
           expect(multiselectComboBox.selectedItems).to.not.include('item 2');
           expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
@@ -259,6 +260,7 @@
           expect(multiselectComboBox.selectedItems).to.include({id: 3, label: 'item 3'});
           expect(multiselectComboBox.selectedItems).to.not.include({id: 2, label: 'item 2'});
           expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
@@ -386,6 +388,7 @@
           expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
           expect(multiselectComboBox.selectedItems).to.include('item 1');
           expect(multiselectComboBox.selectedItems).to.include('item 3');
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
@@ -406,6 +409,7 @@
 
           // then
           sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
         });
       });
 
@@ -848,6 +852,92 @@
           // then
           expect(multiselectComboBox.pageSize).to.be.eq(pageSize);
           expect(multiselectComboBox.$.comboBox.pageSize).to.be.eq(pageSize);
+        });
+      });
+
+      describe('_hasDataProvider', () => {
+        it('should return undefined when not using a data provider', () => {
+          // given
+
+          // when
+          const hasDataProvider = multiselectComboBox._hasDataProvider();
+
+          // then
+          expect(hasDataProvider).to.be.undefined;
+        });
+
+        it('should return true when using a data provider', () => {
+          // given
+          multiselectComboBox.$.comboBox.dataProvider = function dummy() {};
+
+          // when
+          const hasDataProvider = multiselectComboBox._hasDataProvider();
+
+          // then
+          expect(hasDataProvider).to.be.true;
+        });
+      });
+
+      describe('_resetFocusedIndex', () => {
+        it('should reset foucsed index to -1', () => {
+          // given
+          multiselectComboBox.$.comboBox.items = ['item 1', 'item 2', 'item 3'];
+          multiselectComboBox.$.comboBox._focusedIndex = 2;
+
+          // when
+          multiselectComboBox._resetFocusedIndex();
+
+          // then
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
+        });
+      });
+
+      describe('_onOpened', () => {
+        it('should not scroll to view when not using a data provider', () => {
+          // given
+          multiselectComboBox.$.comboBox.items = ['item 1', 'item 2', 'item 3'];
+          multiselectComboBox.$.comboBox._focusedIndex = 1;
+          multiselectComboBox.$.comboBox.$.overlay._scrollIntoView = sinon.stub();
+
+          // when
+          multiselectComboBox._onOpened();
+
+          // then
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(1);
+          sinon.assert.notCalled(multiselectComboBox.$.comboBox.$.overlay._scrollIntoView);
+        });
+
+        it('shoull scroll to view when using a data provider and focused index > -1', () => {
+          // given
+          multiselectComboBox.$.comboBox.$.overlay._scrollIntoView = sinon.stub();
+
+          multiselectComboBox.$.comboBox.dataProvider = function(params, callback) {
+            callback(['item 1', 'item 2', 'item 3'], 3);
+          };
+
+          multiselectComboBox.$.comboBox._focusedIndex = 1; // this will trigger '_scrollIntoView' once
+
+          // when
+          multiselectComboBox._onOpened();
+
+          // then
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
+          sinon.assert.callCount(multiselectComboBox.$.comboBox.$.overlay._scrollIntoView, 2);
+        });
+
+        it('shoull not scroll to view when using a data provider and focused index is -1', () => {
+          // given
+          multiselectComboBox.$.comboBox._focusedIndex = -1;
+          multiselectComboBox.$.comboBox.$.overlay._scrollIntoView = sinon.stub();
+
+          multiselectComboBox.$.comboBox.dataProvider = function dummy() {}; // has data provider
+
+          // when
+          multiselectComboBox._onOpened();
+
+          // then
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
+          sinon.assert.notCalled(multiselectComboBox.$.comboBox.$.overlay._scrollIntoView);
         });
       });
     });
