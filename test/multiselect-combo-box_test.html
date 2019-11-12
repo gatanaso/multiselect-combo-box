@@ -20,6 +20,8 @@
   </test-fixture>
 
   <script type="module">
+    import {ComboBoxPlaceholder} from '@vaadin/vaadin-combo-box/src/vaadin-combo-box-placeholder.js';
+
     describe('Multiselect combo box tests', () => {
       let multiselectComboBox;
 
@@ -892,52 +894,76 @@
         });
       });
 
-      describe('_onOpened', () => {
-        it('should not scroll to view when not using a data provider', () => {
+      describe('_customOverlaySelectedItemChanged', () => {
+        it('should return when event item is instace of ComboBoxPlaceholder', () => {
           // given
-          multiselectComboBox.$.comboBox.items = ['item 1', 'item 2', 'item 3'];
-          multiselectComboBox.$.comboBox._focusedIndex = 1;
-          multiselectComboBox.$.comboBox.$.overlay._scrollIntoView = sinon.stub();
-
-          // when
-          multiselectComboBox._onOpened();
-
-          // then
-          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(1);
-          sinon.assert.notCalled(multiselectComboBox.$.comboBox.$.overlay._scrollIntoView);
-        });
-
-        it('shoull scroll to view when using a data provider and focused index > -1', () => {
-          // given
-          multiselectComboBox.$.comboBox.$.overlay._scrollIntoView = sinon.stub();
-
-          multiselectComboBox.$.comboBox.dataProvider = function(params, callback) {
-            callback(['item 1', 'item 2', 'item 3'], 3);
+          const event = {
+            stopPropagation: sinon.stub(),
+            detail: {
+              item: new ComboBoxPlaceholder()
+            }
           };
 
-          multiselectComboBox.$.comboBox._focusedIndex = 1; // this will trigger '_scrollIntoView' once
+          multiselectComboBox.$.comboBox._detectAndDispatchChange = sinon.stub();
+          multiselectComboBox._resetFocusedIndex = sinon.stub();
+
+          multiselectComboBox.$.comboBox.opened = true; // not relevant
 
           // when
-          multiselectComboBox._onOpened();
+          multiselectComboBox._customOverlaySelectedItemChanged(event);
 
           // then
-          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
-          sinon.assert.callCount(multiselectComboBox.$.comboBox.$.overlay._scrollIntoView, 2);
+          sinon.assert.calledOnce(event.stopPropagation);
+          sinon.assert.notCalled(multiselectComboBox.$.comboBox._detectAndDispatchChange);
+          sinon.assert.notCalled(multiselectComboBox._resetFocusedIndex);
         });
 
-        it('shoull not scroll to view when using a data provider and focused index is -1', () => {
+        it('should set selected item and reset focused index when opened is true', () => {
           // given
-          multiselectComboBox.$.comboBox._focusedIndex = -1;
-          multiselectComboBox.$.comboBox.$.overlay._scrollIntoView = sinon.stub();
+          const event = {
+            stopPropagation: sinon.stub(),
+            detail: {
+              item: 'test item'
+            }
+          };
 
-          multiselectComboBox.$.comboBox.dataProvider = function dummy() {}; // has data provider
+          multiselectComboBox.$.comboBox._detectAndDispatchChange = sinon.stub();
+          multiselectComboBox._resetFocusedIndex = sinon.stub();
+
+          multiselectComboBox.$.comboBox.opened = true;
 
           // when
-          multiselectComboBox._onOpened();
+          multiselectComboBox._customOverlaySelectedItemChanged(event);
 
           // then
+          expect(multiselectComboBox.$.comboBox.selectedItem).to.be.eq('test item');
           expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
-          sinon.assert.notCalled(multiselectComboBox.$.comboBox.$.overlay._scrollIntoView);
+          sinon.assert.calledOnce(event.stopPropagation);
+          sinon.assert.calledOnce(multiselectComboBox.$.comboBox._detectAndDispatchChange);
+          sinon.assert.calledOnce(multiselectComboBox._resetFocusedIndex);
+        });
+
+        it('should not set selected item and reset focused index when opened is false', () => {
+          // given
+          const event = {
+            stopPropagation: sinon.stub(),
+            detail: {
+              item: 'test item'
+            }
+          };
+
+          multiselectComboBox.$.comboBox._detectAndDispatchChange = sinon.stub();
+          multiselectComboBox._resetFocusedIndex = sinon.stub();
+
+          multiselectComboBox.$.comboBox.opened = false;
+
+          // when
+          multiselectComboBox._customOverlaySelectedItemChanged(event);
+
+          // then
+          sinon.assert.calledOnce(event.stopPropagation);
+          sinon.assert.notCalled(multiselectComboBox.$.comboBox._detectAndDispatchChange);
+          sinon.assert.notCalled(multiselectComboBox._resetFocusedIndex);
         });
       });
     });

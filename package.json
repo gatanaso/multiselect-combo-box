@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "@vaadin/vaadin-combo-box": "^5.0.5",
+    "@vaadin/vaadin-combo-box": "^5.0.9",
     "@vaadin/vaadin-text-field": "^2.4.8",
     "@vaadin/vaadin-themable-mixin": "^1.4.4",
     "@vaadin/vaadin-control-state-mixin": "^2.1.3",
