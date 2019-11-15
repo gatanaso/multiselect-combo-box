@@ -280,7 +280,7 @@
           sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
         });
 
-        it('should save focused index when using lazy-loading', () => {
+        it('should set value to null when using lazy-loading', () => {
           // given
           multiselectComboBox.selectedItems = ['item 1'];
           multiselectComboBox.$.comboBox.selectedItem = 'item 2';
@@ -299,9 +299,6 @@
           expect(multiselectComboBox.selectedItems).to.have.lengthOf(2);
           expect(multiselectComboBox.selectedItems).to.include('item 1');
           expect(multiselectComboBox.selectedItems).to.include('item 2');
-
-          // _focusedIndex was preserved
-          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(1);
 
           // value is empty and not `null`, due to `_selectedItemChanged` being called:
           // https://github.com/vaadin/vaadin-combo-box/blob/81fea466a613a618aa32315dd75cf20e2ff3ea43/src/vaadin-combo-box-mixin.html#L706
@@ -905,7 +902,6 @@
           };
 
           multiselectComboBox.$.comboBox._detectAndDispatchChange = sinon.stub();
-          multiselectComboBox._resetFocusedIndex = sinon.stub();
 
           multiselectComboBox.$.comboBox.opened = true; // not relevant
 
@@ -915,7 +911,6 @@
           // then
           sinon.assert.calledOnce(event.stopPropagation);
           sinon.assert.notCalled(multiselectComboBox.$.comboBox._detectAndDispatchChange);
-          sinon.assert.notCalled(multiselectComboBox._resetFocusedIndex);
         });
 
         it('should set selected item and reset focused index when opened is true', () => {
@@ -928,7 +923,6 @@
           };
 
           multiselectComboBox.$.comboBox._detectAndDispatchChange = sinon.stub();
-          multiselectComboBox._resetFocusedIndex = sinon.stub();
 
           multiselectComboBox.$.comboBox.opened = true;
 
@@ -940,7 +934,6 @@
           expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
           sinon.assert.calledOnce(event.stopPropagation);
           sinon.assert.calledOnce(multiselectComboBox.$.comboBox._detectAndDispatchChange);
-          sinon.assert.calledOnce(multiselectComboBox._resetFocusedIndex);
         });
 
         it('should not set selected item and reset focused index when opened is false', () => {
@@ -953,7 +946,6 @@
           };
 
           multiselectComboBox.$.comboBox._detectAndDispatchChange = sinon.stub();
-          multiselectComboBox._resetFocusedIndex = sinon.stub();
 
           multiselectComboBox.$.comboBox.opened = false;
 
@@ -963,7 +955,6 @@
           // then
           sinon.assert.calledOnce(event.stopPropagation);
           sinon.assert.notCalled(multiselectComboBox.$.comboBox._detectAndDispatchChange);
-          sinon.assert.notCalled(multiselectComboBox._resetFocusedIndex);
         });
       });
     });
