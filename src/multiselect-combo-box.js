@@ -283,14 +283,7 @@ import './multiselect-combo-box-input.js';
       this.selectedItems = update;
 
       if (this._hasDataProvider()) {
-        // When using a data provider we need to store the value of the `_focusedIndex`
-        // in order to retain the overlay scroll position after the value is reset
-        // (reseting the value sets the `_focusedIndex` to -1).
-        // This ensures that on consecutive value selections, the overlay is opened
-        // at the correct position in the list of items
-        const focusedIndex = this.$.comboBox._focusedIndex;
         this.$.comboBox.value = null;
-        this.$.comboBox._focusedIndex = focusedIndex;
       } else {
         // reset value
         this.$.comboBox.value = '';
@@ -439,7 +432,6 @@ import './multiselect-combo-box-input.js';
       if (this.$.comboBox.opened) {
         this.$.comboBox.selectedItem = event.detail.item;
         this.$.comboBox._detectAndDispatchChange();
-        this._resetFocusedIndex();
       }
     }
   }
