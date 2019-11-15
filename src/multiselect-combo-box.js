@@ -4,6 +4,7 @@ import {ControlStateMixin} from '@vaadin/vaadin-control-state-mixin/vaadin-contr
 import {ThemableMixin} from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import {ThemePropertyMixin} from '@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin.js';
 import '@vaadin/vaadin-combo-box/src/vaadin-combo-box-light.js';
+import {ComboBoxPlaceholder} from '@vaadin/vaadin-combo-box/src/vaadin-combo-box-placeholder.js';
 import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
 import './multiselect-combo-box-input.js';
 
@@ -124,10 +125,17 @@ import './multiselect-combo-box-input.js';
       return 'multiselect-combo-box';
     }
 
+    constructor() {
+      super();
+      this._boundCustomOverlaySelectedItemChanged = this._customOverlaySelectedItemChanged.bind(this);
+    }
+
     ready() {
       super.ready();
       this.$.comboBox.renderer = this._customRenderer.bind(this);
-      this.addEventListener('vaadin-combo-box-dropdown-opened', this._onOpened.bind(this));
+      // replace listener to modify default behavior
+      this.$.comboBox.$.overlay.removeEventListener('selection-changed', this.$.comboBox._boundOverlaySelectedItemChanged);
+      this.$.comboBox.$.overlay.addEventListener('selection-changed', this._boundCustomOverlaySelectedItemChanged);
     }
 
     static get properties() {
@@ -229,22 +237,6 @@ import './multiselect-combo-box-input.js';
 
     static get observers() {
       return ['_selectedItemsObserver(selectedItems, selectedItems.*)'];
-    }
-
-    _onOpened() {
-      if (this._hasDataProvider()) {
-        // When using a data provider we need to manually scroll into view
-        // and reset the value of the `_focusedIndex` to remove the focus
-        // ring from the last selected item.
-        // This ensures that on the first consecutive opening, the
-        // overlay is opened at the correct position in the list of items
-        // without the focus ring on the last selected item.
-        const focusedIndex = this.$.comboBox._focusedIndex;
-        if (focusedIndex > -1) {
-          this._resetFocusedIndex();
-          this.$.comboBox.$.overlay._scrollIntoView(focusedIndex);
-        }
-      }
     }
 
     /**
@@ -437,6 +429,19 @@ import './multiselect-combo-box-input.js';
       this.$.comboBox._focusedIndex = -1; // reset focused index
     }
 
+    _customOverlaySelectedItemChanged(event) {
+      event.stopPropagation();
+
+      if (event.detail.item instanceof ComboBoxPlaceholder) {
+        return;
+      }
+
+      if (this.$.comboBox.opened) {
+        this.$.comboBox.selectedItem = event.detail.item;
+        this.$.comboBox._detectAndDispatchChange();
+        this._resetFocusedIndex();
+      }
+    }
   }
 
   customElements.define(MultiselectComboBox.is, MultiselectComboBox);
