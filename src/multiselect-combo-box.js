@@ -82,7 +82,7 @@ import './multiselect-combo-box-input.js';
           <label part="label">[[label]]</label>
 
           <div part="readonly-container" hidden\$="[[!readonly]]">
-            [[_getReadonlyValue(selectedItems, itemLabelPath, compactMode)]]
+            [[_getReadonlyValue(selectedItems, itemLabelPath, compactMode, readonlyValueSeparator)]]
           </div>
 
           <vaadin-combo-box-light
@@ -231,7 +231,15 @@ import './multiselect-combo-box-input.js';
         /**
          * The `invalid` state error-message.
          */
-        errorMessage: String
+        errorMessage: String,
+
+        /**
+         * The join separator used for the 'display value' when in read-only mode.
+         */
+        readonlyValueSeparator: {
+          type: String,
+          value: ', ' // default value
+        }
       };
     }
 
@@ -257,7 +265,7 @@ import './multiselect-combo-box-input.js';
         this._sortSelectedItems(selectedItems);
       }
 
-      this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath));
+      this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath, ', '));
 
       this.$.comboBox.render && this.$.comboBox.render();
     }
@@ -330,14 +338,14 @@ import './multiselect-combo-box-input.js';
       }
     }
 
-    _getReadonlyValue(selectedItems, itemLabelPath, compactMode) {
+    _getReadonlyValue(selectedItems, itemLabelPath, compactMode, readonlyValueSeparator) {
       return compactMode ?
         this._getCompactModeDisplayValue(selectedItems) :
-        this._getDisplayValue(selectedItems, itemLabelPath);
+        this._getDisplayValue(selectedItems, itemLabelPath, readonlyValueSeparator);
     }
 
-    _getDisplayValue(selectedItems, itemLabelPath) {
-      return selectedItems.map(item => this._getItemDisplayValue(item, itemLabelPath)).join(', ');
+    _getDisplayValue(selectedItems, itemLabelPath, valueSeparator) {
+      return selectedItems.map(item => this._getItemDisplayValue(item, itemLabelPath)).join(valueSeparator);
     }
 
     get inputElement() {
