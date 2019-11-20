@@ -5,3 +5,4 @@ build
 package-lock.json
 .firebaserc
 firebase.json
+polymer.json
