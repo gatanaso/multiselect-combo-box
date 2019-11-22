@@ -324,5 +324,49 @@
         </template>
       </demo-snippet>
     </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Custom renderer</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="customRendererDemo"
+            label="Multiselect field"
+            placeholder="Add"
+            item-label-path="name"
+            item-value-path="symbol">
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', function() {
+              const customRendererMultiselectComboBox = document.querySelector('#customRendererDemo');
+
+              customRendererMultiselectComboBox.items = [
+                {name: 'Hydrogen', symbol: 'H', number: 1},
+                {name: 'Helium', symbol: 'He', number: 2},
+                {name: 'Lithium', symbol: 'Li', number: 3},
+                {name: 'Beryllium', symbol: 'Be', number: 4},
+                {name: 'Boron', symbol: 'B', number: 5},
+                {name: 'Carbon', symbol: 'C', number: 6},
+                {name: 'Nitrogen', symbol: 'N', number: 7},
+                {name: 'Oxygen', symbol: 'O', number: 8}
+              ];
+
+              customRendererMultiselectComboBox.renderer = function(root, owner, model) {
+                if (!root.firstElementChild) {
+                  root.innerHTML = '<b><span class="name"></span>, <sub class="number"></sub><span class="symbol"></span></b>'
+                  + '<br> array index: <span class="index"></span>';
+                }
+                root.querySelector('.name').textContent = model.item.name;
+                root.querySelector('.number').textContent = model.item.number;
+                root.querySelector('.symbol').textContent = model.item.symbol;
+                root.querySelector('.index').textContent = model.index;
+              };
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
   </body>
 </html>

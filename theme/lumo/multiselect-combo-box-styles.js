@@ -87,32 +87,8 @@ html`
   <dom-module id="lumo-combo-box-item-theme" theme-for="vaadin-combo-box-item">
     <template>
       <style>
-        :host(.multiselect)::before {
-          display: none !important;
-        }
-
-        :host(.multiselect) [part="item-template"] {
-          display: flex;
+        [part="content"] {
           font-size: var(--lumo-font-size-s);
-        }
-
-        :host(.multiselect) [part="content"] [part="item-template"]::before {
-          content: var(--lumo-icons-checkmark);
-          font-family: lumo-icons;
-          font-size: var(--lumo-icon-size-m);
-          line-height: 1;
-          font-weight: normal;
-          width: 1em;
-          height: 1em;
-          margin: calc((1 - var(--lumo-line-height-xs)) * var(--lumo-font-size-m) / 2) 0;
-          color: var(--lumo-primary-text-color);
-          flex: none;
-          opacity: 0;
-          transition: transform 0.2s cubic-bezier(.12, .32, .54, 2), opacity 0.1s;
-        }
-
-        :host(.multiselect) [part="content"] [part="item-template"][selected]::before {
-          opacity: 1;
         }
       </style>
     </template>

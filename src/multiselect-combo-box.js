@@ -132,10 +132,13 @@ import './multiselect-combo-box-input.js';
 
     ready() {
       super.ready();
-      this.$.comboBox.renderer = this._customRenderer.bind(this);
+
       // replace listener to modify default behavior
       this.$.comboBox.$.overlay.removeEventListener('selection-changed', this.$.comboBox._boundOverlaySelectedItemChanged);
       this.$.comboBox.$.overlay.addEventListener('selection-changed', this._boundCustomOverlaySelectedItemChanged);
+
+      // modify check to allow custom renderers
+      this.$.comboBox.$.overlay._isItemSelected = this._customIsSelected.bind(this);
     }
 
     static get properties() {
@@ -239,12 +242,28 @@ import './multiselect-combo-box-input.js';
         readonlyValueSeparator: {
           type: String,
           value: ', ' // default value
-        }
+        },
+
+        /**
+         * Custom function for rendering the content of every item.
+         * Receives three arguments:
+         *
+         * - `root` The `<vaadin-combo-box-item>` internal container DOM element.
+         * - `comboBox` The reference to the `<vaadin-combo-box>` element.
+         * - `model` The object with the properties related with the rendered
+         *   item, contains:
+         *   - `model.index` The index of the rendered item.
+         *   - `model.item` The item.
+         */
+        renderer: Function
       };
     }
 
     static get observers() {
-      return ['_selectedItemsObserver(selectedItems, selectedItems.*)'];
+      return [
+        '_selectedItemsObserver(selectedItems, selectedItems.*)',
+        '_rendererChanged(renderer)'
+      ];
     }
 
     /**
@@ -267,15 +286,20 @@ import './multiselect-combo-box-input.js';
 
       this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath, ', '));
 
-      this.$.comboBox.render && this.$.comboBox.render();
+      // manually force a render
+      this.$.comboBox.$.overlay._selectedItem = {};
+    }
+
+    _rendererChanged(renderer) {
+      this.$.comboBox.renderer = renderer;
     }
 
     _dispatchChangeEvent() {
       this.dispatchEvent(new CustomEvent('change', {bubbles: true}));
     }
 
-    _comboBoxValueChanged() {
-      const item = this.$.comboBox.selectedItem;
+    _comboBoxValueChanged(event, selectedItem) {
+      const item = selectedItem || this.$.comboBox.selectedItem;
 
       const update = this.selectedItems.slice(0);
 
@@ -283,23 +307,26 @@ import './multiselect-combo-box-input.js';
 
       if (index !== -1) {
         update.splice(index, 1);
-        this._resetFocusedIndex();
       } else {
         update.push(item);
       }
 
-      this.selectedItems = update;
-
-      if (this._hasDataProvider()) {
+      if (!selectedItem) {
         this.$.comboBox.value = null;
-      } else {
-        // reset value
-        this.$.comboBox.value = '';
       }
+
+      this.selectedItems = update;
 
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
+    }
+
+    _customIsSelected(item, selectedItem, itemIdPath) {
+      if (item instanceof ComboBoxPlaceholder) {
+        return false;
+      }
+      return this._isSelected(item, this.selectedItems, itemIdPath);
     }
 
     _isSelected(item, selectedItems, itemIdPath) {
@@ -324,7 +351,6 @@ import './multiselect-combo-box-input.js';
       const update = this.selectedItems.slice(0);
       update.splice(update.indexOf(item), 1);
       this.selectedItems = update;
-      this._resetFocusedIndex();
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
@@ -332,7 +358,6 @@ import './multiselect-combo-box-input.js';
 
     _handleRemoveAllItems() {
       this.set('selectedItems', []);
-      this._resetFocusedIndex();
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
@@ -359,51 +384,8 @@ import './multiselect-combo-box-input.js';
       return this.inputElement;
     }
 
-    /**
-     * A custom renderer that adds the `multiselect` class to each `vaadin-combo-box-item`.
-     */
-    _customRenderer(root, comboBox, model) {
-      let comboBoxItem = root.firstElementChild;
-      let comboBoxItemContent;
-
-      if (!comboBoxItem) {
-        // build the template
-        comboBoxItem = document.createElement('div');
-        comboBoxItem.setAttribute('part', 'item-template');
-        root.appendChild(comboBoxItem);
-
-        comboBoxItemContent = document.createElement('span');
-        comboBoxItem.appendChild(comboBoxItemContent);
-
-        // attach class to host element
-        const host = root.getRootNode().host;
-        host.classList.add('multiselect');
-      } else {
-        comboBoxItemContent = comboBoxItem.firstElementChild;
-      }
-
-      // set/update item label
-      comboBoxItemContent.textContent = this._getItemDisplayValue(model.item, this.itemLabelPath);
-
-      // set/update selected attribute
-      const selected = this._isSelected(model.item, this.selectedItems, this.itemIdPath);
-      this._updateSelectedAttribute(comboBoxItem, selected);
-    }
-
-    _updateSelectedAttribute(element, selected) {
-      if (selected) {
-        element.setAttribute('selected', '');
-      } else {
-        element.removeAttribute('selected');
-      }
-    }
-
     _labelChanged(label) {
-      if (label !== '' && label != null) {
-        this.set('hasLabel', true);
-      } else {
-        this.set('hasLabel', false);
-      }
+      this.set('hasLabel', label !== '' && label != null);
     }
 
     _sortSelectedItems(selectedItems) {
@@ -422,14 +404,6 @@ import './multiselect-combo-box-input.js';
       this.$.comboBox.pageSize = pageSize;
     }
 
-    _hasDataProvider() {
-      return this.$.comboBox.dataProvider && typeof this.$.comboBox.dataProvider === 'function';
-    }
-
-    _resetFocusedIndex() {
-      this.$.comboBox._focusedIndex = -1; // reset focused index
-    }
-
     _customOverlaySelectedItemChanged(event) {
       event.stopPropagation();
 
@@ -438,8 +412,7 @@ import './multiselect-combo-box-input.js';
       }
 
       if (this.$.comboBox.opened) {
-        this.$.comboBox.selectedItem = event.detail.item;
-        this.$.comboBox._detectAndDispatchChange();
+        this._comboBoxValueChanged(event, event.detail.item);
       }
     }
   }
