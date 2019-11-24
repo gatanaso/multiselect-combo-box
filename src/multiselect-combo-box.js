@@ -3,9 +3,11 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {ControlStateMixin} from '@vaadin/vaadin-control-state-mixin/vaadin-control-state-mixin.js';
 import {ThemableMixin} from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import {ThemePropertyMixin} from '@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin.js';
-import '@vaadin/vaadin-combo-box/src/vaadin-combo-box-light.js';
 import {ComboBoxPlaceholder} from '@vaadin/vaadin-combo-box/src/vaadin-combo-box-placeholder.js';
+import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
 import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
+
+import '@vaadin/vaadin-combo-box/src/vaadin-combo-box-light.js';
 import './multiselect-combo-box-input.js';
 
 {
@@ -139,6 +141,10 @@ import './multiselect-combo-box-input.js';
 
       // modify check to allow custom renderers
       this.$.comboBox.$.overlay._isItemSelected = this._customIsSelected.bind(this);
+
+      this._observer = new FlattenedNodesObserver(this, (info) => {
+        this._setTemplateFromNodes(info.addedNodes);
+      });
     }
 
     static get properties() {
@@ -255,14 +261,16 @@ import './multiselect-combo-box-input.js';
          *   - `model.index` The index of the rendered item.
          *   - `model.item` The item.
          */
-        renderer: Function
+        renderer: Function,
+
+        _itemTemplate: Object
       };
     }
 
     static get observers() {
       return [
         '_selectedItemsObserver(selectedItems, selectedItems.*)',
-        '_rendererChanged(renderer)'
+        '_templateOrRendererChanged(_itemTemplate, renderer)'
       ];
     }
 
@@ -290,7 +298,8 @@ import './multiselect-combo-box-input.js';
       this.$.comboBox.$.overlay._selectedItem = {};
     }
 
-    _rendererChanged(renderer) {
+    _templateOrRendererChanged(template, renderer) {
+      this.$.comboBox._itemTemplate = template;
       this.$.comboBox.renderer = renderer;
     }
 
@@ -414,6 +423,10 @@ import './multiselect-combo-box-input.js';
       if (this.$.comboBox.opened) {
         this._comboBoxValueChanged(event, event.detail.item);
       }
+    }
+
+    _setTemplateFromNodes(nodes) {
+      this._itemTemplate = nodes.filter(node => node.localName && node.localName === 'template')[0] || this._itemTemplate;
     }
   }
 

@@ -19,8 +19,19 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="multiselectComboBoxTemplateItem">
+    <template>
+      <multiselect-combo-box>
+        <template>
+          <b>[[item]]</b>
+        </template>
+      </multiselect-combo-box>
+    </template>
+  </test-fixture>
+
   <script type="module">
     import {ComboBoxPlaceholder} from '@vaadin/vaadin-combo-box/src/vaadin-combo-box-placeholder.js';
+    import {} from '@polymer/polymer/lib/utils/flush.js';
 
     describe('Multiselect combo box tests', () => {
       let multiselectComboBox;
@@ -181,16 +192,27 @@
         });
       });
 
-      describe('_rendererChanged', () => {
+      describe('_templateOrRendererChanged', () => {
         it('should set renderer function', () => {
           // given
-          const dummy = function(a, b, c) {};
+          const renderer = function(a, b, c) {};
 
           // when
-          multiselectComboBox.renderer = dummy;
+          multiselectComboBox.renderer = renderer;
 
           // then
-          expect(multiselectComboBox.$.comboBox.renderer).eq(dummy);
+          expect(multiselectComboBox.$.comboBox.renderer).eq(renderer);
+        });
+
+        it('should set item template', () => {
+          // given
+          const _itemTemplate = ['some', 'data'];
+
+          // when
+          multiselectComboBox._itemTemplate = _itemTemplate;
+
+          // then
+          expect(multiselectComboBox.$.comboBox._itemTemplate).eq(_itemTemplate);
         });
       });
 
@@ -927,6 +949,40 @@
           // then
           sinon.assert.calledOnce(event.stopPropagation);
           sinon.assert.notCalled(multiselectComboBox._comboBoxValueChanged);
+        });
+      });
+
+      describe('_setTemplateFromNodes', () => {
+        it('should set template from nodes', (done) => {
+          // given
+          multiselectComboBox = fixture('multiselectComboBoxTemplateItem'); // use fixture with template item
+          multiselectComboBox._templateOrRendererChanged = sinon.stub();
+
+          // when
+          flush(() => { // eslint-disable-line no-undef
+            // then
+            expect(multiselectComboBox._itemTemplate.innerHTML.trim()).to.be.eq('<b>[[item]]</b>');
+            sinon.assert.calledOnce(multiselectComboBox._templateOrRendererChanged);
+            done();
+          });
+        });
+
+        it('should not set template from nodes and use existing value', (done) => {
+          // given
+          multiselectComboBox = fixture('multiselectComboBoxTemplateItem'); // use fixture with template item
+          multiselectComboBox._templateOrRendererChanged = sinon.stub();
+          const nodes = [];
+
+          // when
+          flush(() => { // eslint-disable-line no-undef
+            sinon.assert.calledOnce(multiselectComboBox._templateOrRendererChanged); // only called once
+
+            multiselectComboBox._setTemplateFromNodes(nodes); // will not set _itemTemplate, as has no 'template' nodes
+
+            // then
+            expect(multiselectComboBox._itemTemplate.innerHTML.trim()).to.be.eq('<b>[[item]]</b>');
+            done();
+          });
         });
       });
     });
