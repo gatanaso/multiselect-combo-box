@@ -408,8 +408,8 @@ import './multiselect-combo-box-input.js';
 
     _sortSelectedItems(selectedItems) {
       selectedItems.sort((item1, item2) => {
-        const item1Str = this._getItemDisplayValue(item1, this.itemLabelPath);
-        const item2Str = this._getItemDisplayValue(item2, this.itemLabelPath);
+        const item1Str = String(this._getItemDisplayValue(item1, this.itemLabelPath));
+        const item2Str = String(this._getItemDisplayValue(item2, this.itemLabelPath));
         return item1Str.localeCompare(item2Str);
       });
     }
