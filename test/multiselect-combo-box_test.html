@@ -152,6 +152,33 @@
           expect(selectedItems[1]).to.be.eq('item 1');
           expect(selectedItems[2]).to.be.eq('item 3');
         });
+
+        it('should sort non-string object items', () => {
+          // given
+          multiselectComboBox.itemIdPath = 'id';
+          multiselectComboBox.itemValuePath = 'id';
+          multiselectComboBox.itemLabelPath = 'key';
+
+          const selectedItems = [
+            {id: 2, key: 2},
+            {id: 1, key: 1},
+            {id: 3, key: 3}
+          ];
+
+          multiselectComboBox.$.comboBox.render = sinon.stub();
+          multiselectComboBox.$.comboBox._setTitle = sinon.stub();
+
+          multiselectComboBox.ordered = true;
+
+          // when
+
+          multiselectComboBox._selectedItemsObserver(selectedItems);
+
+          // then
+          expect(selectedItems[0]).to.be.eql({id: 1, key: 1});
+          expect(selectedItems[1]).to.be.eql({id: 2, key: 2});
+          expect(selectedItems[2]).to.be.eql({id: 3, key: 3});
+        });
       });
 
       describe('_dispatchChangeEvent', () => {
