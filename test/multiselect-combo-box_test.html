@@ -896,10 +896,8 @@
               item: new ComboBoxPlaceholder()
             }
           };
-
           multiselectComboBox._comboBoxValueChanged = sinon.stub();
-
-          multiselectComboBox.$.comboBox.opened = true; // not relevant
+          multiselectComboBox.$.comboBox.opened = true; // not relevant for this test case
 
           // when
           multiselectComboBox._customOverlaySelectedItemChanged(event);
@@ -917,10 +915,9 @@
               item: 'test item'
             }
           };
-
           multiselectComboBox._comboBoxValueChanged = sinon.stub();
-
           multiselectComboBox.$.comboBox.opened = true;
+          multiselectComboBox.$.comboBox.close = sinon.stub(); // data provider is not used by default, therefore close will not be called
 
           // when
           multiselectComboBox._customOverlaySelectedItemChanged(event);
@@ -928,6 +925,7 @@
           // then
           sinon.assert.calledOnce(event.stopPropagation);
           sinon.assert.calledWith(multiselectComboBox._comboBoxValueChanged, event, event.detail.item);
+          sinon.assert.notCalled(multiselectComboBox.$.comboBox.close);
         });
 
         it('should not set selected item and call _comboBoxValueChanged when opened is false', () => {
@@ -938,9 +936,7 @@
               item: 'test item'
             }
           };
-
           multiselectComboBox.$.comboBox.opened = false;
-
           multiselectComboBox._comboBoxValueChanged = sinon.stub();
 
           // when
@@ -949,6 +945,79 @@
           // then
           sinon.assert.calledOnce(event.stopPropagation);
           sinon.assert.notCalled(multiselectComboBox._comboBoxValueChanged);
+        });
+
+        it('should close the overlay when opened, if using a data provider and a filter is present', () => {
+          // given
+          const event = {
+            stopPropagation: sinon.stub(),
+            detail: {
+              item: 'test item'
+            }
+          };
+          multiselectComboBox._comboBoxValueChanged = sinon.stub();
+          multiselectComboBox.$.comboBox.opened = true;
+
+          multiselectComboBox.$.comboBox.dataProvider = function dummy() {}; // uses data provider
+
+          multiselectComboBox.$.comboBox.close = sinon.stub();
+          multiselectComboBox.$.comboBox.filter = 'test'; // filter present, close is called
+
+          // when
+          multiselectComboBox._customOverlaySelectedItemChanged(event);
+
+          // then
+          sinon.assert.calledOnce(event.stopPropagation);
+          sinon.assert.calledWith(multiselectComboBox._comboBoxValueChanged, event, event.detail.item);
+          sinon.assert.calledOnce(multiselectComboBox.$.comboBox.close);
+        });
+
+        it('should not close the overlay when opened, using a data provider and filter is not present', () => {
+          // given
+          const event = {
+            stopPropagation: sinon.stub(),
+            detail: {
+              item: 'test item'
+            }
+          };
+          multiselectComboBox._comboBoxValueChanged = sinon.stub();
+          multiselectComboBox.$.comboBox.opened = true;
+
+          multiselectComboBox.$.comboBox.dataProvider = function dummy() {}; // uses data provider
+
+          multiselectComboBox.$.comboBox.close = sinon.stub();
+          multiselectComboBox.$.comboBox.filter = ''; // filter not present, close is not called
+
+          // when
+          multiselectComboBox._customOverlaySelectedItemChanged(event);
+
+          // then
+          sinon.assert.calledOnce(event.stopPropagation);
+          sinon.assert.calledWith(multiselectComboBox._comboBoxValueChanged, event, event.detail.item);
+          sinon.assert.notCalled(multiselectComboBox.$.comboBox.close);
+        });
+      });
+
+      describe('_hasDataProvider', () => {
+        it('should return undefined when not using a data provider', () => {
+          // given
+
+          // when
+          const hasDataProvider = multiselectComboBox._hasDataProvider();
+
+          // then
+          expect(hasDataProvider).to.be.undefined;
+        });
+
+        it('should return true when using a data provider', () => {
+          // given
+          multiselectComboBox.$.comboBox.dataProvider = function dummy() {};
+
+          // when
+          const hasDataProvider = multiselectComboBox._hasDataProvider();
+
+          // then
+          expect(hasDataProvider).to.be.true;
         });
       });
 
