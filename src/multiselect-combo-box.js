@@ -422,7 +422,19 @@ import './multiselect-combo-box-input.js';
 
       if (this.$.comboBox.opened) {
         this._comboBoxValueChanged(event, event.detail.item);
+
+        // When using a data provider, i.e. in the flow wrapper,
+        // we close the overlay after a selection is made and if
+        // a filter is present. This is to ensure that the overlay
+        // does not immediatelly re-open with the initial items page
+        if (this._hasDataProvider() && this.$.comboBox.filter) {
+          this.$.comboBox.close();
+        }
       }
+    }
+
+    _hasDataProvider() {
+      return this.$.comboBox.dataProvider && typeof this.$.comboBox.dataProvider === 'function';
     }
 
     _setTemplateFromNodes(nodes) {
