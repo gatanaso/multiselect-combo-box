@@ -324,11 +324,12 @@ import './multiselect-combo-box-input.js';
 
     _comboBoxValueChanged(event, selectedItem) {
       const item = selectedItem || this.$.comboBox.selectedItem;
+      if (!item) {
+        return;
+      }
 
       const update = this.selectedItems.slice(0);
-
       const index = this._findIndex(item, this.selectedItems, this.itemIdPath);
-
       if (index !== -1) {
         update.splice(index, 1);
       } else {
@@ -372,9 +373,9 @@ import './multiselect-combo-box-input.js';
     }
 
     _findIndex(item, selectedItems, itemIdPath) {
-      if (itemIdPath && item !== undefined) {
+      if (itemIdPath && item) {
         for (let index = 0; index < selectedItems.length; index++) {
-          if (selectedItems[index][itemIdPath] === item[itemIdPath]) {
+          if (selectedItems[index] && selectedItems[index][itemIdPath] === item[itemIdPath]) {
             return index;
           }
         }
@@ -451,6 +452,12 @@ import './multiselect-combo-box-input.js';
 
       if (this.$.comboBox.opened) {
         this._comboBoxValueChanged(event, event.detail.item);
+
+        // When custom values are allowed, we need to clear the input,
+        // so we don't fire a custom values event
+        if (this.allowCustomValues) {
+          this.$.input.value = null;
+        }
 
         // When using a data provider, i.e. in the flow wrapper,
         // we close the overlay after a selection is made and if
