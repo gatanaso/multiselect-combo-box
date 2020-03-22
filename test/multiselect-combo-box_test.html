@@ -1054,6 +1054,44 @@
           });
         });
       });
+
+      describe('_handleCustomValueSet', () => {
+        it('should not dispatch a "custom-values-set" event when detail is null or undefined', () => {
+          // given
+          const event = {
+            detail: null
+          };
+          event.preventDefault = sinon.stub();
+          multiselectComboBox.dispatchEvent = sinon.stub();
+
+          // when
+          multiselectComboBox._handleCustomValueSet(event);
+
+          // then
+          sinon.assert.calledOnce(event.preventDefault);
+          sinon.assert.notCalled(multiselectComboBox.dispatchEvent);
+        });
+
+        it('should dispatch a "custom-values-set" event', (done) => {
+          // given
+          multiselectComboBox.$.input.value = 'custom value';
+          const event = {
+            detail: 'custom value'
+          };
+          event.preventDefault = sinon.stub();
+
+          multiselectComboBox.addEventListener('custom-values-set', function(e) {
+            // then
+            expect(e.detail).to.be.eq('custom value');
+            expect(multiselectComboBox.$.input.value).to.be.null;
+            sinon.assert.calledOnce(event.preventDefault);
+            done();
+          });
+
+          // when
+          multiselectComboBox._handleCustomValueSet(event);
+        });
+      });
     });
   </script>
 </body>

@@ -97,7 +97,9 @@ import './multiselect-combo-box-input.js';
             item-value-path="[[itemValuePath]]"
             on-change="_comboBoxValueChanged"
             disabled="[[disabled]]"
-            pageSize="[[pageSize]]">
+            page-size="[[pageSize]]"
+            allow-custom-value="[[allowCustomValues]]"
+            on-custom-value-set="_handleCustomValueSet">
 
             <multiselect-combo-box-input
               id="input"
@@ -201,7 +203,9 @@ import './multiselect-combo-box-input.js';
         },
 
         /**
-         * Number of items fetched at a time from the dataprovider. This property is delegated to the underlying `vaadin-combo-box`.
+         * Number of items fetched at a time from the dataprovider.
+         *
+         * This property is delegated to the underlying `vaadin-combo-box`.
          */
         pageSize: {
           type: Number,
@@ -248,6 +252,17 @@ import './multiselect-combo-box-input.js';
         readonlyValueSeparator: {
           type: String,
           value: ', ' // default value
+        },
+
+        /**
+         * If `true`, the user can input a value that is not present in the items list.
+         * `value` property will be set to the input value in this case.
+         *
+         * This property is delegated to the underlying `vaadin-combo-box`.
+         */
+        allowCustomValues: {
+          type: Boolean,
+          value: false
         },
 
         /**
@@ -328,6 +343,20 @@ import './multiselect-combo-box-input.js';
 
       if (this.validate()) {
         this._dispatchChangeEvent();
+      }
+    }
+
+    _handleCustomValueSet(event) {
+      event.preventDefault();
+      if (event.detail) {
+        this.$.input.value = null; // clear input
+        const customValuesSetEvent = new CustomEvent('custom-values-set', {
+          detail: event.detail,
+          composed: true,
+          cancelable: true,
+          bubbles: true
+        });
+        this.dispatchEvent(customValuesSetEvent);
       }
     }
 

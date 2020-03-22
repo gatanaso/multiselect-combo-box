@@ -306,8 +306,8 @@
 
           <script>
             window.addEventListener('WebComponentsReady', function() {
-              const basicMultiselectComboBox = document.querySelector('#clearButtonVisibleDemo');
-              basicMultiselectComboBox.items = [
+              const clearButtonVisibleMultiselectComboBox = document.querySelector('#clearButtonVisibleDemo');
+              clearButtonVisibleMultiselectComboBox.items = [
                 'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
                 'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
                 'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
@@ -315,7 +315,7 @@
                 'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
                 'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
               ];
-              basicMultiselectComboBox.selectedItems = [
+              clearButtonVisibleMultiselectComboBox.selectedItems = [
                 'Helium',
                 'Lithium'
               ];
@@ -401,6 +401,42 @@
                 root.querySelector('.symbol').textContent = model.item.symbol;
                 root.querySelector('.index').textContent = model.index;
               };
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Allow custom values</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="allowCustomValuesDemo"
+            label="Allows input of custom values"
+            placeholder="Select existing or input custom value"
+            allow-custom-values>
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', function() {
+              const customValuesMultiselectComboBox = document.querySelector('#allowCustomValuesDemo');
+              customValuesMultiselectComboBox.items = [
+                'Hydrogen', 'Helium', 'Lithium', 'Beryllium'
+              ];
+              customValuesMultiselectComboBox.selectedItems = [
+                'Helium',
+                'Lithium'
+              ];
+
+              // handle the `custom-values-set` event
+              customValuesMultiselectComboBox.addEventListener('custom-values-set', function(event) {
+                customValuesMultiselectComboBox.items.push(event.detail);
+                const selectedItemsUpdate = customValuesMultiselectComboBox.selectedItems.slice(0);
+                selectedItemsUpdate.push(event.detail);
+                customValuesMultiselectComboBox.selectedItems = selectedItemsUpdate;
+              });
             });
           </script>
         </template>
