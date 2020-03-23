@@ -337,11 +337,11 @@
         it('should not dispath event if validate returns false', () => {
           // given
           multiselectComboBox.validate = sinon.stub();
-          multiselectComboBox.validate.returns(false);
+          multiselectComboBox.validate.returns(false); // force to be false
           multiselectComboBox._dispatchChangeEvent = sinon.stub();
 
           // when
-          multiselectComboBox._comboBoxValueChanged();
+          multiselectComboBox._comboBoxValueChanged({}, 'test item');
 
           // then
           sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
@@ -371,6 +371,23 @@
 
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
+        });
+
+        it('should immediatelly return when item is null', () => {
+          // given
+          const event = {};
+          const selectedItem = undefined;
+          multiselectComboBox.$.comboBox.selectedItem = null;
+
+          multiselectComboBox._findIndex = sinon.stub();
+          multiselectComboBox.validate = sinon.stub();
+
+          // when
+          multiselectComboBox._comboBoxValueChanged(event, selectedItem);
+
+          // then
+          sinon.assert.notCalled(multiselectComboBox._findIndex);
+          sinon.assert.notCalled(multiselectComboBox.validate);
         });
       });
 
@@ -996,6 +1013,52 @@
           sinon.assert.calledWith(multiselectComboBox._comboBoxValueChanged, event, event.detail.item);
           sinon.assert.notCalled(multiselectComboBox.$.comboBox.close);
         });
+
+        it('should clear input value when "allowCustomValues" is true', () => {
+          // given
+          const event = {
+            stopPropagation: sinon.stub(),
+            detail: {
+              item: 'test item'
+            }
+          };
+          multiselectComboBox._comboBoxValueChanged = sinon.stub();
+          multiselectComboBox.$.comboBox.opened = true;
+
+          multiselectComboBox.allowCustomValues = true;
+
+          // when
+          multiselectComboBox._customOverlaySelectedItemChanged(event);
+
+          // then
+          sinon.assert.calledOnce(event.stopPropagation);
+          sinon.assert.calledWith(multiselectComboBox._comboBoxValueChanged, event, event.detail.item);
+
+          expect(multiselectComboBox.$.input.value).to.be.null;
+        });
+
+        it('should not clear input value when "allowCustomValues" is false', () => {
+          // given
+          const event = {
+            stopPropagation: sinon.stub(),
+            detail: {
+              item: 'test item'
+            }
+          };
+          multiselectComboBox._comboBoxValueChanged = sinon.stub();
+          multiselectComboBox.$.comboBox.opened = true;
+
+          multiselectComboBox.allowCustomValues = false;
+
+          // when
+          multiselectComboBox._customOverlaySelectedItemChanged(event);
+
+          // then
+          sinon.assert.calledOnce(event.stopPropagation);
+          sinon.assert.calledWith(multiselectComboBox._comboBoxValueChanged, event, event.detail.item);
+
+          expect(multiselectComboBox.$.input.value).to.not.be.null;
+        });
       });
 
       describe('_hasDataProvider', () => {
@@ -1052,6 +1115,44 @@
             expect(multiselectComboBox._itemTemplate.innerHTML.trim()).to.be.eq('<b>[[item]]</b>');
             done();
           });
+        });
+      });
+
+      describe('_handleCustomValueSet', () => {
+        it('should not dispatch a "custom-values-set" event when detail is null or undefined', () => {
+          // given
+          const event = {
+            detail: null
+          };
+          event.preventDefault = sinon.stub();
+          multiselectComboBox.dispatchEvent = sinon.stub();
+
+          // when
+          multiselectComboBox._handleCustomValueSet(event);
+
+          // then
+          sinon.assert.calledOnce(event.preventDefault);
+          sinon.assert.notCalled(multiselectComboBox.dispatchEvent);
+        });
+
+        it('should dispatch a "custom-values-set" event', (done) => {
+          // given
+          multiselectComboBox.$.input.value = 'custom value';
+          const event = {
+            detail: 'custom value'
+          };
+          event.preventDefault = sinon.stub();
+
+          multiselectComboBox.addEventListener('custom-values-set', function(e) {
+            // then
+            expect(e.detail).to.be.eq('custom value');
+            expect(multiselectComboBox.$.input.value).to.be.null;
+            sinon.assert.calledOnce(event.preventDefault);
+            done();
+          });
+
+          // when
+          multiselectComboBox._handleCustomValueSet(event);
         });
       });
     });
