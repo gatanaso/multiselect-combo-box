@@ -964,56 +964,6 @@
           sinon.assert.notCalled(multiselectComboBox._comboBoxValueChanged);
         });
 
-        it('should close the overlay when opened, if using a data provider and a filter is present', () => {
-          // given
-          const event = {
-            stopPropagation: sinon.stub(),
-            detail: {
-              item: 'test item'
-            }
-          };
-          multiselectComboBox._comboBoxValueChanged = sinon.stub();
-          multiselectComboBox.$.comboBox.opened = true;
-
-          multiselectComboBox.$.comboBox.dataProvider = function dummy() {}; // uses data provider
-
-          multiselectComboBox.$.comboBox.close = sinon.stub();
-          multiselectComboBox.$.comboBox.filter = 'test'; // filter present, close is called
-
-          // when
-          multiselectComboBox._customOverlaySelectedItemChanged(event);
-
-          // then
-          sinon.assert.calledOnce(event.stopPropagation);
-          sinon.assert.calledWith(multiselectComboBox._comboBoxValueChanged, event, event.detail.item);
-          sinon.assert.calledOnce(multiselectComboBox.$.comboBox.close);
-        });
-
-        it('should not close the overlay when opened, using a data provider and filter is not present', () => {
-          // given
-          const event = {
-            stopPropagation: sinon.stub(),
-            detail: {
-              item: 'test item'
-            }
-          };
-          multiselectComboBox._comboBoxValueChanged = sinon.stub();
-          multiselectComboBox.$.comboBox.opened = true;
-
-          multiselectComboBox.$.comboBox.dataProvider = function dummy() {}; // uses data provider
-
-          multiselectComboBox.$.comboBox.close = sinon.stub();
-          multiselectComboBox.$.comboBox.filter = ''; // filter not present, close is not called
-
-          // when
-          multiselectComboBox._customOverlaySelectedItemChanged(event);
-
-          // then
-          sinon.assert.calledOnce(event.stopPropagation);
-          sinon.assert.calledWith(multiselectComboBox._comboBoxValueChanged, event, event.detail.item);
-          sinon.assert.notCalled(multiselectComboBox.$.comboBox.close);
-        });
-
         it('should clear input value when "allowCustomValues" is true', () => {
           // given
           const event = {
