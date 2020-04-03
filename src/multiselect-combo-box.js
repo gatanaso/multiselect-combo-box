@@ -458,14 +458,6 @@ import './multiselect-combo-box-input.js';
         if (this.allowCustomValues) {
           this.$.input.value = null;
         }
-
-        // When using a data provider, i.e. in the flow wrapper,
-        // we close the overlay after a selection is made and if
-        // a filter is present. This is to ensure that the overlay
-        // does not immediatelly re-open with the initial items page
-        if (this._hasDataProvider() && this.$.comboBox.filter) {
-          this.$.comboBox.close();
-        }
       }
     }
 
