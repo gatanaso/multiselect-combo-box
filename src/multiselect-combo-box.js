@@ -345,6 +345,10 @@ import './multiselect-combo-box-input.js';
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
+
+      // reset the focus index, so a value-change event
+      // is not fired when the overlay is closed
+      this.$.comboBox._focusedIndex = -1;
     }
 
     _handleCustomValueSet(event) {
