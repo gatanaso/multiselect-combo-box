@@ -1108,6 +1108,36 @@
           multiselectComboBox._handleCustomValueSet(event);
         });
       });
+
+      describe('_initDataConnector', () => {
+        it('should invoke server callback when component has no data provider', () => {
+          // given
+          multiselectComboBox.$server = {
+            initDataConnector: sinon.stub()
+          };
+
+          // when
+          multiselectComboBox._initDataConnector();
+
+          // then
+          sinon.assert.calledOnce(multiselectComboBox.$server.initDataConnector);
+        });
+
+        it('should not invoke server callback when component has a data provider', () => {
+          // given
+          multiselectComboBox.$server = {
+            initDataConnector: sinon.stub()
+          };
+
+          multiselectComboBox.$.comboBox.dataProvider = function dummy() {};
+
+          // when
+          multiselectComboBox._initDataConnector();
+
+          // then
+          sinon.assert.notCalled(multiselectComboBox.$server.initDataConnector);
+        });
+      });
     });
   </script>
 </body>
