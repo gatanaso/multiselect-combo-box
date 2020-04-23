@@ -249,6 +249,7 @@
           expect(multiselectComboBox.selectedItems).to.include('item 1');
           expect(multiselectComboBox.selectedItems).to.include('item 3');
           expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
@@ -300,6 +301,7 @@
           expect(multiselectComboBox.selectedItems).to.include({id: 1, label: 'item 1'});
           expect(multiselectComboBox.selectedItems).to.include({id: 3, label: 'item 3'});
           expect(multiselectComboBox.$.comboBox.value).to.be.empty;
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
@@ -368,6 +370,7 @@
           expect(multiselectComboBox.selectedItems).to.include('item 2');
 
           expect(multiselectComboBox.$.comboBox.value).to.be.null;
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
 
           sinon.assert.calledOnce(multiselectComboBox.validate);
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
