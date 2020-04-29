@@ -29,7 +29,7 @@ Add to your page:
 ### Polymer 2.x (bower)
 Install the `multiselect-combo-box`:
 ```
-bower install --save gatanaso/multiselect-combo-box
+bower install --save gatanaso/multiselect-combo-box#1.1.0
 ```
 Once installed, import in your applicaiton:
 ```
