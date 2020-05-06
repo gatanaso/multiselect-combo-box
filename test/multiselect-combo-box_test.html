@@ -336,7 +336,7 @@
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
 
-        it('should not dispath event if validate returns false', () => {
+        it('should dispath event if validate returns false', () => {
           // given
           multiselectComboBox.validate = sinon.stub();
           multiselectComboBox.validate.returns(false); // force to be false
@@ -346,7 +346,7 @@
           multiselectComboBox._comboBoxValueChanged({}, 'test item');
 
           // then
-          sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
+          sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
 
         it('should set value to null when using combo box value instead of selectedItem parameter', () => {
@@ -554,7 +554,7 @@
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
 
-        it('should not dispath event if validate returns false', () => {
+        it('should dispatch event if validate returns false', () => {
           // given
           const event = {
             detail: {
@@ -569,7 +569,7 @@
           multiselectComboBox._handleItemRemoved(event);
 
           // then
-          sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
+          sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
           expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
         });
       });
@@ -592,7 +592,7 @@
           expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
         });
 
-        it('should not dispath event if validate returns false', () => {
+        it('should dispatch event if validate returns false', () => {
           // given
           multiselectComboBox.validate = sinon.stub();
           multiselectComboBox.validate.returns(false);
@@ -602,7 +602,7 @@
           multiselectComboBox._handleRemoveAllItems();
 
           // then
-          sinon.assert.notCalled(multiselectComboBox._dispatchChangeEvent);
+          sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
           expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
         });
       });

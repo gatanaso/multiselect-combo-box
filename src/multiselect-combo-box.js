@@ -344,9 +344,8 @@ import './multiselect-combo-box-input.js';
 
       this.selectedItems = update;
 
-      if (this.validate()) {
-        this._dispatchChangeEvent();
-      }
+      this.validate();
+      this._dispatchChangeEvent();
 
       // reset the focus index, so a value-change event
       // is not fired when the overlay is closed
@@ -396,16 +395,14 @@ import './multiselect-combo-box-input.js';
       const update = this.selectedItems.slice(0);
       update.splice(update.indexOf(item), 1);
       this.selectedItems = update;
-      if (this.validate()) {
-        this._dispatchChangeEvent();
-      }
+      this.validate();
+      this._dispatchChangeEvent();
     }
 
     _handleRemoveAllItems() {
       this.set('selectedItems', []);
-      if (this.validate()) {
-        this._dispatchChangeEvent();
-      }
+      this.validate();
+      this._dispatchChangeEvent();
     }
 
     _getReadonlyValue(selectedItems, itemLabelPath, compactMode, readonlyValueSeparator) {
