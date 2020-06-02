@@ -34,7 +34,8 @@ html`
           flex-grow: 1;
           align-items: center;
           margin: var(--lumo-space-s);
-          color: var(--lumo-contrast-70pct);
+          color: var(--lumo-body-text-color);
+          font-weight: 500;
           cursor: default;
         }
 

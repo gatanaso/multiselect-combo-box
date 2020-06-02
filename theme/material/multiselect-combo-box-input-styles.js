@@ -76,6 +76,8 @@ html`
           flex-grow: 1;
           align-items: center;
           margin: var(--material-space-s);
+          color: var(--material-body-text-color);
+          font-size: var(--material-body-font-size);
           cursor: default;
         }
 
