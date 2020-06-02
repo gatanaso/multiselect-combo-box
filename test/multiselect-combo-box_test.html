@@ -731,6 +731,23 @@
           // then
           expect(result).to.be.eql('2 values');
         });
+
+        it('should get custom display value when in compact and using a compact mode value renderer', () => {
+          // given
+          const compactMode = true;
+          const selectedItems = ['item 1', 'item 2'];
+          const itemLabelPath = undefined;
+
+          multiselectComboBox.compactModeValueRenderer = function(items) {
+            return 'two custom items';
+          };
+
+          // when
+          const result = multiselectComboBox._getReadonlyValue(selectedItems, itemLabelPath, compactMode);
+
+          // then
+          expect(result).to.be.eql('two custom items');
+        });
       });
 
       describe('_getItemDisplayValue', () => {

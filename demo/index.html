@@ -129,6 +129,43 @@
     </div>
 
     <div class="vertical-section-container centered">
+      <h3>Multiselect-combo-box in compact mode with custom compact value renderer</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="compactModeRenderer"
+            label="Multiselect field"
+            compact-mode>
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', function() {
+              const compactModeMultiselectComboBox = document.querySelector('#compactModeRenderer');
+
+              // Set the compact mode value renderer
+              compactModeMultiselectComboBox.compactModeValueRenderer = function(items) {
+                const suffix = (items.length === 0 || items.length > 1) ? 'chemical elements' : 'chemical element';
+                return `${items.length} ${suffix}`;
+              };
+
+              compactModeMultiselectComboBox.items = [
+                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus'
+              ];
+              compactModeMultiselectComboBox.selectedItems = [
+                'Helium',
+                'Lithium',
+                'Beryllium'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>    
+
+    <div class="vertical-section-container centered">
       <h3>Required multiselect-combo-box</h3>
       <demo-snippet>
         <template>

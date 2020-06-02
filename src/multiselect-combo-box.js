@@ -109,6 +109,7 @@ import './multiselect-combo-box-input.js';
               item-label-path="[[itemLabelPath]]"
               items="[[selectedItems]]"
               compact-mode="[[compactMode]]"
+              compact-mode-value-renderer="[[compactModeValueRenderer]]"
               on-item-removed="_handleItemRemoved"
               on-remove-all-items="_handleRemoveAllItems"
               has-value="[[hasValue]]"
