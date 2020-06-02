@@ -50,7 +50,7 @@ export const MultiselectComboBoxMixin = (base) => class extends base {
        * Custom function for rendering the display value when in compact mode.
        *
        * This function receives the array of selected items and should return
-       * a string value that will will be used as the display value.
+       * a string value that will be used as the display value.
        */
       compactModeValueRenderer: Function,
 
