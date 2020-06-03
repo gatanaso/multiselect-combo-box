@@ -30,7 +30,7 @@ import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
             <template is="dom-repeat" items="[[items]]">
               <div part="token">
                 <div part="token-label">[[_getItemDisplayValue(item, itemLabelPath)]]</div>
-                <div part="token-remove-button" title="remove" role="button" on-click="_removeToken"></div>
+                <div part="token-remove-button" role="button" on-click="_removeToken"></div>
               </div>
             </template>
           </template>
