@@ -81,7 +81,7 @@
       });
 
       describe('_selectedItemsObserver', () => {
-        it('should set `hasValue` to `false` and set empty title when selected items is empty', () => {
+        it('should set `hasValue` to `false`', () => {
           // given
           const selectedItems = [];
 
@@ -94,7 +94,7 @@
           expect(multiselectComboBox.$.comboBox.$.overlay._selectedItem).to.be.empty;
         });
 
-        it('should set `hasValue` to `true` and set title', () => {
+        it('should set `hasValue` to `true`', () => {
           // given
           const selectedItems = ['item 2', 'item 1'];
 
@@ -103,7 +103,7 @@
 
           // then
           expect(multiselectComboBox.hasValue).to.be.true;
-          expect(multiselectComboBox.title).to.be.eql('item 2, item 1');
+          expect(multiselectComboBox.title).to.be.empty;
           expect(multiselectComboBox.$.comboBox.$.overlay._selectedItem).to.be.empty;
         });
 
@@ -143,6 +143,7 @@
           expect(selectedItems[0]).to.be.eq('item 2');
           expect(selectedItems[1]).to.be.eq('item 1');
           expect(selectedItems[2]).to.be.eq('item 3');
+          expect(multiselectComboBox.title).to.be.eql('item 2, item 1, item 3');
         });
 
         it('should not sort the selected items when "ordered" is false', () => {
@@ -189,6 +190,20 @@
           expect(selectedItems[0]).to.be.eql({id: 1, key: 1});
           expect(selectedItems[1]).to.be.eql({id: 2, key: 2});
           expect(selectedItems[2]).to.be.eql({id: 3, key: 3});
+        });
+
+        it('should set title when in compact mode', () => {
+          // given
+          const selectedItems = ['item 2', 'item 1'];
+          multiselectComboBox.compactMode = true;
+
+          // when
+          multiselectComboBox._selectedItemsObserver(selectedItems);
+
+          // then
+          expect(multiselectComboBox.hasValue).to.be.true;
+          expect(multiselectComboBox.title).to.be.eql('item 2, item 1');
+          expect(multiselectComboBox.$.comboBox.$.overlay._selectedItem).to.be.empty;
         });
       });
 

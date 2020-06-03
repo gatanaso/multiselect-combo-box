@@ -309,7 +309,7 @@ import './multiselect-combo-box-input.js';
         this._sortSelectedItems(selectedItems);
       }
 
-      this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath, ', '));
+      this.compactMode ? this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath, ', ')) : this._setTitle('');
 
       // manually force a render
       this.$.comboBox.$.overlay._selectedItem = {};
