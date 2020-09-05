@@ -33,7 +33,8 @@ html`
           display: flex;
           flex-grow: 1;
           align-items: center;
-          margin: var(--lumo-space-s);
+          margin: var(--lumo-space-xs);
+          padding: 0 calc(0.375em + var(--lumo-border-radius) / 4 - 1px);
           color: var(--lumo-body-text-color);
           font-weight: 500;
           cursor: default;
