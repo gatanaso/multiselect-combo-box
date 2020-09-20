@@ -98,6 +98,8 @@ import './multiselect-combo-box-input.js';
             on-change="_comboBoxValueChanged"
             disabled="[[disabled]]"
             page-size="[[pageSize]]"
+            filter="{{filterValue}}"
+            filtered-items="[[filteredItems]]"
             allow-custom-value="[[allowCustomValues]]"
             on-custom-value-set="_handleCustomValueSet">
 
@@ -281,7 +283,23 @@ import './multiselect-combo-box-input.js';
          */
         renderer: Function,
 
-        _itemTemplate: Object
+        _itemTemplate: Object,
+
+        /**
+         * Filtering string the user has typed into the input field.
+         */
+        filterValue: {
+          type: String,
+          value: '',
+          notify: true
+        },
+
+        /**
+         * A subset of items, filtered based on the user input. Filtered items
+         * can be assigned directly to omit the internal filtering functionality.
+         * The items can be of either `String` or `Object` type.
+         */
+        filteredItems: Array
       };
     }
 
