@@ -58,11 +58,14 @@ html`
           position: absolute;
         }
 
-        [part="readonly-container"] {
-          color: var(--material-secondary-text-color);
-          padding: var(--material-space-s);
-          border: 1px dashed var(--_material-text-field-input-line-background-color, #000);
-          border-radius: var(--lumo-border-radius);
+        [part="readonly-container"]:not([hidden]) {
+          display: inline-flex;
+          align-items: center;
+          color: var(--material-body-text-color);
+          border: 1px dashed var(--material-text-field-input-line-background-color, #000);
+          padding: 0 var(--material-space-s);
+          min-height: 32px;
+          cursor: default;
         }
       </style>
     </template>

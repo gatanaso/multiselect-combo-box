@@ -74,11 +74,16 @@ html`
           transition-duration: 0.2s, 1s;
         }
 
-        [part="readonly-container"] {
+        [part="readonly-container"]:not([hidden]) {
+          display: inline-flex;
+          align-items: center;
           color: var(--lumo-secondary-text-color);
-          padding: var(--lumo-space-s);
           border: 1px dashed var(--lumo-contrast-30pct);
           border-radius: var(--lumo-border-radius);
+          padding: 0 calc(0.375em + var(--lumo-border-radius) / 4 - 1px);
+          font-weight: 500;
+          min-height: var(--lumo-text-field-size);
+          cursor: default;
         }
       </style>
     </template>
