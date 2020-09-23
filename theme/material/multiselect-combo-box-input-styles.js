@@ -27,7 +27,7 @@ html`
           right: 0;
           height: 1px;
           transform-origin: 50% 0%;
-          background-color: var(--_material-text-field-input-line-background-color, #000);
+          background-color: var(--material-text-field-input-line-background-color, #000);
           opacity: var(--_material-text-field-input-line-opacity, 0.42);
         }
 
@@ -42,7 +42,7 @@ html`
 
         :host([disabled])::before {
           background-color: transparent;
-          background-image: linear-gradient(90deg, var(--_material-text-field-input-line-background-color, #000) 0, var(--_material-text-field-input-line-background-color, #000) 2px, transparent 2px);
+          background-image: linear-gradient(90deg, var(--material-text-field-input-line-background-color, #000) 0, var(--material-text-field-input-line-background-color, #000) 2px, transparent 2px);
           background-size: 4px 1px;
           background-repeat: repeat-x;
         }
