@@ -5,6 +5,8 @@ import {ThemableMixin} from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin
 import {ThemePropertyMixin} from '@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin.js';
 import {ComboBoxPlaceholder} from '@vaadin/vaadin-combo-box/src/vaadin-combo-box-placeholder.js';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {IronResizableBehavior} from '@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
 import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
 
 import '@vaadin/vaadin-combo-box/src/vaadin-combo-box-light.js';
@@ -25,7 +27,7 @@ import './multiselect-combo-box-input.js';
     ControlStateMixin(
       ThemePropertyMixin(
         ThemableMixin(
-          MultiselectComboBoxMixin(PolymerElement)))) {
+          MultiselectComboBoxMixin(mixinBehaviors([IronResizableBehavior], PolymerElement))))) {
 
     static get template() {
       return html`
@@ -306,7 +308,8 @@ import './multiselect-combo-box-input.js';
     static get observers() {
       return [
         '_selectedItemsObserver(selectedItems, selectedItems.*)',
-        '_templateOrRendererChanged(_itemTemplate, renderer)'
+        '_templateOrRendererChanged(_itemTemplate, renderer)',
+        '__observeOffsetHeight(errorMessage, invalid, label)'
       ];
     }
 
@@ -332,11 +335,17 @@ import './multiselect-combo-box-input.js';
 
       // manually force a render
       this.$.comboBox.$.overlay._selectedItem = {};
+
+      setTimeout(() => this._notifyResizeIfNeeded(), 0);
     }
 
     _templateOrRendererChanged(template, renderer) {
       this.$.comboBox._itemTemplate = template;
       this.$.comboBox.renderer = renderer;
+    }
+
+    __observeOffsetHeight() {
+      this._notifyResizeIfNeeded();
     }
 
     _dispatchChangeEvent() {
@@ -499,6 +508,14 @@ import './multiselect-combo-box-input.js';
 
     _hasDataProvider() {
       return this.$.comboBox.dataProvider && typeof this.$.comboBox.dataProvider === 'function';
+    }
+
+    _notifyResizeIfNeeded() {
+      if (this.__previousHeight !== undefined && this.__previousHeight !== this.offsetHeight) {
+        this.notifyResize(); // allows the items drop-down to reposition itself if needed
+        this.dispatchEvent(new CustomEvent('iron-resize', {bubbles: true})); // allows i.e. vaadin-grid to resize itself
+      }
+      this.__previousHeight = this.offsetHeight;
     }
   }
 
