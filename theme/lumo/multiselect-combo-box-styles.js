@@ -105,6 +105,7 @@ html`
         :host(.multiselect) [part="input-field"],
         :host(.multiselect) [part="input-field"]::after {
           background-color: transparent !important;
+          box-shadow: none;
         }
 
         :host(.multiselect[compact-mode]) [part="input-field"] {
