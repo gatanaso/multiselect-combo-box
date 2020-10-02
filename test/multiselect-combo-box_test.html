@@ -1170,6 +1170,49 @@
           sinon.assert.notCalled(multiselectComboBox.$server.initDataConnector);
         });
       });
+
+      describe('_notifyResizeIfNeeded', () => {
+        it('should not dispatch `iron-resize` event on init', () => {
+          // given
+          const multiselectComboBox = fixture('multiselectComboBoxFixture');
+          const spy = sinon.spy();
+
+          // when
+          multiselectComboBox.addEventListener('iron-resize', spy);
+
+          // then
+          expect(spy).to.not.be.called;
+        });
+
+        it('should dispatch `iron-resize` event when height changes due to field being invalid', (done) => {
+          // given
+          multiselectComboBox.notifyResize = sinon.spy();
+
+          multiselectComboBox.addEventListener('iron-resize', (event) => {
+            // then
+            sinon.assert.calledOnce(multiselectComboBox.notifyResize);
+            done();
+          });
+
+          // when
+          multiselectComboBox.errorMessage = 'Error message';
+          multiselectComboBox.invalid = true;
+        });
+
+        it('should dispatch `iron-resize` event when height changes due to label', (done) => {
+          // given
+          multiselectComboBox.notifyResize = sinon.spy();
+
+          multiselectComboBox.addEventListener('iron-resize', (event) => {
+            // then
+            sinon.assert.calledOnce(multiselectComboBox.notifyResize);
+            done();
+          });
+
+          // when
+          multiselectComboBox.label = 'Label';
+        });
+      });
     });
   </script>
 </body>
