@@ -153,7 +153,7 @@ import './multiselect-combo-box-input.js';
         this._setTemplateFromNodes(info.addedNodes);
       });
 
-      this._initDataConnector(); // only relevant when used with Vaadin Flow
+      this._notifyReady(); // only relevant when used with Vaadin Flow
     }
 
     static get properties() {
@@ -498,16 +498,10 @@ import './multiselect-combo-box-input.js';
       this._itemTemplate = nodes.filter(node => node.localName && node.localName === 'template')[0] || this._itemTemplate;
     }
 
-    _initDataConnector() {
-      if (!this._hasDataProvider()) {
-        // server callback to initialize the data connector (when used with Vaadin Flow)
-        this.$server && this.$server.initDataConnector();
-      }
+    _notifyReady() {
+      this.$server && this.$server.notifyReady();
     }
 
-    _hasDataProvider() {
-      return this.$.comboBox.dataProvider && typeof this.$.comboBox.dataProvider === 'function';
-    }
 
     _notifyResizeIfNeeded() {
       if (this.__previousHeight !== undefined && this.__previousHeight !== this.offsetHeight) {

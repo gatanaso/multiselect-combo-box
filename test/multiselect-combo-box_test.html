@@ -1054,29 +1054,6 @@
         });
       });
 
-      describe('_hasDataProvider', () => {
-        it('should return undefined when not using a data provider', () => {
-          // given
-
-          // when
-          const hasDataProvider = multiselectComboBox._hasDataProvider();
-
-          // then
-          expect(hasDataProvider).to.be.undefined;
-        });
-
-        it('should return true when using a data provider', () => {
-          // given
-          multiselectComboBox.$.comboBox.dataProvider = function dummy() {};
-
-          // when
-          const hasDataProvider = multiselectComboBox._hasDataProvider();
-
-          // then
-          expect(hasDataProvider).to.be.true;
-        });
-      });
-
       describe('_setTemplateFromNodes', () => {
         it('should set template from nodes', (done) => {
           // given
@@ -1149,33 +1126,18 @@
         });
       });
 
-      describe('_initDataConnector', () => {
-        it('should invoke server callback when component has no data provider', () => {
+      describe('_notifyReady()', () => {
+        it('should invoke server callback when `$server` is present', () => {
           // given
           multiselectComboBox.$server = {
-            initDataConnector: sinon.stub()
+            notifyReady: sinon.stub()
           };
 
           // when
-          multiselectComboBox._initDataConnector();
+          multiselectComboBox._notifyReady();
 
           // then
-          sinon.assert.calledOnce(multiselectComboBox.$server.initDataConnector);
-        });
-
-        it('should not invoke server callback when component has a data provider', () => {
-          // given
-          multiselectComboBox.$server = {
-            initDataConnector: sinon.stub()
-          };
-
-          multiselectComboBox.$.comboBox.dataProvider = function dummy() {};
-
-          // when
-          multiselectComboBox._initDataConnector();
-
-          // then
-          sinon.assert.notCalled(multiselectComboBox.$server.initDataConnector);
+          sinon.assert.calledOnce(multiselectComboBox.$server.notifyReady);
         });
       });
 
