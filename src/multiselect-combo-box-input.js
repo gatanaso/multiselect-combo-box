@@ -108,10 +108,6 @@ import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
         bubbles: true
       }));
     }
-
-    _resolvePlaceholder(compactMode, placeholder) {
-      return compactMode ? '' : placeholder;
-    }
   }
 
   customElements.define(MultiselectComboBoxInput.is, MultiselectComboBoxInput);
