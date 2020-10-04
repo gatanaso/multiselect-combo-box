@@ -113,7 +113,7 @@ import './multiselect-combo-box-input.js';
               item-label-path="[[itemLabelPath]]"
               items="[[selectedItems]]"
               compact-mode="[[compactMode]]"
-              compact-mode-value-renderer="[[compactModeValueRenderer]]"
+              compact-mode-label-generator="[[compactModeLabelGenerator]]"
               on-item-removed="_handleItemRemoved"
               on-remove-all-items="_handleRemoveAllItems"
               has-value="[[hasValue]]"
@@ -309,7 +309,7 @@ import './multiselect-combo-box-input.js';
       return [
         '_selectedItemsObserver(selectedItems, selectedItems.*)',
         '_templateOrRendererChanged(_itemTemplate, renderer)',
-        '__observeOffsetHeight(errorMessage, invalid, label)'
+        '_observeOffsetHeight(errorMessage, invalid, label)'
       ];
     }
 
@@ -344,7 +344,7 @@ import './multiselect-combo-box-input.js';
       this.$.comboBox.renderer = renderer;
     }
 
-    __observeOffsetHeight() {
+    _observeOffsetHeight() {
       this._notifyResizeIfNeeded();
     }
 
@@ -438,12 +438,12 @@ import './multiselect-combo-box-input.js';
 
     _getReadonlyValue(selectedItems, itemLabelPath, compactMode, readonlyValueSeparator) {
       return compactMode ?
-        this._getCompactModeDisplayValue(selectedItems) :
+        this._getCompactModeLabel(selectedItems) :
         this._getDisplayValue(selectedItems, itemLabelPath, readonlyValueSeparator);
     }
 
     _getDisplayValue(selectedItems, itemLabelPath, valueSeparator) {
-      return selectedItems.map(item => this._getItemDisplayValue(item, itemLabelPath)).join(valueSeparator);
+      return selectedItems.map(item => this._getItemLabel(item, itemLabelPath)).join(valueSeparator);
     }
 
     get inputElement() {
@@ -463,8 +463,8 @@ import './multiselect-combo-box-input.js';
 
     _sortSelectedItems(selectedItems) {
       selectedItems.sort((item1, item2) => {
-        const item1Str = String(this._getItemDisplayValue(item1, this.itemLabelPath));
-        const item2Str = String(this._getItemDisplayValue(item2, this.itemLabelPath));
+        const item1Str = String(this._getItemLabel(item1, this.itemLabelPath));
+        const item2Str = String(this._getItemLabel(item2, this.itemLabelPath));
         return item1Str.localeCompare(item2Str);
       });
     }

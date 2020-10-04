@@ -747,13 +747,13 @@
           expect(result).to.be.eql('2 values');
         });
 
-        it('should get custom display value when in compact and using a compact mode value renderer', () => {
+        it('should get custom display value when in compact and using a compact mode label generator', () => {
           // given
           const compactMode = true;
           const selectedItems = ['item 1', 'item 2'];
           const itemLabelPath = undefined;
 
-          multiselectComboBox.compactModeValueRenderer = function(items) {
+          multiselectComboBox.compactModeLabelGenerator = function(items) {
             return 'two custom items';
           };
 
@@ -765,13 +765,13 @@
         });
       });
 
-      describe('_getItemDisplayValue', () => {
+      describe('_getItemLabel', () => {
         it('should return item when not an object', () => {
           // given
           const item = 'multiselect-combo-box';
 
           // when
-          const result = multiselectComboBox._getItemDisplayValue(item);
+          const result = multiselectComboBox._getItemLabel(item);
 
           // then
           expect(result).to.be.eql(item);
@@ -786,7 +786,7 @@
           const itemLabelPath = 'foo';
 
           // when
-          const result = multiselectComboBox._getItemDisplayValue(item, itemLabelPath);
+          const result = multiselectComboBox._getItemLabel(item, itemLabelPath);
 
           // then
           expect(result).to.be.eql(item);
@@ -801,20 +801,20 @@
           const itemLabelPath = 'key1';
 
           // when
-          const result = multiselectComboBox._getItemDisplayValue(item, itemLabelPath);
+          const result = multiselectComboBox._getItemLabel(item, itemLabelPath);
 
           // then
           expect(result).to.be.eql(item.key1);
         });
       });
 
-      describe('_getCompactModeDisplayValue', () => {
+      describe('_getCompactModeLabel', () => {
         it('should return display label for empty items list', () => {
           // given
           const items = [];
 
           // when
-          const result = multiselectComboBox._getCompactModeDisplayValue(items);
+          const result = multiselectComboBox._getCompactModeLabel(items);
 
           // then
           expect(result).to.be.eql('0 values');
@@ -825,7 +825,7 @@
           const items = ['one item'];
 
           // when
-          const result = multiselectComboBox._getCompactModeDisplayValue(items);
+          const result = multiselectComboBox._getCompactModeLabel(items);
 
           // then
           expect(result).to.be.eql('1 value');
@@ -836,7 +836,7 @@
           const items = ['one item', 'another item', 'yet another item'];
 
           // when
-          const result = multiselectComboBox._getCompactModeDisplayValue(items);
+          const result = multiselectComboBox._getCompactModeLabel(items);
 
           // then
           expect(result).to.be.eql('3 values');
