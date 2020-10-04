@@ -47,12 +47,12 @@ export const MultiselectComboBoxMixin = (base) => class extends base {
       },
 
       /**
-       * Custom function for rendering the display value when in compact mode.
+       * Custom function for generating the display label when in compact mode.
        *
        * This function receives the array of selected items and should return
-       * a string value that will be used as the display value.
+       * a string value that will be used as the display label.
        */
-      compactModeValueRenderer: Function,
+      compactModeLabelGenerator: Function,
 
       /**
        * The item property to be used as the `label` in combo-box.
@@ -98,20 +98,20 @@ export const MultiselectComboBoxMixin = (base) => class extends base {
   }
 
   /**
-   * Returns the item display value.
+   * Returns the item display label.
    * @protected
    */
-  _getItemDisplayValue(item, itemLabelPath) {
+  _getItemLabel(item, itemLabelPath) {
     return item && item.hasOwnProperty(itemLabelPath) ? item[itemLabelPath] : item;
   }
 
   /**
-   * Retrieves the component display value when in compact mode.
+   * Retrieves the component display label when in compact mode.
    * @protected
    */
-  _getCompactModeDisplayValue(items) {
-    if (this.compactModeValueRenderer && typeof this.compactModeValueRenderer === 'function') {
-      return this.compactModeValueRenderer(items);
+  _getCompactModeLabel(items) {
+    if (this.compactModeLabelGenerator && typeof this.compactModeLabelGenerator === 'function') {
+      return this.compactModeLabelGenerator(items);
     } else {
       const suffix = (items.length === 0 || items.length > 1) ? 'values' : 'value';
       return `${items.length} ${suffix}`;

@@ -23,13 +23,13 @@ import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
       return html`
         <div id="tokens" part="tokens" slot="prefix">
           <template is="dom-if" if="[[compactMode]]" restamp="">
-            <div part="compact-mode-label">[[_getCompactModeDisplayValue(items, items.*)]]</div>
+            <div part="compact-mode-label">[[_getCompactModeLabel(items, items.*)]]</div>
           </template>
 
           <template is="dom-if" if="[[!compactMode]]" restamp="">
             <template is="dom-repeat" items="[[items]]">
               <div part="token">
-                <div part="token-label">[[_getItemDisplayValue(item, itemLabelPath)]]</div>
+                <div part="token-label">[[_getItemLabel(item, itemLabelPath)]]</div>
                 <div part="token-remove-button" role="button" on-click="_removeToken"></div>
               </div>
             </template>

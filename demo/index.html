@@ -144,7 +144,7 @@
               const compactModeMultiselectComboBox = document.querySelector('#compactModeRendererDemo');
 
               // Set the compact mode value renderer
-              compactModeMultiselectComboBox.compactModeValueRenderer = function(items) {
+              compactModeMultiselectComboBox.compactModeLabelGenerator = function(items) {
                 const suffix = (items.length === 0 || items.length > 1) ? 'chemical elements' : 'chemical element';
                 return `${items.length} ${suffix}`;
               };
