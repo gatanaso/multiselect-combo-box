@@ -23,7 +23,7 @@ import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
       return html`
         <div id="tokens" part="tokens" slot="prefix">
           <template is="dom-if" if="[[compactMode]]" restamp="">
-            <div part="compact-mode-label">[[_getCompactModeLabel(items, items.*)]]</div>
+            <div part="compact-mode-label">[[_getCompactModeLabel(items, compactModeLabelGenerator, items.*)]]</div>
           </template>
 
           <template is="dom-if" if="[[!compactMode]]" restamp="">
