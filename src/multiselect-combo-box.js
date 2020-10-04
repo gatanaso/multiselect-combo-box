@@ -182,8 +182,7 @@ import './multiselect-combo-box-input.js';
         title: {
           type: String,
           value: '',
-          reflectToAttribute: true,
-          readOnly: true
+          reflectToAttribute: true
         },
 
         /**
@@ -331,7 +330,7 @@ import './multiselect-combo-box-input.js';
         this._sortSelectedItems(selectedItems);
       }
 
-      this.compactMode ? this._setTitle(this._getDisplayValue(selectedItems, this.itemLabelPath, ', ')) : this._setTitle('');
+      this.compactMode && (this.title = this._getDisplayValue(selectedItems, this.itemLabelPath, ', '));
 
       // manually force a render
       this.$.comboBox.$.overlay._selectedItem = {};
