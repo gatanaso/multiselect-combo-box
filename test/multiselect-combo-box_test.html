@@ -112,7 +112,6 @@
           const selectedItems = ['item 2', 'item 1', 'item 3'];
 
           multiselectComboBox.$.comboBox.render = sinon.stub();
-          multiselectComboBox.$.comboBox._setTitle = sinon.stub();
 
           multiselectComboBox.ordered = true;
           multiselectComboBox.compactMode = false;
@@ -131,7 +130,6 @@
           const selectedItems = ['item 2', 'item 1', 'item 3'];
 
           multiselectComboBox.$.comboBox.render = sinon.stub();
-          multiselectComboBox.$.comboBox._setTitle = sinon.stub();
 
           multiselectComboBox.ordered = true;
           multiselectComboBox.compactMode = true;
@@ -151,7 +149,6 @@
           const selectedItems = ['item 2', 'item 1', 'item 3'];
 
           multiselectComboBox.$.comboBox.render = sinon.stub();
-          multiselectComboBox.$.comboBox._setTitle = sinon.stub();
 
           multiselectComboBox.ordered = false;
           multiselectComboBox.compactMode = false;
@@ -178,12 +175,10 @@
           ];
 
           multiselectComboBox.$.comboBox.render = sinon.stub();
-          multiselectComboBox.$.comboBox._setTitle = sinon.stub();
 
           multiselectComboBox.ordered = true;
 
           // when
-
           multiselectComboBox._selectedItemsObserver(selectedItems);
 
           // then
@@ -204,6 +199,19 @@
           expect(multiselectComboBox.hasValue).to.be.true;
           expect(multiselectComboBox.title).to.be.eql('item 2, item 1');
           expect(multiselectComboBox.$.comboBox.$.overlay._selectedItem).to.be.empty;
+        });
+
+        it('should preserve custom title if not in compact mode', () => {
+          // given
+          const selectedItems = ['item 2', 'item 1'];
+          multiselectComboBox.compactMode = false;
+          multiselectComboBox.title = 'My custom title';
+
+          // when
+          multiselectComboBox._selectedItemsObserver(selectedItems);
+
+          // then
+          expect(multiselectComboBox.title).to.be.eql('My custom title');
         });
       });
 
