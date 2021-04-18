@@ -24,6 +24,7 @@
   },
   "files": [
     "multiselect-*.js",
+    "multiselect-*.d.ts",
     "src",
     "theme"
   ],
