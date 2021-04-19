@@ -1,20 +1,11 @@
-import { IronResizableBehavior } from '@polymer/iron-resizable-behavior';
-import { PolymerElement } from '@polymer/polymer';
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { ComboBoxRenderer } from '@vaadin/vaadin-combo-box';
 import { ControlStateMixin } from '@vaadin/vaadin-control-state-mixin';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
 import { ThemePropertyMixin } from '@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin';
 import { MultiselectComboBoxMixin } from './multiselect-combo-box-mixin';
 
-declare class MultiselectComboBoxElement<T> extends ControlStateMixin(
-  ThemePropertyMixin(
-    ThemableMixin(
-      MultiselectComboBoxMixin(
-        mixinBehaviors([IronResizableBehavior], PolymerElement),
-      ),
-    ),
-  ),
+declare class MultiselectComboBoxElement<T = unknown> extends ControlStateMixin(
+  ThemePropertyMixin(ThemableMixin(MultiselectComboBoxMixin(HTMLElement))),
 ) {
   readonly is: string;
   readonly observers: string[];

@@ -8,7 +8,7 @@ interface MultiselectComboBoxMixinConstructor<T> {
   new (...args: any[]): MultiselectComboBoxMixin<T>;
 }
 
-declare interface MultiselectComboBoxMixin<T> {
+declare interface MultiselectComboBoxMixin<T = unknown> {
   items: T[];
   placeholder?: string;
   hasValue?: boolean;
