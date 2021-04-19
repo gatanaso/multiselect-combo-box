@@ -1,3 +1,4 @@
+import { PolymerElement } from '@polymer/polymer';
 import { ComboBoxRenderer } from '@vaadin/vaadin-combo-box';
 import { ControlStateMixin } from '@vaadin/vaadin-control-state-mixin';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
@@ -5,7 +6,7 @@ import { ThemePropertyMixin } from '@vaadin/vaadin-themable-mixin/vaadin-theme-p
 import { MultiselectComboBoxMixin } from './multiselect-combo-box-mixin';
 
 declare class MultiselectComboBoxElement<T = unknown> extends ControlStateMixin(
-  ThemePropertyMixin(ThemableMixin(MultiselectComboBoxMixin(HTMLElement))),
+  ThemePropertyMixin(ThemableMixin(MultiselectComboBoxMixin(PolymerElement))),
 ) {
   readonly is: string;
   readonly observers: string[];
@@ -27,6 +28,10 @@ declare class MultiselectComboBoxElement<T = unknown> extends ControlStateMixin(
   renderer: ComboBoxRenderer;
   filterValue: string;
   filteredItems: T[];
+
+  ready: () => void;
+  checkValidity: () => void;
+  validate: () => boolean;
 }
 
 declare global {
