@@ -115,11 +115,13 @@ import './multiselect-combo-box-input.js';
               compact-mode="[[compactMode]]"
               compact-mode-label-generator="[[compactModeLabelGenerator]]"
               on-item-removed="_handleItemRemoved"
+              on-select-all-items="_handleSelectAllItems"
               on-remove-all-items="_handleRemoveAllItems"
               has-value="[[hasValue]]"
               has-label="[[hasLabel]]"
               theme\$="[[theme]]"
               disabled="[[disabled]]"
+              select-all-button-visible="[[selectAllButtonVisible]]"
               clear-button-visible="[[clearButtonVisible]]">
             </multiselect-combo-box-input>
           </vaadin-combo-box-light>
@@ -423,6 +425,13 @@ import './multiselect-combo-box-input.js';
       const update = this.selectedItems.slice(0);
       update.splice(update.indexOf(item), 1);
       this.selectedItems = update;
+      if (this.validate()) {
+        this._dispatchChangeEvent();
+      }
+    }
+
+    _handleSelectAllItems() {
+      this.set('selectedItems', this.$.comboBox.items);
       if (this.validate()) {
         this._dispatchChangeEvent();
       }
