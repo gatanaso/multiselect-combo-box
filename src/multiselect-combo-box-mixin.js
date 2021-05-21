@@ -88,6 +88,14 @@ export const MultiselectComboBoxMixin = (base) => class extends base {
       },
 
       /**
+       * Set to true to display the select-all icon which selects all items.
+       */
+      selectAllButtonVisible: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
        * Set to true to display the clear icon which clears the input.
        */
       clearButtonVisible: {

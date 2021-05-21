@@ -147,6 +147,23 @@
         });
       });
 
+      describe('_selectAll', () => {
+        it('should dispatch "select-all-items" event', (done) => {
+          // given
+          const event = {};
+          event.stopPropagation = sinon.stub();
+
+          multiselectComboBoxInput.addEventListener('select-all-items', (e) => {
+            // then
+            sinon.assert.calledOnce(event.stopPropagation);
+            done();
+          });
+
+          // when
+          multiselectComboBoxInput._selectAll(event);
+        });
+      });
+
       describe('_removeAll', () => {
         it('should dispatch "remove-all-items" event', (done) => {
           // given

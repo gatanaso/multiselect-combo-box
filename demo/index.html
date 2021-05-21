@@ -163,7 +163,7 @@
           </script>
         </template>
       </demo-snippet>
-    </div>    
+    </div>
 
     <div class="vertical-section-container centered">
       <h3>Required multiselect-combo-box</h3>
@@ -333,6 +333,39 @@
     </div>
 
     <div class="vertical-section-container centered">
+      <h3>Multiselect-combo-box with `select-all-button-visible`</h3>
+      <demo-snippet>
+        <template>
+
+          <multiselect-combo-box
+            id="selectAllButtonVisibleDemo"
+            label="Multiselect field with select-all-button-visible"
+            placeholder="Add"
+            select-all-button-visible>
+          </multiselect-combo-box>
+
+          <script>
+            window.addEventListener('WebComponentsReady', function() {
+              const selectAllButtonVisibleMultiselectComboBox = document.querySelector('#selectAllButtonVisibleDemo');
+              selectAllButtonVisibleMultiselectComboBox.items = [
+                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
+                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
+                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
+                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
+                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
+              ];
+              selectAllButtonVisibleMultiselectComboBox.selectedItems = [
+                'Helium',
+                'Lithium'
+              ];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
       <h3>Custom item template</h3>
       <demo-snippet>
         <template>
@@ -485,6 +518,6 @@
           </script>
         </template>
       </demo-snippet>
-    </div>    
+    </div>
   </body>
 </html>

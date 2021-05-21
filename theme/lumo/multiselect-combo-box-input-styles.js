@@ -84,6 +84,10 @@ html`
           content: var(--lumo-icons-cross);
         }
 
+        [part='select-all-button']::before {
+          content: var(--lumo-icons-checkmark);
+        }
+
         [part="clear-button"]::before {
           content: var(--lumo-icons-cross);
         }
