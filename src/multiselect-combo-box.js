@@ -431,14 +431,21 @@ import './multiselect-combo-box-input.js';
     }
 
     _handleSelectAllItems() {
-      this.set('selectedItems', this.$.comboBox.items);
-      if (this.validate()) {
-        this._dispatchChangeEvent();
+      const comboBox = this.$.comboBox;
+      if (comboBox.dataProvider !== undefined) {
+        const params = {page: 0, pageSize: comboBox.pageSize};
+        comboBox.dataProvider(params, (items, count) => this._updateSelectedItems(items));
+      } else {
+        this._updateSelectedItems(comboBox.items);
       }
     }
 
     _handleRemoveAllItems() {
-      this.set('selectedItems', []);
+      this._updateSelectedItems([]);
+    }
+
+    _updateSelectedItems(items) {
+      this.set('selectedItems', items);
       if (this.validate()) {
         this._dispatchChangeEvent();
       }

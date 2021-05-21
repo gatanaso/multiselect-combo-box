@@ -577,7 +577,7 @@
           sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
         });
 
-        it('should not dispath event if validate returns false', () => {
+        it('should not dispatch event if validate returns false', () => {
           // given
           const event = {
             detail: {
@@ -598,9 +598,10 @@
       });
 
       describe('_handleSelectAllItems', () => {
-        it('should handle select of all items and validate state', () => {
+        it('should handle select of all items and validate state (items provided directly)', () => {
           // given
           multiselectComboBox.items = ['item 1', 'item 2', 'item 3'];
+          multiselectComboBox.$.comboBox.items = multiselectComboBox.items;
           multiselectComboBox.selectedItems = ['item 1'];
           multiselectComboBox.validate = sinon.stub();
           multiselectComboBox.validate.returns(true);
@@ -616,7 +617,26 @@
           expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
         });
 
-        it('should not dispath event if validate returns false', () => {
+        it('should handle select of all items and validate state (items provided through dataProvider)', () => {
+          // given
+          const allItems = ['item 1', 'item 2', 'item 3'];
+          multiselectComboBox.$.comboBox.dataProvider = (params, callback) => callback(allItems, allItems.length);
+          multiselectComboBox.selectedItems = ['item 1'];
+          multiselectComboBox.validate = sinon.stub();
+          multiselectComboBox.validate.returns(true);
+          multiselectComboBox._dispatchChangeEvent = sinon.stub();
+
+          // when
+          multiselectComboBox._handleSelectAllItems();
+
+          // then
+          // expect(multiselectComboBox.selectedItems).to.be.eq(allItems);
+          sinon.assert.calledOnce(multiselectComboBox.validate);
+          sinon.assert.calledOnce(multiselectComboBox._dispatchChangeEvent);
+          expect(multiselectComboBox.$.comboBox._focusedIndex).to.be.eq(-1);
+        });
+
+        it('should not dispatch event if validate returns false', () => {
           // given
           multiselectComboBox.items = ['item 1'];
           multiselectComboBox.validate = sinon.stub();
