@@ -51,12 +51,12 @@
   "dependencies": {
     "@polymer/iron-resizable-behavior": "^3.0.1",
     "@polymer/polymer": "^3.0.0",
-    "@vaadin/vaadin-combo-box": "6.0.1",
-    "@vaadin/vaadin-control-state-mixin": "2.1.4",
-    "@vaadin/vaadin-lumo-styles": "1.6.1",
-    "@vaadin/vaadin-material-styles": "1.3.2",
-    "@vaadin/vaadin-text-field": "3.0.2",
-    "@vaadin/vaadin-themable-mixin": "1.6.2"
+    "@vaadin/vaadin-combo-box": "^6.0.1",
+    "@vaadin/vaadin-control-state-mixin": "^2.1.4",
+    "@vaadin/vaadin-lumo-styles": "^1.6.1",
+    "@vaadin/vaadin-material-styles": "^1.3.2",
+    "@vaadin/vaadin-text-field": "^3.0.2",
+    "@vaadin/vaadin-themable-mixin": "^1.6.2"
   },
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0",
