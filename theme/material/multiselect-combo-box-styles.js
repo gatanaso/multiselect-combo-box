@@ -79,7 +79,7 @@ html`
         }
       </style>
     </template>
-  <dom-module>
+  </dom-module>
 
   <dom-module id="material-input-field-theme" theme-for="vaadin-text-field">
     <template>
