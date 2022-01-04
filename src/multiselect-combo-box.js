@@ -401,6 +401,16 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
   }
 
   /**
+   * Override method inherited from `InputMixin` to workaround an issue in the input mixin.
+   * @protected
+   * @override
+   */
+  _toggleHasValue() {
+    // workaround for a bug that causes the input-mixin to remove the 'has-value' attribute when the input value is cleared
+    super._toggleHasValue(this._hasValue);
+  }
+
+  /**
    * Override method inherited from `FocusMixin` to validate on blur.
    * @param {boolean} focused
    * @protected
