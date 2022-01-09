@@ -6,6 +6,8 @@
 
 # \<multiselect-combo-box\>
 
+**⚠️ The component is not updated to work with the latest version of Vaadin**
+
 A multiselect combo box web component based on [Polymer](https://github.com/Polymer/polymer) and the [`vaadin-combo-box`](https://github.com/vaadin/vaadin-combo-box).
 
 *Compatible with the core set of [Vaadin Components](https://github.com/vaadin/vaadin-core).*
