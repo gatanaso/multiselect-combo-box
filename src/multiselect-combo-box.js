@@ -339,8 +339,7 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
       /** @protected */
       _hasValue: {
         type: Boolean,
-        value: false,
-        observer: '_hasValueChanged'
+        value: false
       }
     };
   }
@@ -401,12 +400,12 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
   }
 
   /**
-   * Override method inherited from `InputMixin` to workaround an issue in the input mixin.
+   * Override method inherited from `InputMixin`
+   * to keep attribute after clearing the input.
    * @protected
    * @override
    */
   _toggleHasValue() {
-    // workaround for a bug that causes the input-mixin to remove the 'has-value' attribute when the input value is cleared
     super._toggleHasValue(this._hasValue);
   }
 
@@ -421,11 +420,6 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
     if (!focused) {
       this.validate();
     }
-  }
-
-  /** @private */
-  _hasValueChanged(hasValue) {
-    this.toggleAttribute('has-value', hasValue);
   }
 
   /** @private */
@@ -468,6 +462,8 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
   /** @private */
   _selectedItemsChanged(selectedItems) {
     this._hasValue = Boolean(selectedItems && selectedItems.length);
+
+    this._toggleHasValue();
 
     // Re-render chips
     this.__updateChips();
