@@ -1,8 +1,3 @@
-/**
- * @license
- * Copyright (c) 2021 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */
 import './multiselect-combo-box-item.js';
 import './multiselect-combo-box-overlay.js';
 import './multiselect-combo-box-scroller.js';

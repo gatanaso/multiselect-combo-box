@@ -1,8 +1,3 @@
-/**
- * @license
- * Copyright (c) 2021 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */
 import './multiselect-combo-box-dropdown.js';
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { ComboBoxDataProviderMixin } from '@vaadin/combo-box/src/vaadin-combo-box-data-provider-mixin.js';

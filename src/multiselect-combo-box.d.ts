@@ -1,8 +1,3 @@
-/**
- * @license
- * Copyright (c) 2021 Vaadin Ltd.
- * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
- */
 import { ComboBoxDataProvider, ComboBoxDefaultItem, ComboBoxRenderer } from '@vaadin/combo-box/src/vaadin-combo-box.js';
 import { ControllerMixinClass } from '@vaadin/component-base/src/controller-mixin.js';
 import { DirMixinClass } from '@vaadin/component-base/src/dir-mixin.js';
