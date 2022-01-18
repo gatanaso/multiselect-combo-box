@@ -10,7 +10,7 @@ const chip = css`
   :host {
     display: flex;
     align-items: center;
-    margin: 0 0 var(--lumo-space-xs);
+    margin: var(--lumo-space-xs) 0 0;
     padding-inline-start: var(--lumo-space-s);
     border-radius: var(--lumo-border-radius);
     background-color: var(--lumo-contrast-20pct);

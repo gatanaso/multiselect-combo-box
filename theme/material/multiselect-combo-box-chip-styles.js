@@ -10,7 +10,8 @@ const chip = css`
     align-items: center;
     box-sizing: border-box;
     height: 1.5rem;
-    margin-top: 0.0625rem;
+    margin-top: 0.25rem;
+    margin-inline-end: 0.25rem;
     padding-inline-start: 0.5rem;
     border-radius: 1.25rem;
     background-color: hsla(214, 53%, 23%, 0.1);

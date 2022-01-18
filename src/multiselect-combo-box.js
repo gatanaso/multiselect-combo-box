@@ -1,6 +1,8 @@
-import '@vaadin/input-container/src/vaadin-input-container.js';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
+import '@vaadin/polymer-legacy-adapter/template-renderer.js';
+import './multiselect-combo-box-chip.js';
+import './multiselect-combo-box-container.js';
 import './multiselect-combo-box-internal.js';
-import './multiselect-combo-box-chips.js';
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { DirMixin } from '@vaadin/component-base/src/dir-mixin.js';
 import { processTemplates } from '@vaadin/component-base/src/templates.js';
@@ -20,12 +22,17 @@ const multiselectComboBox = css`
     color: transparent !important;
   }
 
-  :host([has-value]:not([compact-mode]):not([readonly])) [class$='container'] {
+  :host([has-value]:not([readonly])) [class$='container'] {
     width: auto;
   }
 
-  #chips {
-    max-width: calc(100% - var(--vaadin-field-default-width, 12em));
+  [part='compact-mode-prefix'] {
+    display: flex;
+    align-items: center;
+  }
+
+  ::slotted(input) {
+    flex-basis: 80px;
   }
 `;
 
@@ -53,6 +60,7 @@ registerStyles('multiselect-combo-box', [inputFieldShared, multiselectComboBox],
  *
  * Part name              | Description
  * -----------------------|----------------
+ * `chip`                 | Chip shown for every selected item in default mode
  * `compact-mode-prefix`  | The selected items counter shown in compact mode
  * `label`                | The label element
  * `input-field`          | The element that wraps prefix, value and suffix
@@ -79,21 +87,14 @@ registerStyles('multiselect-combo-box', [inputFieldShared, multiselectComboBox],
  * `ordered`              | Set when the element uses ordered mode
  * `readonly`             | Set to a readonly element
  *
- * ### Chips
- *
- * To change how selected items are presented, apply styles to the following components:
- *
- * - `<multiselect-combo-box-chips>` - Wrapper for a list of chips.
- * - `<multiselect-combo-box-chip>` - An individual chip element.
- *
  * ### Internal components
  *
- * In addition to `<multiselect-combo-box>` and chips, the following internal
+ * In addition to `<multiselect-combo-box>` itself, the following internal
  * components are themable:
  *
  * - `<multiselect-combo-box-overlay>` - has the same API as `<vaadin-overlay>`.
  * - `<multiselect-combo-box-item>` - has the same API as `<vaadin-item>`.
- * - `<vaadin-input-container>` - an internal element wrapping the input.
+ * - `<multiselect-combo-box-container>` - has the same API as `<vaadin-input-container>`.
  *
  * Note: the `theme` attribute value set on `<multiselect-combo-box>` is
  * propagated to these components.
@@ -141,11 +142,12 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
           opened="{{opened}}"
           renderer="[[renderer]]"
           theme$="[[theme]]"
+          suppress-template-warning
           on-combo-box-item-selected="_onComboBoxItemSelected"
           on-change="_onComboBoxChange"
           on-custom-value-set="_onCustomValueSet"
         >
-          <vaadin-input-container
+          <multiselect-combo-box-container
             part="input-field"
             readonly="[[readonly]]"
             disabled="[[disabled]]"
@@ -159,19 +161,21 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
             >
               [[_getCompactModeLabel(selectedItems, compactModeLabelGenerator)]]
             </div>
-            <multiselect-combo-box-chips
-              id="chips"
-              hidden$="[[_isTokensHidden(readonly, compactMode, _hasValue)]]"
-              items="[[selectedItems]]"
-              item-label-path="[[itemLabelPath]]"
-              slot="prefix"
-              on-item-removed="_onItemRemoved"
-              on-mousedown="_preventBlur"
-            ></multiselect-combo-box-chips>
+            <template id="repeat" is="dom-repeat" items="[[selectedItems]]" slot="prefix">
+              <multiselect-combo-box-chip
+                slot="prefix"
+                part="chip"
+                item="[[item]]"
+                label="[[_getItemLabel(item, itemLabelPath)]]"
+                hidden$="[[_isTokensHidden(readonly, compactMode, _hasValue)]]"
+                on-item-removed="_onItemRemoved"
+                on-mousedown="_preventBlur"
+              ></multiselect-combo-box-chip>
+            </template>
             <slot name="input"></slot>
             <div id="clearButton" part="clear-button" slot="suffix"></div>
             <div id="toggleButton" class="toggle-button" part="toggle-button" slot="suffix"></div>
-          </vaadin-input-container>
+          </multiselect-combo-box-container>
         </multiselect-combo-box-internal>
 
         <div part="helper-text">
@@ -566,7 +570,7 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
 
   /** @private */
   __updateChips() {
-    this.$.chips.requestContentUpdate();
+    this.$.repeat.render();
   }
 
   /**
