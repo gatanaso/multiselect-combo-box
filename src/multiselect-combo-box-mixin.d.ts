@@ -20,6 +20,7 @@ declare interface MultiselectComboBoxMixin<T = unknown> {
   itemIdPath: string;
   theme: Theme;
   disabled?: boolean;
+  selectAllButtonVisible?: boolean;
   clearButtonVisible?: boolean;
 }
 

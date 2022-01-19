@@ -21,6 +21,21 @@ import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
 
     static get template() {
       return html`
+        <style>
+          /* [part='select-all-button'] {
+            display: none;
+            cursor: default;
+          }
+
+          [part='select-all-button']::before {
+            content: '+';
+          }
+
+          :host([select-all-button-visible]:not([disabled]):not([readonly])) [part='select-all-button'] {
+            display: block;
+          } */
+        </style>
+
         <div id="tokens" part="tokens" slot="prefix">
           <template is="dom-if" if="[[compactMode]]" restamp="">
             <div part="compact-mode-label">[[_getCompactModeLabel(items, compactModeLabelGenerator, items.*)]]</div>
@@ -47,6 +62,15 @@ import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
             compact-mode\$="[[compactMode]]"
             theme\$="[[theme]]"
             disabled="[[disabled]]">
+
+            <div
+              id="selectAllButton"
+              part="select-all-button"
+              slot="suffix"
+              role="button"
+              on-click="_selectAll"
+              hidden\$="[[!selectAllButtonVisible]]">
+            </div>
 
             <div
               id="clearButton"
@@ -98,6 +122,14 @@ import {MultiselectComboBoxMixin} from './multiselect-combo-box-mixin.js';
         detail: {
           item: item
         }
+      }));
+    }
+
+    _selectAll(event) {
+      event.stopPropagation();
+      this.dispatchEvent(new CustomEvent('select-all-items', {
+        composed: true,
+        bubbles: true
       }));
     }
 

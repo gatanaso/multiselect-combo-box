@@ -136,6 +136,10 @@ html`
           background-color: hsla(214, 41%, 17%, 0.83);
         }
 
+        [part="select-all-button"]::before {
+          content: var(--material-icons-clear);
+        }
+
         [part="clear-button"]::before {
           content: var(--material-icons-clear);
         }
