@@ -1,19 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
 
     <title>Multiselect-combo-box Demo</title>
-
-    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
     <script type="module">
       import '@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
       import '@polymer/iron-demo-helpers/demo-snippet.js';
+      import '@vaadin/polymer-legacy-adapter/template-renderer.js';
     </script>
 
     <script type="module" src="../theme/lumo/multiselect-combo-box.js"></script>
+
+    <style>
+      body[unresolved] {
+        opacity: 0;
+      }
+    </style>
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -24,103 +29,87 @@
     </custom-style>
   </head>
 
-  <body>
+  <body unresolved>
     <div class="vertical-section-container centered">
-      <h3>Basic multiselect-combo-box</h3>
+      <h3>Basic</h3>
       <demo-snippet>
         <template>
-
-          <multiselect-combo-box
-            id="basicDemo"
-            label="Multiselect field"
-            placeholder="Add">
-          </multiselect-combo-box>
+          <multiselect-combo-box id="basic" label="Element" placeholder="Select one or more"></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const basicMultiselectComboBox = document.querySelector('#basicDemo');
-              basicMultiselectComboBox.items = [
-                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
-                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
-                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
-              ];
-              basicMultiselectComboBox.selectedItems = [
-                'Helium',
-                'Lithium'
-              ];
-            });
-          </script>
-        </template>
-      </demo-snippet>
-    </div>
-
-    <div class="vertical-section-container centered">
-      <h3>Multiselect-combo-box with object items</h3>
-      <demo-snippet>
-        <template>
-
-          <multiselect-combo-box
-            id="itemDemo"
-            label="Multiselect field"
-            placeholder="Add"
-            item-id-path="id"
-            item-value-path="id"
-            item-label-path="name">
-          </multiselect-combo-box>
-
-          <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const itemMultiselectComboBox = document.querySelector('#itemDemo');
-              itemMultiselectComboBox.items = [
-                {'id': 1, 'name': 'Hydrogen'},
-                {'id': 2, 'name': 'Helium'},
-                {'id': 3, 'name': 'Lithium'},
-                {'id': 4, 'name': 'Beryllium'},
-                {'id': 5, 'name': 'Boron'},
-                {'id': 6, 'name': 'Carbon'},
-                {'id': 7, 'name': 'Nitrogen'},
-                {'id': 8, 'name': 'Oxygen'},
-                {'id': 9, 'name': 'Fluorine'}
-              ];
-              itemMultiselectComboBox.selectedItems = [
-                {'id': 3, 'name': 'Lithium'},
-                {'id': 5, 'name': 'Boron'}
-              ];
-            });
-          </script>
-        </template>
-      </demo-snippet>
-    </div>
-
-    <div class="vertical-section-container centered">
-      <h3>Multiselect-combo-box in compact mode</h3>
-      <demo-snippet>
-        <template>
-
-          <multiselect-combo-box
-            id="compactModeDemo"
-            label="Multiselect field"
-            compact-mode>
-          </multiselect-combo-box>
-
-          <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const compactModeMultiselectComboBox = document.querySelector('#compactModeDemo');
-              compactModeMultiselectComboBox.items = [
-                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
-                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
-                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
-              ];
-              compactModeMultiselectComboBox.selectedItems = [
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#basic');
+              comboBox.items = [
+                'Hydrogen',
                 'Helium',
                 'Lithium',
-                'Beryllium'
+                'Beryllium',
+                'Boron',
+                'Carbon',
+                'Nitrogen',
+                'Oxygen',
+                'Fluorine',
+                'Neon',
+                'Sodium',
+                'Magnesium',
+                'Aluminum',
+                'Silicon',
+                'Phosphorus',
+                'Sulfur',
+                'Chlorine',
+                'Argon',
+                'Potassium',
+                'Calcium',
+                'Scandium',
+                'Titanium',
+                'Vanadium',
+                'Chromium',
+                'Manganese',
+                'Iron',
+                'Cobalt',
+                'Nickel',
+                'Copper',
+                'Zinc'
+              ];
+
+              comboBox.selectedItems = ['Helium', 'Lithium'];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Object items</h3>
+      <demo-snippet>
+        <template>
+          <multiselect-combo-box
+            id="objects"
+            label="Element"
+            item-id-path="id"
+            item-value-path="id"
+            item-label-path="name"
+          ></multiselect-combo-box>
+
+          <script>
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#objects');
+
+              comboBox.items = [
+                { id: 1, name: 'Hydrogen' },
+                { id: 2, name: 'Helium' },
+                { id: 3, name: 'Lithium' },
+                { id: 4, name: 'Beryllium' },
+                { id: 5, name: 'Boron' },
+                { id: 6, name: 'Carbon' },
+                { id: 7, name: 'Nitrogen' },
+                { id: 8, name: 'Oxygen' },
+                { id: 9, name: 'Fluorine' }
+              ];
+
+              comboBox.selectedItems = [
+                { id: 3, name: 'Lithium' },
+                { id: 5, name: 'Boron' }
               ];
             });
           </script>
@@ -129,70 +118,122 @@
     </div>
 
     <div class="vertical-section-container centered">
-      <h3>Multiselect-combo-box in compact mode with custom compact value renderer</h3>
+      <h3>Compact mode</h3>
       <demo-snippet>
         <template>
-
-          <multiselect-combo-box
-            id="compactModeRendererDemo"
-            label="Multiselect field"
-            compact-mode>
-          </multiselect-combo-box>
+          <multiselect-combo-box id="compact" label="Element" compact-mode></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const compactModeMultiselectComboBox = document.querySelector('#compactModeRendererDemo');
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#compact');
 
-              // Set the compact mode value renderer
-              compactModeMultiselectComboBox.compactModeLabelGenerator = function(items) {
-                const suffix = (items.length === 0 || items.length > 1) ? 'chemical elements' : 'chemical element';
+              comboBox.items = [
+                'Hydrogen',
+                'Helium',
+                'Lithium',
+                'Beryllium',
+                'Boron',
+                'Carbon',
+                'Nitrogen',
+                'Oxygen',
+                'Fluorine',
+                'Neon',
+                'Sodium',
+                'Magnesium',
+                'Aluminum',
+                'Silicon',
+                'Phosphorus',
+                'Sulfur',
+                'Chlorine',
+                'Argon',
+                'Potassium',
+                'Calcium',
+                'Scandium',
+                'Titanium',
+                'Vanadium',
+                'Chromium',
+                'Manganese',
+                'Iron',
+                'Cobalt',
+                'Nickel',
+                'Copper',
+                'Zinc'
+              ];
+
+              comboBox.selectedItems = ['Helium', 'Lithium', 'Beryllium'];
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Compact label generator</h3>
+      <demo-snippet>
+        <template>
+          <multiselect-combo-box id="labelGenerator" label="Multiselect field" compact-mode></multiselect-combo-box>
+
+          <script>
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#labelGenerator');
+
+              comboBox.compactModeLabelGenerator = function (items) {
+                const suffix = items.length === 0 || items.length > 1 ? 'chemical elements' : 'chemical element';
                 return `${items.length} ${suffix}`;
               };
 
-              compactModeMultiselectComboBox.items = [
-                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
-                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus'
-              ];
-              compactModeMultiselectComboBox.selectedItems = [
+              comboBox.items = [
+                'Hydrogen',
                 'Helium',
                 'Lithium',
-                'Beryllium'
+                'Beryllium',
+                'Boron',
+                'Carbon',
+                'Nitrogen',
+                'Oxygen',
+                'Fluorine',
+                'Neon',
+                'Sodium',
+                'Magnesium',
+                'Aluminum',
+                'Silicon',
+                'Phosphorus'
               ];
+
+              comboBox.selectedItems = ['Helium', 'Lithium', 'Beryllium'];
             });
           </script>
         </template>
       </demo-snippet>
-    </div>    
+    </div>
 
     <div class="vertical-section-container centered">
-      <h3>Required multiselect-combo-box</h3>
+      <h3>Required</h3>
       <demo-snippet>
         <template>
-
           <multiselect-combo-box
-            id="requiredDemo"
-            label="Multiselect field"
-            placeholder="Add"
+            id="required"
+            label="Element"
+            required
+            error-message="Please select at least one value."
             item-value-path="id"
             item-label-path="name"
-            error-message="Please select at least one value."
-            required>
-          </multiselect-combo-box>
+          ></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const requiredMultiselectComboBox = document.querySelector('#requiredDemo');
-              requiredMultiselectComboBox.items = [
-                {'id': 1, 'name': 'Hydrogen'},
-                {'id': 2, 'name': 'Helium'},
-                {'id': 3, 'name': 'Lithium'},
-                {'id': 4, 'name': 'Beryllium'},
-                {'id': 5, 'name': 'Boron'},
-                {'id': 6, 'name': 'Carbon'},
-                {'id': 7, 'name': 'Nitrogen'},
-                {'id': 8, 'name': 'Oxygen'},
-                {'id': 9, 'name': 'Fluorine'}
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#required');
+
+              comboBox.items = [
+                { id: 1, name: 'Hydrogen' },
+                { id: 2, name: 'Helium' },
+                { id: 3, name: 'Lithium' },
+                { id: 4, name: 'Beryllium' },
+                { id: 5, name: 'Boron' },
+                { id: 6, name: 'Carbon' },
+                { id: 7, name: 'Nitrogen' },
+                { id: 8, name: 'Oxygen' },
+                { id: 9, name: 'Fluorine' }
               ];
             });
           </script>
@@ -204,33 +245,46 @@
       <h3>Readonly multiselect-combo-box</h3>
       <demo-snippet>
         <template>
-
-          <multiselect-combo-box
-            id="readonlyDemo"
-            label="Readonly multiselect field"
-            placeholder="Add"
-            readonly>
-          </multiselect-combo-box>
+          <multiselect-combo-box id="readonly" label="Element" readonly></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const readonlyMultiselectComboBox = document.querySelector('#readonlyDemo');
-              readonlyMultiselectComboBox.items = [
-                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
-                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
-                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
-              ];
-              readonlyMultiselectComboBox.selectedItems = [
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#readonly');
+
+              comboBox.items = [
+                'Hydrogen',
+                'Helium',
+                'Lithium',
+                'Beryllium',
+                'Boron',
+                'Carbon',
+                'Nitrogen',
+                'Oxygen',
+                'Fluorine',
+                'Neon',
+                'Sodium',
+                'Magnesium',
+                'Aluminum',
+                'Silicon',
+                'Phosphorus',
+                'Sulfur',
+                'Chlorine',
                 'Argon',
+                'Potassium',
+                'Calcium',
                 'Scandium',
+                'Titanium',
+                'Vanadium',
+                'Chromium',
+                'Manganese',
+                'Iron',
+                'Cobalt',
                 'Nickel',
                 'Copper',
-                'Zinc',
-                'Sodium'
+                'Zinc'
               ];
+
+              comboBox.selectedItems = ['Argon', 'Scandium', 'Nickel', 'Copper', 'Zinc', 'Sodium'];
             });
           </script>
         </template>
@@ -241,27 +295,30 @@
       <h3>Disabled multiselect-combo-box</h3>
       <demo-snippet>
         <template>
-
-          <multiselect-combo-box
-            id="disabledDemo"
-            label="Disabled multiselect field"
-            placeholder="Add"
-            disabled>
-          </multiselect-combo-box>
+          <multiselect-combo-box id="disabled" label="Element" disabled></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const disabledMultiselectComboBox = document.querySelector('#disabledDemo');
-              disabledMultiselectComboBox.items = [
-                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                'Scandium', 'Iron', 'Cobalt', 'Nickel'
-              ];
-              disabledMultiselectComboBox.selectedItems = [
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#disabled');
+
+              comboBox.items = [
+                'Sodium',
+                'Magnesium',
+                'Aluminum',
+                'Silicon',
+                'Phosphorus',
+                'Sulfur',
+                'Chlorine',
                 'Argon',
+                'Potassium',
+                'Calcium',
                 'Scandium',
+                'Iron',
+                'Cobalt',
                 'Nickel'
               ];
+
+              comboBox.selectedItems = ['Argon', 'Scandium', 'Nickel'];
             });
           </script>
         </template>
@@ -269,30 +326,33 @@
     </div>
 
     <div class="vertical-section-container centered">
-      <h3>Ordered multiselect-combo-box</h3>
+      <h3>Ordered</h3>
       <demo-snippet>
         <template>
-
-          <multiselect-combo-box
-            id="sortedDemo"
-            label="Ordered multiselect field"
-            placeholder="Add"
-            ordered>
-          </multiselect-combo-box>
+          <multiselect-combo-box id="ordered" label="Element" ordered></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const sortedMultiselectComboBox = document.querySelector('#sortedDemo');
-              sortedMultiselectComboBox.items = [
-                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                'Scandium', 'Iron', 'Cobalt', 'Nickel'
-              ];
-              sortedMultiselectComboBox.selectedItems = [
-                'Scandium',
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#ordered');
+
+              comboBox.items = [
+                'Sodium',
+                'Magnesium',
+                'Aluminum',
+                'Silicon',
+                'Phosphorus',
+                'Sulfur',
+                'Chlorine',
                 'Argon',
+                'Potassium',
+                'Calcium',
+                'Scandium',
+                'Iron',
+                'Cobalt',
                 'Nickel'
               ];
+
+              comboBox.selectedItems = ['Scandium', 'Argon', 'Nickel'];
             });
           </script>
         </template>
@@ -303,29 +363,46 @@
       <h3>Multiselect-combo-box with `clear-button-visible`</h3>
       <demo-snippet>
         <template>
-
-          <multiselect-combo-box
-            id="clearButtonVisibleDemo"
-            label="Multiselect field with clear-button-visible"
-            placeholder="Add"
-            clear-button-visible>
-          </multiselect-combo-box>
+          <multiselect-combo-box id="clearButton" label="Element" clear-button-visible></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const clearButtonVisibleMultiselectComboBox = document.querySelector('#clearButtonVisibleDemo');
-              clearButtonVisibleMultiselectComboBox.items = [
-                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
-                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
-                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
-              ];
-              clearButtonVisibleMultiselectComboBox.selectedItems = [
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#clearButton');
+
+              comboBox.items = [
+                'Hydrogen',
                 'Helium',
-                'Lithium'
+                'Lithium',
+                'Beryllium',
+                'Boron',
+                'Carbon',
+                'Nitrogen',
+                'Oxygen',
+                'Fluorine',
+                'Neon',
+                'Sodium',
+                'Magnesium',
+                'Aluminum',
+                'Silicon',
+                'Phosphorus',
+                'Sulfur',
+                'Chlorine',
+                'Argon',
+                'Potassium',
+                'Calcium',
+                'Scandium',
+                'Titanium',
+                'Vanadium',
+                'Chromium',
+                'Manganese',
+                'Iron',
+                'Cobalt',
+                'Nickel',
+                'Copper',
+                'Zinc'
               ];
+
+              comboBox.selectedItems = ['Helium', 'Lithium'];
             });
           </script>
         </template>
@@ -336,33 +413,26 @@
       <h3>Custom item template</h3>
       <demo-snippet>
         <template>
-
-          <multiselect-combo-box
-            id="customItemTemplateDemo"
-            label="Multiselect field"
-            placeholder="Add"
-            item-label-path="name"
-            item-value-path="symbol">
-
+          <multiselect-combo-box id="itemTemplate" label="Element" item-label-path="name" item-value-path="symbol">
             <template>
-              <b>[[item.name]], <sub>[[item.number]]</sub>[[item.symbol]]</b><br>
+              <b>[[item.name]], <sub>[[item.number]]</sub>[[item.symbol]]</b><br />
               array index: [[index]]
             </template>
           </multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const customItemTemplateMultiselectComboBox = document.querySelector('#customItemTemplateDemo');
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#itemTemplate');
 
-              customItemTemplateMultiselectComboBox.items = [
-                {name: 'Hydrogen', symbol: 'H', number: 1},
-                {name: 'Helium', symbol: 'He', number: 2},
-                {name: 'Lithium', symbol: 'Li', number: 3},
-                {name: 'Beryllium', symbol: 'Be', number: 4},
-                {name: 'Boron', symbol: 'B', number: 5},
-                {name: 'Carbon', symbol: 'C', number: 6},
-                {name: 'Nitrogen', symbol: 'N', number: 7},
-                {name: 'Oxygen', symbol: 'O', number: 8}
+              comboBox.items = [
+                { name: 'Hydrogen', symbol: 'H', number: 1 },
+                { name: 'Helium', symbol: 'He', number: 2 },
+                { name: 'Lithium', symbol: 'Li', number: 3 },
+                { name: 'Beryllium', symbol: 'Be', number: 4 },
+                { name: 'Boron', symbol: 'B', number: 5 },
+                { name: 'Carbon', symbol: 'C', number: 6 },
+                { name: 'Nitrogen', symbol: 'N', number: 7 },
+                { name: 'Oxygen', symbol: 'O', number: 8 }
               ];
             });
           </script>
@@ -374,34 +444,33 @@
       <h3>Custom renderer</h3>
       <demo-snippet>
         <template>
-
           <multiselect-combo-box
-            id="customRendererDemo"
-            label="Multiselect field"
-            placeholder="Add"
+            id="renderer"
+            label="Element"
             item-label-path="name"
-            item-value-path="symbol">
-          </multiselect-combo-box>
+            item-value-path="symbol"
+          ></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const customRendererMultiselectComboBox = document.querySelector('#customRendererDemo');
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#renderer');
 
-              customRendererMultiselectComboBox.items = [
-                {name: 'Hydrogen', symbol: 'H', number: 1},
-                {name: 'Helium', symbol: 'He', number: 2},
-                {name: 'Lithium', symbol: 'Li', number: 3},
-                {name: 'Beryllium', symbol: 'Be', number: 4},
-                {name: 'Boron', symbol: 'B', number: 5},
-                {name: 'Carbon', symbol: 'C', number: 6},
-                {name: 'Nitrogen', symbol: 'N', number: 7},
-                {name: 'Oxygen', symbol: 'O', number: 8}
+              comboBox.items = [
+                { name: 'Hydrogen', symbol: 'H', number: 1 },
+                { name: 'Helium', symbol: 'He', number: 2 },
+                { name: 'Lithium', symbol: 'Li', number: 3 },
+                { name: 'Beryllium', symbol: 'Be', number: 4 },
+                { name: 'Boron', symbol: 'B', number: 5 },
+                { name: 'Carbon', symbol: 'C', number: 6 },
+                { name: 'Nitrogen', symbol: 'N', number: 7 },
+                { name: 'Oxygen', symbol: 'O', number: 8 }
               ];
 
-              customRendererMultiselectComboBox.renderer = function(root, owner, model) {
+              comboBox.renderer = function (root, owner, model) {
                 if (!root.firstElementChild) {
-                  root.innerHTML = '<b><span class="name"></span>, <sub class="number"></sub><span class="symbol"></span></b>'
-                  + '<br> array index: <span class="index"></span>';
+                  root.innerHTML =
+                    '<b><span class="name"></span>, <sub class="number"></sub><span class="symbol"></span></b>' +
+                    '<br> array index: <span class="index"></span>';
                 }
                 root.querySelector('.name').textContent = model.item.name;
                 root.querySelector('.number').textContent = model.item.number;
@@ -418,31 +487,25 @@
       <h3>Allow custom values</h3>
       <demo-snippet>
         <template>
-
           <multiselect-combo-box
-            id="allowCustomValuesDemo"
-            label="Allows input of custom values"
-            placeholder="Select existing or input custom value"
-            allow-custom-values>
-          </multiselect-combo-box>
+            id="customValues"
+            label="Element"
+            placeholder="Select existing or type custom value"
+            allow-custom-values
+          ></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const customValuesMultiselectComboBox = document.querySelector('#allowCustomValuesDemo');
-              customValuesMultiselectComboBox.items = [
-                'Hydrogen', 'Helium', 'Lithium', 'Beryllium'
-              ];
-              customValuesMultiselectComboBox.selectedItems = [
-                'Helium',
-                'Lithium'
-              ];
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#customValues');
+              comboBox.items = ['Hydrogen', 'Helium', 'Lithium', 'Beryllium'];
+              comboBox.selectedItems = ['Helium', 'Lithium'];
 
               // handle the `custom-values-set` event
-              customValuesMultiselectComboBox.addEventListener('custom-values-set', function(event) {
-                customValuesMultiselectComboBox.items.push(event.detail);
-                const selectedItemsUpdate = customValuesMultiselectComboBox.selectedItems.slice(0);
+              comboBox.addEventListener('custom-values-set', function (event) {
+                comboBox.items.push(event.detail);
+                const selectedItemsUpdate = comboBox.selectedItems.slice(0);
                 selectedItemsUpdate.push(event.detail);
-                customValuesMultiselectComboBox.selectedItems = selectedItemsUpdate;
+                comboBox.selectedItems = selectedItemsUpdate;
               });
             });
           </script>
@@ -454,37 +517,64 @@
       <h3>Custom filtering</h3>
       <demo-snippet>
         <template>
-
-          <multiselect-combo-box
-            id="customFilteringDemo"
-            label="Multiselect field"
-            placeholder="Add">
-          </multiselect-combo-box>
+          <multiselect-combo-box id="customFilter" label="Element"></multiselect-combo-box>
 
           <script>
-            window.addEventListener('WebComponentsReady', function() {
-              const customFilteringMultiselectComboBox = document.querySelector('#customFilteringDemo');
-              customFilteringMultiselectComboBox.items = [
-                'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron',
-                'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-                'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus',
-                'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium',
-                'Scandium', 'Titanium', 'Vanadium', 'Chromium', 'Manganese',
-                'Iron', 'Cobalt', 'Nickel', 'Copper', 'Zinc'
+            customElements.whenDefined('multiselect-combo-box').then(() => {
+              const comboBox = document.querySelector('#customFilter');
+              comboBox.items = [
+                'Hydrogen',
+                'Helium',
+                'Lithium',
+                'Beryllium',
+                'Boron',
+                'Carbon',
+                'Nitrogen',
+                'Oxygen',
+                'Fluorine',
+                'Neon',
+                'Sodium',
+                'Magnesium',
+                'Aluminum',
+                'Silicon',
+                'Phosphorus',
+                'Sulfur',
+                'Chlorine',
+                'Argon',
+                'Potassium',
+                'Calcium',
+                'Scandium',
+                'Titanium',
+                'Vanadium',
+                'Chromium',
+                'Manganese',
+                'Iron',
+                'Cobalt',
+                'Nickel',
+                'Copper',
+                'Zinc'
               ];
 
-              customFilteringMultiselectComboBox.addEventListener('filter-value-changed', function(e) {
-                customFilteringMultiselectComboBox.filteredItems = customFilteringMultiselectComboBox.items.filter(
-                  (item) => {
-                    // This example uses case-sensitive starts-with filtering
-                    // The default is case-insensitive content filtering
-                    return item.indexOf(e.detail.value) === 0;
-                  });
+              comboBox.addEventListener('filter-value-changed', function (e) {
+                comboBox.filteredItems = comboBox.items.filter((item) => {
+                  // This example uses case-sensitive starts-with filtering
+                  // The default is case-insensitive content filtering
+                  return item.indexOf(e.detail.value) === 0;
+                });
               });
             });
           </script>
         </template>
       </demo-snippet>
-    </div>    
+    </div>
+
+    <script>
+      customElements.whenDefined('multiselect-combo-box').then(() => {
+        // Wait for first rendering
+        requestAnimationFrame(() => {
+          document.body.removeAttribute('unresolved');
+        });
+      });
+    </script>
   </body>
 </html>

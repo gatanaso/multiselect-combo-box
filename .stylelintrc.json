@@ -1,3 +1,7 @@
 {
-  "extends": "stylelint-config-vaadin"
+  "customSyntax": "postcss-lit",
+  "extends": [
+    "stylelint-config-vaadin",
+    "stylelint-config-prettier"
+  ]
 }
