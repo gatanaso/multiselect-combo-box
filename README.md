@@ -1,11 +1,12 @@
 [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/gatanasomultiselect-combo-box)
 [![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/gatanasomultiselect-combo-box.svg)](https://vaadin.com/directory/component/gatanasomultiselect-combo-box)
+[![Tests](https://github.com/gatanaso/multiselect-combo-box/actions/workflows/tests.yml/badge.svg)](https://github.com/gatanaso/multiselect-combo-box/actions/workflows/tests.yml)
 
 # \<multiselect-combo-box\>
 
 A multiselect combo box web component compatible with the [Vaadin Web Components](https://github.com/vaadin/web-components)
 
-#### [Demo ↗](https://multiselect-combo-box.web.app/demo/) | [Material Theme Demo ↗](https://multiselect-combo-box-material.web.app/demo/material)
+#### [Demo ↗](https://multiselect-combo-box.web.app) | [Material Theme Demo ↗](https://multiselect-combo-box-material.web.app)
 
 ## Getting started
 
