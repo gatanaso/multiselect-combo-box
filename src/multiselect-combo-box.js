@@ -379,6 +379,8 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
     this.addController(new LabelledInputController(this.inputElement, this._labelController));
 
     processTemplates(this);
+
+    this._notifyReady(); // only relevant when used with Vaadin Flow
   }
 
   /**
@@ -636,6 +638,11 @@ class MultiselectComboBox extends MultiselectComboBoxMixin(InputControlMixin(The
     // Prevent mousedown event to keep the input focused
     // and keep the overlay opened when clicking a chip.
     event.preventDefault();
+  }
+
+  /** @private */
+  _notifyReady() {
+    this.$server && this.$server.notifyReady();
   }
 }
 
