@@ -28,7 +28,7 @@ Add to your page:
 <multiselect-combo-box label="Select items"></multiselect-combo-box>
 ```
 
-> For more usage examples, see the [demo](https://multiselect-combo-box.firebaseapp.com/demo/).
+> For more usage examples, see the [demo](https://multiselect-combo-box.firebaseapp.com).
 
 ## Project setup
 
