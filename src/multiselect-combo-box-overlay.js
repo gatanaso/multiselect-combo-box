@@ -8,7 +8,7 @@ registerStyles(
       width: var(--multiselect-combo-box-overlay-width, var(--_multiselect-combo-box-overlay-default-width, auto));
     }
   `,
-  { moduleId: 'multiselect-combo-box-overlay-styles' }
+  { moduleId: 'vaadin-multiselect-combo-box-overlay-styles' }
 );
 
 /**

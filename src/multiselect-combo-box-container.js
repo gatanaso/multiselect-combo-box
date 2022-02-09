@@ -11,7 +11,7 @@ registerStyles(
     }
   `,
   {
-    moduleId: 'multiselect-combo-box-container-styles'
+    moduleId: 'vaadin-multiselect-combo-box-container-styles'
   }
 );
 

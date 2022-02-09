@@ -37,7 +37,7 @@ const multiselectComboBox = css`
 `;
 
 registerStyles('multiselect-combo-box', [inputFieldShared, multiselectComboBox], {
-  moduleId: 'multiselect-combo-box-styles'
+  moduleId: 'vaadin-multiselect-combo-box-styles'
 });
 
 /**
