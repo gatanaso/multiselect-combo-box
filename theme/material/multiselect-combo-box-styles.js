@@ -37,5 +37,5 @@ const multiSelectComboBox = css`
 `;
 
 registerStyles('multiselect-combo-box', [inputFieldShared, multiSelectComboBox], {
-  moduleId: 'multiselect-combo-box'
+  moduleId: 'material-multiselect-combo-box'
 });

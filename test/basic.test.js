@@ -225,6 +225,11 @@ describe('basic', () => {
       expect(getComputedStyle(clearButton).display).to.equal('none');
     });
 
+    it('should have a lumo cross icon as default', () => {
+      const lumoIconsCross = String.fromCodePoint(0xea16);
+      expect(getComputedStyle(clearButton, '::before').content).to.equal(`"${lumoIconsCross}"`);
+    });
+
     it('should not open the dropdown', () => {
       comboBox.selectedItems = ['apple', 'orange'];
       clearButton.click();
